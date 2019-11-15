@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Preprocessing
+preprocessing/credentials.json
+preprocessing/data/ISIpedia

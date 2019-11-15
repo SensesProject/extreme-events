@@ -1,32 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <SensesMenu/>
+    <article>
+      <router-view/>
+    </article>
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    </div> -->
   </div>
 </template>
+<script>
+import SensesMenu from 'library/src/components/SensesMenu.vue'
+export default {
+  components: {
+    SensesMenu
+  }
+}
+</script>
 
 <style lang="scss">
+@import "library/src/style/base.scss";
+</style>
+
+<style lang="scss" scoped>
+@import "library/src/style/global.scss";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  article {
+    width: 100vw;
+    max-width: calc(768px + #{$spacing});
+    padding: $spacing $spacing / 2;
+    // background: getColor(gray, 90);
   }
 }
 </style>

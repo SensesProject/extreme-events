@@ -21,6 +21,9 @@ export default {
 
 <style lang="scss">
 @import "library/src/style/base.scss";
+.text {
+  pointer-events: none;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -33,7 +36,7 @@ export default {
   article {
     width: 100vw;
     max-width: calc(768px + #{$spacing});
-    padding: $spacing $spacing / 2;
+    padding: $spacing $spacing / 2 0;
     // background: getColor(gray, 90);
   }
 }

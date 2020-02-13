@@ -28,13 +28,13 @@
             <text class="label center">{{ d.label.replace(/-/g, ' ') }}</text>
             <g v-for="(l, j) in warmingLevels" :key="`l-${i}-${l}`">
               <rect v-if="l !== 0" class="gradient" :class="[`level-${l}`.replace(/\./, '-'), { hidden: shading }]"
-                width="8" x="-4" :y="yScale(d[variable][l][1]) + 1"
+                :width="barWidth" :x="-barWidth / 2" :y="yScale(d[variable][l][1]) + 1"
                 :height="yScale(d[variable][warmingLevels[j - 1]][1]) - yScale(d[variable][l][1]) - 1"/>
               <rect class="shading" :class="[`level-${l}`.replace(/\./, '-'), { hidden: !shading }]"
-                :width="shading ? 2 : 8" :x="shading ? -7 + 4 * j : -4" :y="yScale(d[variable][l][2])"
+                :width="barWidth / 4" :x="(j - 2) * (barWidth / 4)" :y="yScale(d[variable][l][2])"
                 :height="yScale(d[variable][l][0]) - yScale(d[variable][l][2])"/>
               <rect class="value" :class="[`level-${l}`.replace(/\./, '-')]"
-                :width="shading ? 2 : 8" height="2" :x="shading ? -7 + 4 * j : -4" :y="yScale(d[variable][l][1])"/>
+                :width="shading ? barWidth / 4 : barWidth" height="2" :x="shading ? (j - 2) * (barWidth / 4) : -barWidth / 2" :y="yScale(d[variable][l][1])"/>
             </g>
           </g>
         </g>
@@ -89,9 +89,15 @@ export default {
     chartWidth () {
       return this.innerWidth - this.chartMargin[1] - this.chartMargin[3]
     },
+    barWidth () {
+      const { global, chartWidth, data } = this
+      if (global) return chartWidth / data.length - 16
+      // if (global && shading) return (chartWidth / data.length - 16) / 4
+      return chartWidth / data.length
+    },
     categoryWidth () {
       const { global, chartWidth, data } = this
-      return global ? chartWidth / data.length : 48
+      return global ? chartWidth / data.length : chartWidth / data.length
     },
     data () {
       const { global, indicators, countries, indicator } = this

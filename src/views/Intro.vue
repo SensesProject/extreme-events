@@ -1,7 +1,7 @@
 <template>
   <div class="intro">
     <section class="wide">
-      <h1>Extreme Events</h1>
+      <h1 class="serif">Extreme Events</h1>
       <p>
         The extent and impact of crop failures, river floods, tropical cyclones, heatwaves, wildfires, and droughts depend on the underlying meteorological, hydrological, or climatological events as well as on human factors such as land use, water and agricultural management, and population density. Historical variations in these human factors impede the detection of climate change signals in observational records of hazards and exposure.
       </p>

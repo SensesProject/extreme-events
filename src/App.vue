@@ -36,7 +36,7 @@ export default {
   article {
     width: 100vw;
     max-width: calc(768px + #{$spacing});
-    padding: $spacing $spacing / 2 0;
+    padding: 0 $spacing / 2 0;
     // background: getColor(gray, 90);
   }
 }

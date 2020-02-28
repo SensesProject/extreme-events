@@ -44,10 +44,12 @@
         In this module you'll learn how climate change contributes to extreme events and who is most affected by those.
       </p>
     </section>
+    <!-- <SensesMeta id="extreme-events"/> -->
   </div>
 </template>
 
 <script>
+// import SensesMeta from 'library/src/components/SensesMeta.vue'
 import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
 import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
 // import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
@@ -59,6 +61,7 @@ export default {
     IntersectionObserver,
     // IntersectionObserverFracture,
     VisExtremeEvents
+    // SensesMeta
   }
 }
 </script>

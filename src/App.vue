@@ -4,17 +4,16 @@
     <article>
       <router-view/>
     </article>
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+    <SensesMeta class="senses-meta" id="extreme-events"/>
   </div>
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
+import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
-    SensesMenu
+    SensesMenu,
+    SensesMeta
   }
 }
 </script>
@@ -38,6 +37,9 @@ export default {
     max-width: calc(768px + #{$spacing});
     padding: 0 $spacing / 2 0;
     // background: getColor(gray, 90);
+  }
+  .senses-meta {
+    margin: $spacing $spacing / 2 $spacing;
   }
 }
 </style>

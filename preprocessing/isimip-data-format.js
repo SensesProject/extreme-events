@@ -1,10 +1,15 @@
 const fs = require('fs')
 
-const countries = fs.readdirSync('./data/ISIpedia')
-
+const countries = fs.readdirSync('./data/ISIpedia').filter(f => f !== '.DS_Store').filter(c =>
+  require(`./data/ISIpedia/${c}/drought-population.json`).data.overall.median[0] != null
+)
+const skipped = fs.readdirSync('./data/ISIpedia').filter(f => f !== '.DS_Store').filter(c =>
+  require(`./data/ISIpedia/${c}/drought-population.json`).data.overall.median[0] == null
+)
+console.log(skipped)
 const data = {}
 
-const indicators = ['crop-failure', 'drought', 'heatwave', 'river-flood', 'tropical-cyclone', 'wildfire']
+const indicators = ['all-events', 'confined-events', 'extensive-events', 'crop-failure', 'drought', 'heatwave', 'river-flood', 'tropical-cyclone', 'wildfire']
 const temperatures = [0, 0.5, 1, 1.5, 2]
 
 countries.forEach(c => {
@@ -21,6 +26,10 @@ countries.forEach(c => {
     }
   }
   indicators.forEach(i => {
+    if (
+      !fs.existsSync(`./data/ISIpedia/${c}/${i}-population.json`) ||
+      !fs.existsSync(`./data/ISIpedia/${c}/${i}-land.json`)
+    ) return
     const population = require(`./data/ISIpedia/${c}/${i}-population.json`).data.overall
     const land = require(`./data/ISIpedia/${c}/${i}-land.json`).data.overall
     data[c][i] = {

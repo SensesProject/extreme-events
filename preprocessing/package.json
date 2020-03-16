@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "download": "node isimip-data-download.js",
+    "format": "node isimip-data-format.js",
+    "clean": "node isimip-data-clean-up.js"
   },
   "author": "",
   "license": "ISC",

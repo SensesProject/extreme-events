@@ -23,3 +23,4 @@ yarn-error.log*
 # Preprocessing
 preprocessing/credentials.json
 preprocessing/data/ISIpedia
+preprocessing/data/cube-old

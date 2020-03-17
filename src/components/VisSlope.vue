@@ -1,48 +1,23 @@
 <template>
-  <div class="vis-extreme-events">
-    <section class="wide" ref="title">
-      <h1 class="serif">Extreme Events</h1>
-      <p>
-        Climate Change makes extreme events more frequent and more intense.<br>This means more land is affected and more people are exposed to them.
-      </p>
-    </section>
-    <svg :width="0" :height="0">
-      <defs>
-        <linearGradient id="level-0" y1="1" x2="0">
-          <stop class="start" offset="0%"/>
-          <stop class="stop" offset="100%"/>
-        </linearGradient>
-        <linearGradient id="level-1" y1="1" x2="0">
-          <stop class="start" offset="0%"/>
-          <stop class="stop" offset="100%"/>
-        </linearGradient>
-        <linearGradient id="level-1-5" y1="1" x2="0">
-          <stop class="start" offset="0%"/>
-          <stop class="stop" offset="100%"/>
-        </linearGradient>
-        <linearGradient id="level-2" y1="1" x2="0">
-          <stop class="start" offset="0%"/>
-          <stop class="stop" offset="100%"/>
-        </linearGradient>
-      </defs>
-    </svg>
+  <div class="vis-slope">
     <div class="plots" v-if="plots">
-      <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" :key="`plot-${i}`" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
+      <ChartSlope :width="chartWidth" :height="chartHeight"
+      :indicator="indicator"
+      :warming-level="warmingLevel"
+      :reference="reference"
+      :dimension="dimension"
+      :label-left="labelLeft" :label-right="labelRight"
+      :colorize-by="colorizeBy"/>
     </div>
-    <transition name="fade">
-      <div class="downwards" v-if="step < 0.5">
-        <span class="glyph-angle-down"/>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script>
-import ChartDumbbell from '@/components/ChartDumbbell.vue'
+import ChartSlope from '@/components/ChartSlope.vue'
 import raw from '@/assets/data/countries.json'
 export default {
-  name: 'vis-extreme-events',
-  components: { ChartDumbbell },
+  name: 'vis-slope',
+  components: { ChartSlope },
   props: {
     width: {
       default: 768,
@@ -55,14 +30,29 @@ export default {
     step: {
       default: 0,
       type: Number
+    },
+    warmingLevel: Number,
+    indicator: String,
+    reference: String,
+    dimension: String,
+    labelLeft: {
+      type: Array,
+      default () { return ['USA', 'CAN', 'North America'] }
+    },
+    labelRight: {
+      type: Array,
+      default () { return ['South Asia', 'CHE'] }
+    },
+    colorizeBy: {
+      type: String,
+      default: 'region'
     }
   },
   data () {
     return {
       indicators: ['crop-failure', 'river-flood', 'tropical-cyclone', 'wildfire', 'drought', 'heatwave'],
       countries: Object.keys(raw).filter(c => c !== 'world'),
-      warmingLevels: [0],
-      titleHeight: null
+      warmingLevels: [0]
     }
   },
   computed: {
@@ -71,13 +61,12 @@ export default {
       return Math.min(width - 16, 500)
     },
     chartHeight () {
-      const { height, titleHeight } = this
-      const spacing = 32
-      return height - titleHeight - spacing * 3.5
+      const { height } = this
+      // const spacing = 32
+      return height // - spacing * 3.5
     },
     plots () {
-      const { indicators, chartWidth, chartHeight, titleHeight } = this
-      if (titleHeight == null) return null
+      const { indicators, chartWidth, chartHeight } = this
       return indicators.filter((i, ii) => ii === indicators.length - 1).map(i => {
         return {
           width: chartWidth,
@@ -90,12 +79,6 @@ export default {
     }
   },
   watch: {
-    width: {
-      handler (width) {
-        this.titleHeight = this.$refs.title.getBoundingClientRect().height
-      },
-      immediate: false
-    },
     step: {
       handler (step) {
         switch (step) {
@@ -121,11 +104,11 @@ export default {
 
 <style scoped lang="scss">
 @import "library/src/style/global.scss";
-.vis-extreme-events {
+.vis-slope {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: $spacing / 2 0;
+  // padding: $spacing / 2 0;
 
   section {
     width: 100vw;
@@ -144,20 +127,6 @@ export default {
     max-width: 100vw;
     display: flex;
     justify-content: center;
-  }
-
-  .downwards {
-    position: absolute;
-    bottom: 0;
-    font-size: 2em;
-    transition: opacity $transition, transform $transition;
-    &.fade-enter {
-      opacity: 0;
-    }
-    &.fade-leave-to {
-      opacity: 0;
-      transform: translate(0, -#{$spacing});
-    }
   }
 
   svg {

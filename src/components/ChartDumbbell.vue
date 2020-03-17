@@ -96,7 +96,7 @@ export default {
       let { domain } = this
       if (domain == null) {
         const values = dimensions.map(d => warmingLevels.map(l => {
-          return data[d.key][l][1]
+          return data[d.key][l]
         })).flat()
         domain = [Math.min(...values, 0), Math.max(...values)]
       }
@@ -123,7 +123,7 @@ export default {
         return {
           x: (barWidth + axisWidth + 4) * di,
           stripes: warmingLevels.map((l) => {
-            const value = data[d.key][l][1]
+            const value = data[d.key][l]
             return {
               class: [`level-${`${l}`.replace(/\./, '-')}`],
               value: format(',.2~r')(value),
@@ -132,8 +132,8 @@ export default {
             }
           }),
           gradients: warmingLevels.map((l, li) => {
-            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]][1]) : height
-            const end = yScale(data[d.key][l][1])
+            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]]) : height
+            const end = yScale(data[d.key][l])
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
               y: end,

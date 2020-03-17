@@ -4,16 +4,16 @@
     <article>
       <router-view/>
     </article>
-    <SensesMeta class="senses-meta" id="extreme-events"/>
+    <!-- <SensesMeta class="senses-meta" id="extreme-events"/> -->
   </div>
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
-import SensesMeta from 'library/src/components/SensesMeta.vue'
+// import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
-    SensesMenu,
-    SensesMeta
+    SensesMenu
+    // SensesMeta
   }
 }
 </script>

@@ -2,12 +2,6 @@
   <div class="intro">
     <section class="wide">
 
-      <!-- <p>
-        The extent and impact of crop failures, river floods, tropical cyclones, heatwaves, wildfires, and droughts depend on the underlying meteorological, hydrological, or climatological events as well as on human factors such as land use, water and agricultural management, and population density. Historical variations in these human factors impede the detection of climate change signals in observational records of hazards and exposure.
-      </p>
-      <p>
-        In this module you'll learn how climate change contributes to extreme events and who is most affected by those.
-      </p> -->
     </section>
     <LayoutScrollytelling>
       <template v-slot:vis="{ width, height, step }">
@@ -15,9 +9,6 @@
       </template>
       <template v-slot:text="{ width, height, step }">
         <section class="observers">
-          <!-- <IntersectionObserverFracture class="io-0" :step="0" no-styling :style="{height: `${height}px`}">
-            <span class="tiny">{{ step }}</span>
-          </IntersectionObserverFracture> -->
           <IntersectionObserver class="io-0" :step="0" align="left" :class="{active: step === 0}">
             <p class="tiny">With <span class="highlight no-hover blue">no global warming</span> both land and population remain mostly unaffected by extreme events.</p>
           </IntersectionObserver>
@@ -35,11 +26,16 @@
     </LayoutScrollytelling>
     <section class="wide">
       <p>
-        Above we looked at exposure to at least one of a range of extreme events. There is however a high variety in intensity and severity across these events.
-        The extent and impact of crop failures, river floods, tropical cyclones, heatwaves, wildfires, and droughts depend on the underlying meteorological, hydrological, or climatological events as well as on human factors such as land use, water and agricultural management, and population density. Historical variations in these human factors impede the detection of climate change signals in observational records of hazards and exposure.
+        The extents and impacts of
+        <span class="no-break"><span class="glyph glyph-crop-failure"/>crop failures</span>,
+        <span class="no-break"><span class="glyph glyph-floods"/>river floods</span>,
+        <span class="no-break"><span class="glyph glyph-hurricanes"/>tropical cyclones</span>,
+        <span class="no-break"><span class="glyph glyph-floods"/>heatwaves</span>,
+        <span class="no-break"><span class="glyph glyph-wildfires"/>wildfires</span>, and
+        <span class="no-break"><span class="glyph glyph-droughts"/>droughts</span> depend on the underlying meteorological, hydrological, or climatological events as well as on human factors such as land use, water and agricultural management, and population density. Historical variations in these human factors impede the detection of climate change signals in observational records of hazards and exposure.
       </p>
       <p>
-        In this module you'll learn how climate change contributes to extreme events and who is most affected by those.
+        Above we looked at exposure to at least one of those extreme events. There is however a high variety in intensity and severity across them.
       </p>
     </section>
     <LayoutScrollytelling class="full-width">
@@ -225,8 +221,19 @@ export default {
       margin-top: $spacing;
     }
 
-    p + p {
-      margin-top: $spacing / 2;
+    p {
+      .no-break {
+        white-space: nowrap;
+      }
+      .glyph {
+        color: $color-neon;
+        display: inline-block;
+        padding-right: $spacing / 16;
+        transform: scale(1.8);
+      }
+      + p {
+        margin-top: $spacing / 2;
+      }
     }
   }
   .layout-scrollytelling {

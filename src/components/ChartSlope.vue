@@ -1,7 +1,7 @@
 <template>
   <div class="chart-slope" :style="{width: `${width}px`}">
-    <svg :width="width" :height="height">
-      <g :transform="`translate(${padding[3]},${padding[0]})`">
+    <svg :width="width" :height="height" class="slope" :class="indicator">
+      <g :transform="`translate(${padding[3]},${padding[0]})`" style="font-family:'IBM Plex Sans',IBMPlexSans,sans-serif">
         <g class="axes">
           <g class="axis left">
             <line :y2="innerHeight"/>
@@ -37,14 +37,14 @@
           </g>
         </g>
         <g class="countries">
-          <g v-for="(d, i) in data" :key="`d-${i}`" class="country">
+          <g v-for="(d, i) in data" :key="`d-${i}`" class="country" :class="[d.country.iso]">
             <line x1="6" :y1="d.y1" :y2="d.y2" :x2="innerWidth - 6" :class="[d.color, {fade: d.fade}]" :stroke="d.stroke"/>
             <g class="labels">
-              <g v-if="d.label === 'left'" :transform="`translate(0 ${d.y1})`">
+              <g v-if="d.label === 'left' || allLabels" :transform="`translate(0 ${d.y1})`">
                 <text x="-6" y="3" text-anchor="end" :fill="d.stroke" :class="[d.color]">{{ d.country.stats.name }}</text>
                 <line x1="-2" x2="2" :class="[d.color]" :stroke="d.stroke"/>
               </g>
-              <g v-if="d.label === 'right'" :transform="`translate(${innerWidth} ${d.y2})`">
+              <g v-if="d.label === 'right' || allLabels" :transform="`translate(${innerWidth} ${d.y2})`">
                 <text x="6" :y="3" :class="[d.color]" :fill="d.stroke">{{ d.country.stats.name }}</text>
                 <line x1="-2" x2="2" :class="[d.color]" :stroke="d.stroke"/>
               </g>
@@ -59,18 +59,18 @@
 <script>
 import raw from '@/assets/data/countries.json'
 import regions from '@/assets/data/regions.json'
-import { scaleLinear } from 'd3-scale'
+import { scaleLinear, scalePow } from 'd3-scale'
 import { format } from 'd3-format'
 export default {
   name: 'ChartSlope',
   props: {
     width: {
       type: Number,
-      default: 320
+      default: 400
     },
     height: {
       type: Number,
-      default: 768
+      default: 300
     },
     warmingLevel: {
       type: Number,
@@ -103,6 +103,10 @@ export default {
     colorizeBy: {
       type: String,
       default: 'region'
+    },
+    allLabels: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -115,7 +119,7 @@ export default {
     })
     return {
       countries,
-      padding: [48, 0, 32, 0],
+      padding: [48, 150, 32, 150],
       warmingLevels: [0, 0.5, 1.0, 1.5, 2.0],
       colors: {
         'South Asia': 'blue',
@@ -187,7 +191,7 @@ export default {
       const { countries, reference } = this
       const values = countries.map(c => c.stats[reference])
       const domain = [Math.min(...values, 0), Math.max(...values)]
-      return scaleLinear().domain(domain).range(['#c8005f', '#00a5d5'])
+      return scalePow().exponent(0.4).domain(domain).range(['#c8005f', '#00a5d5'])
     },
     data () {
       const { countries, leftScale, rightScale, leftScaleColors, rightScaleColors, reference, indicator, warmingLevel, dimension, colors, colorizeBy, regions, labelLeft, labelRight } = this
@@ -307,7 +311,7 @@ $transition: $transition * 2;
   display: flex;
   flex-direction: column;
   // justify-content: center;
-  align-items: center;
+  // align-items: center;
   // padding: $spacing 0 $spacing / 2;
 
   svg {

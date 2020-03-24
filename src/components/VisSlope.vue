@@ -7,7 +7,8 @@
       :reference="reference"
       :dimension="dimension"
       :label-left="labelLeft" :label-right="labelRight"
-      :colorize-by="colorizeBy"/>
+      :colorize-by="colorizeBy"
+      :all-labels="allLabels"/>
     </div>
   </div>
 </template>
@@ -35,6 +36,7 @@ export default {
     indicator: String,
     reference: String,
     dimension: String,
+    allLabels: Boolean,
     labelLeft: {
       type: Array,
       default () { return ['USA', 'CAN', 'North America'] }
@@ -58,7 +60,7 @@ export default {
   computed: {
     chartWidth () {
       const { width } = this
-      return Math.min(width - 16, 500)
+      return Math.min(width - 16, 1920)
     },
     chartHeight () {
       const { height } = this

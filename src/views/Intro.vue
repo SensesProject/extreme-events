@@ -50,8 +50,10 @@
           :warming-level="warmingLevel" :dimension="dimension" :reference="reference"
           :indicator="indicator"
           :label-left="labelLeft.find ? labelLeft : [labelLeft]"
-          :label-right="labelRight.find ? labelRight : [labelRight]"
-          :colorize-by="colorizeBy"/>
+          :x-label-right="labelRight.find ? labelRight : [labelRight]"
+          :label-right="fixedLabelsRight[indicator]"
+          :colorize-by="colorizeBy"
+          :all-labels="allLabels"/>
       </template>
       <template v-slot:text="{ width, height, step }">
         <section class="observers observers-options">
@@ -88,6 +90,10 @@
                 <span class="label">Colorize by</span>
                 <SensesSelect :options="colors" v-model="colorizeBy"/>
               </div>
+              <div class="option">
+                <span class="label">All Labels</span>
+                <SensesRadio :options="[true, false]" v-model="allLabels"/>
+              </div>
             </div>
           </IntersectionObserver>
         </section>
@@ -105,6 +111,7 @@ import SensesSelect from 'library/src/components/SensesSelect.vue'
 // import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
 import VisExtremeEvents from '@/components/VisExtremeEvents.vue'
 import VisSlope from '@/components/VisSlope.vue'
+import SensesRadio from 'library/src/components/SensesRadio.vue'
 export default {
   name: 'intro',
   components: {
@@ -113,7 +120,8 @@ export default {
     // IntersectionObserverFracture,
     VisExtremeEvents,
     VisSlope,
-    SensesSelect
+    SensesSelect,
+    SensesRadio
     // SensesMeta
   },
   data () {
@@ -147,13 +155,16 @@ export default {
       reference: 'gdpPerCapita',
       dimension: 'population',
       dimensions: ['population', 'land'],
-      labelLeft: 'DEU',
+      labelLeft: ['USA', 'CHN', 'DEU', 'JPN', 'GBR'],
       labelsLeft: [{
         label: 'None',
         value: []
       }, {
         label: 'Germany',
         value: 'DEU'
+      }, {
+        label: 'Top GDP',
+        value: ['USA', 'CHN', 'DEU', 'JPN', 'GBR', 'IND']
       }, {
         label: 'Europe & Central Asia',
         value: ['Europe & Central Asia']
@@ -164,6 +175,17 @@ export default {
         label: 'USA & CAN & North America',
         value: ['USA', 'CAN', 'North America']
       }],
+      fixedLabelsRight: {
+        'all-events': ['KWT', 'QAT', 'LBR', 'ARE', 'CIV'],
+        'confined-events': ['COM', 'FJI', 'PHL', 'SLB'],
+        'extensive-events': ['KWT', 'QAT', 'LBR', 'ARE', 'CIV'],
+        'crop-failure': ['PAK', 'NPL', 'IND', 'HND'],
+        'drought': ['MAR', 'PSE', 'SYR', 'CYP'],
+        'heatwave': ['KWT', 'QAT', 'LBR', 'ARE', 'CIV'],
+        'river-flood': ['EGY', 'NLD', 'MMR', 'VNM', 'SSD'],
+        'tropical-cyclone': ['COM', 'FJI', 'PHL', 'SLB'],
+        'wildfire': ['BOL', 'SWZ', 'PSE', 'AGO']
+      },
       labelRight: 'IND',
       labelsRight: [{
         label: 'None',
@@ -184,7 +206,8 @@ export default {
       colorizeBy: 'reference',
       colors: [
         'region', 'none', 'label-side', 'reference', 'indicator'
-      ]
+      ],
+      allLabels: false
     }
   }
 }

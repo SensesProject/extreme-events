@@ -30,6 +30,13 @@
       <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" :key="`plot-${i}`" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
     </div>
     <transition name="fade">
+      <div class="key tiny" v-if="showKey">
+        <span v-for="(d, i) in [0, 1, 1.5, 2]" :key="`wl-${i}`" class="highlight no-hover warming-level" :class="[colors[i], {fade: i > step}]">
+          +{{ d }}°C
+        </span>
+      </div>
+    </transition>
+    <transition name="fade">
       <div class="downwards" v-if="step < 0.5">
         <span class="glyph-angle-down"/>
       </div>
@@ -62,10 +69,15 @@ export default {
       indicators: ['crop-failure', 'river-flood', 'tropical-cyclone', 'wildfire', 'drought', 'heatwave'],
       countries: Object.keys(raw).filter(c => c !== 'world'),
       warmingLevels: [0],
-      titleHeight: null
+      titleHeight: null,
+      colors: ['blue', 'yellow', 'orange', 'red']
     }
   },
   computed: {
+    showKey () {
+      const { step } = this
+      return step > 0
+    },
     chartWidth () {
       const { width } = this
       return Math.min(width - 16, 500)
@@ -193,6 +205,25 @@ export default {
       .stop {
         stop-color: $color-red;
       }
+    }
+  }
+  .key {
+    margin-top: -$spacing / 4;
+    .warming-level {
+      margin-left: $spacing / 8;
+      transition: opacity $transition;
+
+      &.fade {
+        opacity: 0.2
+      }
+
+    }
+
+    &.fade-leave-active {
+      transition: opacity $transition;
+    }
+    &.fade-enter, &.fade-leave-to {
+      opacity: 0;
     }
   }
 }

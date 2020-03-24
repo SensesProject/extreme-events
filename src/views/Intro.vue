@@ -5,7 +5,7 @@
     </section>
     <LayoutScrollytelling>
       <template v-slot:vis="{ width, height, step }">
-        <VisExtremeEvents :width="width" :height="height" :step="step"/>
+        <VisEventsCombined :width="width" :height="height" :step="step"/>
       </template>
       <template v-slot:text="{ width, height, step }">
         <section class="observers">
@@ -34,10 +34,22 @@
         <span class="no-break"><span class="glyph glyph-wildfires"/>wildfires</span>, and
         <span class="no-break"><span class="glyph glyph-droughts"/>droughts</span> depend on the underlying meteorological, hydrological, or climatological events as well as on human factors such as land use, water and agricultural management, and population density. Historical variations in these human factors impede the detection of climate change signals in observational records of hazards and exposure.
       </p>
-      <p>
-        Above we looked at exposure to at least one of those extreme events. There is however a high variety in intensity and severity across them.
-      </p>
     </section>
+    <LayoutScrollytelling>
+      <template v-slot:vis="{ width, height, step }">
+        <VisEventsSingle :width="width" :height="height" :step="step"/>
+      </template>
+      <template v-slot:text="{ width, height, step }">
+        <section class="observers">
+          <IntersectionObserver class="io-4" :step="0" align="center" :class="{active: step === 0}">
+            <p class="wider">I terms of <span class="highlight no-hover">land area</span> droughts and heatwaves show the highest extent. And while crop failures and river floods affect less land area than tropical cyclones and wildfires, their relative change compared to a world without climate change is far greater.</p>
+          </IntersectionObserver>
+          <IntersectionObserver class="io-5" :step="1" align="center" :class="{active: step === 1}">
+            <p class="wider">Crop failures, tropical cyclones, wildfires, and droughts are on a similar level when it comes to <span class="highlight no-hover">population exposed</span> to those events. At +2°C global warming 12% of the global population will be exposed to heatwaves. Far more than to any other extreme event.</p>
+          </IntersectionObserver>
+        </section>
+      </template>
+    </LayoutScrollytelling>
     <LayoutScrollytelling class="full-width">
       <template v-slot:vis="{ width, height, step }">
         <VisSlope :width="width" :height="height" :step="step"
@@ -103,7 +115,8 @@ import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vu
 import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
 import SensesSelect from 'library/src/components/SensesSelect.vue'
 // import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
-import VisExtremeEvents from '@/components/VisExtremeEvents.vue'
+import VisEventsCombined from '@/components/VisEventsCombined.vue'
+import VisEventsSingle from '@/components/VisEventsSingle.vue'
 import VisSlope from '@/components/VisSlope.vue'
 import SensesRadio from 'library/src/components/SensesRadio.vue'
 export default {
@@ -112,7 +125,8 @@ export default {
     LayoutScrollytelling,
     IntersectionObserver,
     // IntersectionObserverFracture,
-    VisExtremeEvents,
+    VisEventsCombined,
+    VisEventsSingle,
     VisSlope,
     SensesSelect,
     SensesRadio
@@ -217,7 +231,7 @@ export default {
       margin-bottom: $spacing / 2;
     }
 
-    + section {
+    + section, + .layout-scrollytelling {
       margin-top: $spacing;
     }
 
@@ -242,6 +256,9 @@ export default {
 
     &.full-width {
       max-width: none;
+    }
+    + section {
+      margin-top: $spacing;
     }
   }
   .observers {
@@ -277,12 +294,19 @@ export default {
 
       &.io-3 {
         padding-top: 30vh;
-        padding-bottom: 60vh;
+        padding-bottom: 50vh;
         // margin-bottom: -5vh;
       }
 
       &.io-4 {
-        height: 50vh;
+        margin-top: 30vh;
+        padding-top: 20vh;
+        padding-bottom: 0vh;
+        // margin-bottom: 50vh;
+      }
+      &.io-5 {
+        padding-top: 10vh;
+        padding-bottom: 50vh;
         // margin-bottom: 50vh;
       }
 
@@ -295,6 +319,11 @@ export default {
         // max-width: calc(50vw - #{$spacing * 2.5});
         // width: 50%;
         position: relative;
+
+        &.wider {
+          width: 450px;
+          max-width: 100vw;
+        }
       }
     }
 

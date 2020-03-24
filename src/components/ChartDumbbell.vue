@@ -4,29 +4,31 @@
       {{ indicator }}
     </div> -->
     <svg :width="width" :height="height">
-      <g class="axis" :transform="`translate(${width / 2} 0)`">
-        <transition-group name="fade" tag="g">
-          <g v-for="(tick, i) in yTicks" :key="`tick-${i}-${tick.value}-${tick.y}`"
-            class="tick" :transform="`translate(0 ${tick.y})`">
-            <line :x1="-tick.x" :x2="tick.x"/>
-            <text :y="tick.textOffset">{{tick.value}}%</text>
-          </g>
-        </transition-group>
-      </g>
-      <g class="bars">
-        <g class="bar" v-for="(b, bi) in bars" :key="`bar-${bi}`" :transform="`translate(${b.x} 0)`">
-          <line :x2="barWidth" :transform="`translate(0 ${height})`"/>
+      <g :transform="`translate(0 16)`">
+        <g class="axis" :transform="`translate(${width / 2} 0)`">
           <transition-group name="fade" tag="g">
-            <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
-          </transition-group>
-          <transition-group name="fade" tag="g">
-            <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`" :style="{transform: `translate(0, ${s.y}px)`}">
-              <line :class="s.class" :x2="barWidth"/>
-              <text :class="s.class" v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1" y="-3" :x="barWidth / 2">
-                {{s.value}}%
-              </text>
+            <g v-for="(tick, i) in yTicks" :key="`tick-${i}-${tick.value}`"
+              class="tick" :class="{hide: tick.hide}" :style="{transform:`translate(0px, ${tick.y}px)`}">
+              <line :x1="-tick.x" :x2="tick.x"/>
+              <text :y="tick.textOffset">{{tick.value}}%</text>
             </g>
           </transition-group>
+        </g>
+        <g class="bars">
+          <g class="bar" v-for="(b, bi) in bars" :key="`bar-${bi}`" :transform="`translate(${b.x} 0)`">
+            <line :x2="barWidth" :transform="`translate(0 ${innerHeight})`"/>
+            <transition-group name="fade" tag="g">
+              <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
+            </transition-group>
+            <transition-group name="fade" tag="g">
+              <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`" :style="{transform: `translate(0, ${s.y}px)`}">
+                <line :class="s.class" :x2="barWidth"/>
+                <text :class="s.class" v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1" y="-3" :x="barWidth / 2">
+                  {{s.value}}%
+                </text>
+              </g>
+            </transition-group>
+          </g>
         </g>
       </g>
     </svg>
@@ -76,6 +78,10 @@ export default {
     indicator: {
       type: String,
       default: null
+    },
+    ticks: {
+      type: Array,
+      default: null
     }
   },
   data () {
@@ -91,20 +97,44 @@ export default {
     }
   },
   computed: {
+    innerHeight () {
+      const { height } = this
+      return height - 16
+    },
     yScale () {
-      const { data, warmingLevels, dimensions, height } = this
+      const { data, warmingLevels, dimensions, innerHeight, ticks } = this
       let { domain } = this
+      const range = [innerHeight, 0]
+      if (ticks != null) {
+        const values = ticks.filter(t => t[1]).map(t => t[0])
+        return scaleLinear().domain([Math.min(...values, 0), Math.max(...values)]).range(range)
+      }
       if (domain == null) {
         const values = dimensions.map(d => warmingLevels.map(l => {
           return data[d.key][l]
         })).flat()
         domain = [Math.min(...values, 0), Math.max(...values)]
       }
-      return scaleLinear().domain(domain).range([height, 0]).nice(3)
+      return scaleLinear().domain(domain).range(range).nice(3)
     },
     yTicks () {
-      const { yScale, axisWidth } = this
-      return yScale.ticks(3).map((value, i, ticks) => {
+      const { yScale, axisWidth, ticks } = this
+      if (ticks != null) {
+        // console.log(yScale(1))
+        return ticks.map(t => {
+          if (t[0] === 1) {
+            console.log(yScale(t[0]))
+          }
+          return {
+            value: t[0],
+            y: yScale(t[0]),
+            textOffset: -3,
+            x: axisWidth / 2,
+            hide: !t[1]
+          }
+        })
+      }
+      return yScale.ticks(3).map((value) => {
         return {
           value,
           y: yScale(value),
@@ -118,7 +148,7 @@ export default {
       return (width - axisWidth - 4) / 2
     },
     bars () {
-      const { data, dimensions, warmingLevels, barWidth, axisWidth, yScale, height } = this
+      const { data, dimensions, warmingLevels, barWidth, axisWidth, yScale, innerHeight } = this
       return dimensions.map((d, di) => {
         return {
           x: (barWidth + axisWidth + 4) * di,
@@ -132,7 +162,7 @@ export default {
             }
           }),
           gradients: warmingLevels.map((l, li) => {
-            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]]) : height
+            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]]) : innerHeight
             const end = yScale(data[d.key][l])
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
@@ -155,7 +185,7 @@ $transition: $transition * 2;
   flex-direction: column;
   // justify-content: center;
   align-items: center;
-  padding: $spacing 0 $spacing / 2;
+  padding: $spacing / 2 0 $spacing / 2;
 
   .indicator {
     font-weight: $font-weight-bold;
@@ -163,7 +193,6 @@ $transition: $transition * 2;
   }
 
   svg {
-    overflow: visible;
     .axis {
       line {
         stroke: $color-light-gray;
@@ -173,12 +202,16 @@ $transition: $transition * 2;
         text-anchor: middle;
       }
       .tick {
-        transition: opacity $transition $transition;
+        transition: opacity $transition $transition, transform $transition;
         &.fade-leave-active {
-          transition: opacity $transition;
+          transition: opacity $transition, transform $transition;
         }
         &.fade-enter, &.fade-leave-to {
           opacity: 0;
+        }
+        &.hide {
+          opacity: 0;
+          pointer-events: 0;
         }
       }
     }

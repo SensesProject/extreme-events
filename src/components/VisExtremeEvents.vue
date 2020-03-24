@@ -27,7 +27,7 @@
       </defs>
     </svg>
     <div class="plots" v-if="plots">
-      <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" :key="`plot-${i}`" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
+      <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" :key="`plot-${i}`" :ticks="ticks" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
     </div>
     <transition name="fade">
       <div class="key tiny" v-if="showKey">
@@ -85,7 +85,7 @@ export default {
     chartHeight () {
       const { height, titleHeight } = this
       const spacing = 32
-      return height - titleHeight - spacing * 3.5
+      return height - titleHeight - spacing * 3
     },
     plots () {
       const { indicators, chartWidth, chartHeight, titleHeight } = this
@@ -99,6 +99,20 @@ export default {
           indicator: i.replace(/-/g, ' ')
         }
       })
+    },
+    ticks () {
+      const { step } = this
+      return [
+        [0, true],
+        [0.5, step === 0],
+        [1, step <= 1],
+        [2, step === 1],
+        [3, step === 1],
+        [4, step === 1],
+        [5, step >= 1],
+        [10, step >= 2],
+        [15, step === 3]
+      ]
     }
   },
   watch: {

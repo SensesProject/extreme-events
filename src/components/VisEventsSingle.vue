@@ -73,7 +73,7 @@ export default {
     },
     chartWidth () {
       const { width } = this
-      return Math.min(width - 16, 768)
+      return Math.min(width - 32, 768)
     },
     chartHeight () {
       const { height, titleHeight } = this

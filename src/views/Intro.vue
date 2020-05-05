@@ -42,10 +42,10 @@
       <template v-slot:text="{ width, height, step }">
         <section class="observers">
           <IntersectionObserver class="io-4" :step="0" align="center" :class="{active: step === 0}">
-            <p class="wider">I terms of <span class="highlight no-hover">land area</span> droughts and heatwaves show the highest extent. And while crop failures and river floods affect less land area than tropical cyclones and wildfires, their relative change compared to a world without climate change is far greater.</p>
+            <p class="tiny">I terms of <span class="highlight no-hover">land area</span> droughts and heatwaves show the highest extent. And while crop failures and river floods affect less land area than tropical cyclones and wildfires, their relative change compared to a world without climate change is far greater.</p>
           </IntersectionObserver>
           <IntersectionObserver class="io-5" :step="1" align="center" :class="{active: step === 1}">
-            <p class="wider">Crop failures, tropical cyclones, wildfires, and droughts are on a similar level when it comes to <span class="highlight no-hover">population exposed</span> to those events. At +2°C global warming 12% of the global population will be exposed to heatwaves. Far more than to any other extreme event.</p>
+            <p class="tiny">Crop failures, tropical cyclones, wildfires, and droughts are on a similar level when it comes to <span class="highlight no-hover">population exposed</span> to those events. At +2°C global warming 12% of the global population will be exposed to heatwaves. Far more than to any other extreme event.</p>
           </IntersectionObserver>
         </section>
       </template>
@@ -299,14 +299,14 @@ export default {
       }
 
       &.io-4 {
-        margin-top: 30vh;
+        margin-top: 50vh;
         padding-top: 20vh;
-        padding-bottom: 0vh;
+        padding-bottom: 10vh;
         // margin-bottom: 50vh;
       }
       &.io-5 {
-        padding-top: 10vh;
-        padding-bottom: 50vh;
+        padding-top: 15vh;
+        padding-bottom: 55vh;
         // margin-bottom: 50vh;
       }
 
@@ -320,10 +320,10 @@ export default {
         // width: 50%;
         position: relative;
 
-        &.wider {
-          width: 450px;
-          max-width: 100vw;
-        }
+        // &.wider {
+        //   width: 450px;
+        //   max-width: calc(100vw - #{$spacing});
+        // }
       }
     }
 

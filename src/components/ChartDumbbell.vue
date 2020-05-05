@@ -8,7 +8,7 @@
         <span>{{ d.name }}</span>
       </div>
     </div>
-    <svg :width="width" :height="height">
+    <svg :width="width" :height="height" :class="{'no-transition': noTransition}">
       <g :transform="`translate(0 16)`">
         <g class="axis"
           :transform="`translate(${
@@ -111,6 +111,10 @@ export default {
       default: true
     },
     topLabels: {
+      type: Boolean,
+      default: false
+    },
+    noTransitions: {
       type: Boolean,
       default: false
     }
@@ -290,6 +294,12 @@ $transition: $transition * 2;
         }
       }
     }
+
+    &.no-transition {
+      * {
+        transition: none !important;
+      }
+    }
   }
 
   .dimensions {
@@ -300,6 +310,7 @@ $transition: $transition * 2;
       color: $color-deep-gray;
       text-align: center;
       padding-top: $spacing / 8;
+      hyphens: auto;
 
       .glyph {
         color: $color-neon;

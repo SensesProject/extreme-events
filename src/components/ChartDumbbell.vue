@@ -1,6 +1,6 @@
 <template>
-  <div class="vis-dumbbell" :style="{width: `${width}px`}">
-    <div v-if="topLabels" class="dimensions tiny" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
+  <div class="chart-dumbbell" :style="{width: width ? `${width}px` : '100%'}" v-resize:debounce.initial="onResize">
+    <div v-if="topLabels" class="dimensions tiny top-labels" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
       <div v-for="(d, i) in dimensions" :key="`dim-${i}`" :style="{width: `${barWidth}px`}">
         <div v-if="d.glyph">
           <span :class="['glyph',`glyph-${d.glyph}`]"/>
@@ -8,7 +8,7 @@
         <span>{{ d.name }}</span>
       </div>
     </div>
-    <svg :width="width" :height="height" :class="{'no-transition': noTransition}">
+    <svg width="100%" :height="height" :class="{'no-transition': noTransition}">
       <g :transform="`translate(0 16)`">
         <g class="axis"
           :transform="`translate(${
@@ -18,22 +18,36 @@
             <g v-for="(tick, i) in yTicks" :key="`tick-${i}-${tick.value}`"
               class="tick" :class="{hide: tick.hide}" :style="{transform:`translate(0px, ${tick.y}px)`}">
               <line :x1="-tick.x" :x2="tick.x"/>
-              <text :y="tick.textOffset" :class="{centered: centeredAxis}" :x="centeredAxis ? 0 : -tick.x">{{tick.value}}%</text>
+              <text :y="tick.textOffset" :class="{centered: centeredAxis}" :x="centeredAxis ? 0 : -tick.x">{{tick.value}}{{relative ? '×':'%'}}</text>
             </g>
           </transition-group>
         </g>
         <g class="bars">
           <g class="bar" v-for="(b, bi) in bars" :key="`bar-${bi}`" :transform="`translate(${b.x} 0)`">
             <line :x2="barWidth" :transform="`translate(0 ${innerHeight})`"/>
+            <!-- <line :x2="barWidth" :transform="`translate(0 0)`"/> -->
             <transition-group name="fade" tag="g">
               <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
             </transition-group>
             <transition-group name="fade" tag="g">
               <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`" :style="{ transform: s.transform }">
                 <line :class="s.class" :x2="barWidth"/>
-                <text :class="s.class" v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1" y="-3" :x="barWidth / 2">
-                  {{s.value}}%
-                </text>
+                <template v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1">
+                  <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
+                    {{s.value}}{{absoluteUnits ? 'M people' : '%'}}
+                  </text>
+                  <template v-else>
+                    <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
+                      {{s.value}}%
+                    </text>
+                    <text :class="s.class" y="-3" :x="barWidth * 0.75">
+                      {{s.change}}×
+                    </text> -->
+                    <text :class="s.class" y="-3" :x="barWidth / 2">
+                      {{s.change}}×
+                    </text>
+                  </template>
+                </template>
               </g>
             </transition-group>
           </g>
@@ -48,6 +62,11 @@
         <span>{{ d.name }}</span>
       </div>
     </div>
+    <div class="key tiny" v-if="showKey">
+      <span v-for="(d, i) in [0, 1, 1.5, 2]" :key="`wl-${i}`" class="highlight no-hover warming-level" :class="[colors[i]]">
+        +{{ d }}°C
+      </span>
+    </div>
   </div>
 </template>
 
@@ -55,12 +74,16 @@
 // import raw from '@/assets/data/countries.json'
 import { scaleLinear } from 'd3-scale'
 import { format } from 'd3-format'
+import resize from 'vue-resize-directive'
 export default {
-  name: 'VisDumbbell',
+  name: 'chart-dumbbell',
+  directives: {
+    resize
+  },
   props: {
     width: {
       type: Number,
-      default: 320
+      default: null
     },
     height: {
       type: Number,
@@ -90,6 +113,22 @@ export default {
       type: String,
       default: null
     },
+    showChange: {
+      type: Boolean,
+      default: false
+    },
+    relative: {
+      type: Boolean,
+      default: false
+    },
+    absoluteUnits: {
+      type: Boolean,
+      default: false
+    },
+    showKey: {
+      type: Boolean,
+      default: false
+    },
     ticks: {
       type: Array,
       default: null
@@ -114,14 +153,16 @@ export default {
       type: Boolean,
       default: false
     },
-    noTransitions: {
+    noTransition: {
       type: Boolean,
       default: false
     }
   },
   data () {
     return {
-      axisWidth: 36
+      axisWidth: 36,
+      chartWidth: 200,
+      colors: ['blue', 'yellow', 'orange', 'red']
     }
   },
   computed: {
@@ -130,7 +171,7 @@ export default {
       return height - 16
     },
     yScale () {
-      const { data, warmingLevels, dimensions, innerHeight, ticks } = this
+      const { data, warmingLevels, dimensions, innerHeight, ticks, relative } = this
       let { domain } = this
       const range = [innerHeight, 0]
       if (ticks != null) {
@@ -139,7 +180,7 @@ export default {
       }
       if (domain == null) {
         const values = dimensions.map(d => warmingLevels.map(l => {
-          return data[d.key][l]
+          return relative ? data[d.key][l] / data[d.key][0] : data[d.key][l]
         })).flat()
         domain = [Math.min(...values, 0), Math.max(...values)]
       }
@@ -168,30 +209,32 @@ export default {
       })
     },
     barWidth () {
-      const { width, axisWidth, dimensions, centeredAxis } = this
+      const { axisWidth, dimensions, centeredAxis } = this
+      const width = this.chartWidth
       if (centeredAxis) return (width - axisWidth - 4) / dimensions.length
       return (width - axisWidth - 2) / dimensions.length - 2
     },
     bars () {
-      const { data, dimensions, warmingLevels, barWidth, axisWidth, yScale, innerHeight, centeredAxis } = this
+      const { data, dimensions, warmingLevels, barWidth, axisWidth, yScale, innerHeight, centeredAxis, relative, absoluteUnits } = this
       return dimensions.map((d, di) => {
         return {
           x: centeredAxis ? (barWidth + axisWidth + 4) * di : (barWidth + 2) * di + axisWidth + 2,
           stripes: warmingLevels.map((l) => {
             const value = data[d.key][l]
-            const y = yScale(value)
-            if (l === 2) console.log(`translate(0, ${y}px)`)
+            const change = value / data[d.key][0]
+            const y = yScale(relative ? change : value)
             return {
               class: [`level-${`${l}`.replace(/\./, '-')}`],
-              value: format(',.2~r')(value),
+              value: format(',.2~r')(absoluteUnits ? d.key === 'population-exposed' ? value * 7.8 : value * 127 : value),
+              change: format(',.1f')(change),
               y,
               warmingLevel: l,
               transform: `translate(0px, ${y}px)`
             }
-          }),
+          }).reverse(),
           gradients: warmingLevels.map((l, li) => {
-            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]]) : innerHeight
-            const end = yScale(data[d.key][l])
+            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]] / (relative ? data[d.key][0] : 1)) : innerHeight
+            const end = yScale(data[d.key][l] / (relative ? data[d.key][0] : 1))
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
               y: end,
@@ -201,6 +244,11 @@ export default {
         }
       })
     }
+  },
+  methods: {
+    onResize (el) {
+      this.chartWidth = el.getBoundingClientRect().width
+    }
   }
 }
 </script>
@@ -208,12 +256,11 @@ export default {
 <style scoped lang="scss">
 @import "library/src/style/global.scss";
 $transition: $transition * 2;
-.vis-dumbbell {
+.chart-dumbbell {
   display: flex;
   flex-direction: column;
   // justify-content: center;
   align-items: center;
-  padding: $spacing / 2 0 $spacing / 2;
 
   .indicator {
     font-weight: $font-weight-bold;
@@ -221,9 +268,10 @@ $transition: $transition * 2;
   }
 
   svg {
+    overflow: visible;
     .axis {
       line {
-        stroke: $color-light-gray;
+        stroke: getColor(gray, 70);
       }
       text {
         fill: $color-deep-gray;
@@ -254,7 +302,7 @@ $transition: $transition * 2;
         }
       }
       line {
-        stroke: $color-light-gray;
+        stroke: getColor(gray, 70);
         &.level-0 {
           stroke: $color-blue;
         }
@@ -281,6 +329,12 @@ $transition: $transition * 2;
         }
         &.level-2 {
           fill: getColor(red, 40);
+        }
+        &.left {
+          text-anchor: start;
+        }
+        &.right {
+          text-anchor: end;
         }
       }
       rect {
@@ -310,12 +364,25 @@ $transition: $transition * 2;
       color: $color-deep-gray;
       text-align: center;
       padding-top: $spacing / 8;
-      hyphens: auto;
+      // hyphens: auto;
 
       .glyph {
         color: $color-neon;
         font-size: 3em;
       }
+    }
+
+    &.top-labels {
+      position: absolute;
+      div {
+        padding-top: 0;
+      }
+    }
+  }
+  .key {
+    margin-top: $spacing / 4;
+    .warming-level {
+      margin: 0 $spacing / 16;
     }
   }
 }

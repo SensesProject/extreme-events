@@ -1,30 +1,34 @@
 <template>
   <div class="intro">
-    <section class="wide">
-
-    </section>
     <LayoutScrollytelling>
       <template v-slot:vis="{ width, height, step }">
         <VisEventsCombined :width="width" :height="height" :step="step"/>
       </template>
       <template v-slot:text="{ width, height, step }">
-        <section class="observers">
-          <IntersectionObserver class="io-0" :step="0" align="left" :class="{active: step === 0}">
-            <p class="tiny">With <span class="highlight no-hover blue">no global warming</span> both land and population remain mostly unaffected by extreme events.</p>
+        <div class="observers">
+          <IntersectionObserver class="io-0" :step="0" align="center" :class="{active: step === 0}">
+            <p class="tiny">At <span class="highlight no-hover blue">pre-industrial</span> temperature levels, 0.09% of global land area is exposed to river floods. Since many settlements are close to rivers, the share of exposed population is about twice that high.</p>
           </IntersectionObserver>
-          <IntersectionObserver class="io-1" :step="1" align="right" :class="{active: step === 1}">
-            <p class="tiny"><span class="highlight no-hover yellow">Today</span> at a global warming level of <span class="highlight no-hover yellow">+1°C</span> the world population is 2.7 times more exposed and land is 2.5 times more affected.</p>
+          <IntersectionObserver class="io-1" :step="1" align="center" :class="{active: step === 1}">
+            <p class="tiny"><span class="highlight no-hover yellow">Today,</span> at a global warming level of <span class="highlight no-hover yellow">+1°C</span> there's already a sharp increase in exposure.</p>
           </IntersectionObserver>
-          <IntersectionObserver class="io-2" :step="2" align="left" :class="{active: step === 2}">
-            <p class="tiny">This trend continues. At <span class="highlight no-hover orange">+1.5°C</span> 6% of the global land area will be affected by extreme events.</p>
+          <IntersectionObserver class="io-2" :step="2" align="center" :class="{active: step === 2}">
+            <p class="tiny">At <span class="highlight no-hover orange">+1.5°C,</span> the global land area exposed to river floods is double that of pre-industrial levels.</p>
           </IntersectionObserver>
-          <IntersectionObserver class="io-3" :step="3" align="right" :class="{active: step === 3}">
-            <p class="tiny">And at <span class="highlight no-hover red">+2°C</span> 14% of the todays population – about 1 billion people – would be exposed.</p>
+          <IntersectionObserver class="io-3" :step="3" align="center" :class="{active: step === 3}">
+            <p class="tiny">And at <span class="highlight no-hover red">+2°C,</span> twice as many people – about 27 million in total – are exposed.</p>
           </IntersectionObserver>
-        </section>
+        </div>
       </template>
     </LayoutScrollytelling>
-    <section class="wide">
+    <section class="wide max-width expectations">
+      <div>
+        <p>
+          For now, we've just had a look at river floods. In this module, we present five more extreme event categories and their impacts on land and population. We then show regional differences in exposure and close by contrasting country-level exposure with socio-economic dimensions.
+        </p>
+      </div>
+    </section>
+    <!-- <section class="wide">
       <p>
         The extents and impacts of
         <span class="no-break"><span class="glyph glyph-crop-failure"/>crop failures</span>,
@@ -41,10 +45,10 @@
       </template>
       <template v-slot:text="{ width, height, step }">
         <section class="observers">
-          <IntersectionObserver class="io-4" :step="0" align="center" :class="{active: step === 0}">
+          <IntersectionObserver class="io-4" :step="0" darkmode align="center" :class="{active: step === 0}">
             <p class="tiny">I terms of <span class="highlight no-hover">land area</span> droughts and heatwaves show the highest extent. And while crop failures and river floods affect less land area than tropical cyclones and wildfires, their relative change compared to a world without climate change is far greater.</p>
           </IntersectionObserver>
-          <IntersectionObserver class="io-5" :step="1" align="center" :class="{active: step === 1}">
+          <IntersectionObserver class="io-5" :step="1" darkmode align="center" :class="{active: step === 1}">
             <p class="tiny">Crop failures, tropical cyclones, wildfires, and droughts are on a similar level when it comes to <span class="highlight no-hover">population exposed</span> to those events. At +2°C global warming 12% of the global population will be exposed to heatwaves. Far more than to any other extreme event.</p>
           </IntersectionObserver>
         </section>
@@ -63,9 +67,6 @@
       </template>
       <template v-slot:text="{ width, height, step }">
         <section class="observers observers-options">
-          <!-- <IntersectionObserverFracture class="io-0" :step="0" no-styling :style="{height: `${height}px`}">
-            <span class="tiny">{{ step }}</span>
-          </IntersectionObserverFracture> -->
           <IntersectionObserver class="io-1 options" :step="0" align="left" :class="{active: step === 0}">
             <div class="tiny">
               <div class="option">
@@ -104,7 +105,7 @@
           </IntersectionObserver>
         </section>
       </template>
-    </LayoutScrollytelling>
+    </LayoutScrollytelling> -->
     <!-- <SensesMeta id="extreme-events"/> -->
   </div>
 </template>
@@ -113,23 +114,23 @@
 // import SensesMeta from 'library/src/components/SensesMeta.vue'
 import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
 import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
-import SensesSelect from 'library/src/components/SensesSelect.vue'
+// import SensesSelect from 'library/src/components/SensesSelect.vue'
 // import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
 import VisEventsCombined from '@/components/VisEventsCombined.vue'
-import VisEventsSingle from '@/components/VisEventsSingle.vue'
-import VisSlope from '@/components/VisSlope.vue'
-import SensesRadio from 'library/src/components/SensesRadio.vue'
+// import VisEventsSingle from '@/components/VisEventsSingle.vue'
+// import VisSlope from '@/components/VisSlope.vue'
+// import SensesRadio from 'library/src/components/SensesRadio.vue'
 export default {
   name: 'intro',
   components: {
     LayoutScrollytelling,
     IntersectionObserver,
     // IntersectionObserverFracture,
-    VisEventsCombined,
-    VisEventsSingle,
-    VisSlope,
-    SensesSelect,
-    SensesRadio
+    VisEventsCombined
+    // VisEventsSingle,
+    // VisSlope,
+    // SensesSelect,
+    // SensesRadio
     // SensesMeta
   },
   data () {
@@ -226,28 +227,10 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column;
+  background: getColor(grey, 90);
   section {
     h1 {
       margin-bottom: $spacing / 2;
-    }
-
-    + section, + .layout-scrollytelling {
-      margin-top: $spacing;
-    }
-
-    p {
-      .no-break {
-        white-space: nowrap;
-      }
-      .glyph {
-        color: $color-neon;
-        display: inline-block;
-        padding-right: $spacing / 16;
-        transform: scale(1.8);
-      }
-      + p {
-        margin-top: $spacing / 2;
-      }
     }
   }
   .layout-scrollytelling {
@@ -294,7 +277,7 @@ export default {
 
       &.io-3 {
         padding-top: 30vh;
-        padding-bottom: 50vh;
+        padding-bottom: 65vh;
         // margin-bottom: -5vh;
       }
 
@@ -315,7 +298,8 @@ export default {
       }
 
       p {
-        width: 300px;
+        width: 100%;
+        max-width: 300px;
         // max-width: calc(50vw - #{$spacing * 2.5});
         // width: 50%;
         position: relative;
@@ -344,6 +328,11 @@ export default {
           }
         }
       }
+    }
+  }
+  .expectations {
+    > div {
+      margin: $spacing / 4 0 $spacing 0;
     }
   }
 }

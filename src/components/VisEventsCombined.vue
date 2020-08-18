@@ -3,7 +3,7 @@
     <section class="wide" ref="title">
       <h1 class="serif">Extreme Events</h1>
       <p>
-        Climate Change makes extreme events more frequent and more intense.<br>This means more land is affected and more people are exposed to them.
+        Climate change makes extreme events more frequent and more intense. Consequently, more and more land area and people are exposed.
       </p>
     </section>
     <svg :width="0" :height="0">
@@ -27,7 +27,7 @@
       </defs>
     </svg>
     <div class="plots" v-if="plots">
-      <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" :key="`plot-${i}`" :ticks="ticks" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
+      <ChartDumbbell v-for="(plot, i) in plots" v-bind="plot" relative :key="`plot-${i}`" :ticks="ticks" :warming-levels="warmingLevels" :warming-level-labels="warmingLevels"/>
     </div>
     <transition name="fade">
       <div class="key tiny" v-if="showKey">
@@ -90,7 +90,7 @@ export default {
     plots () {
       const { indicators, chartWidth, chartHeight, titleHeight } = this
       if (titleHeight == null) return null
-      return indicators.filter((i, ii) => ii === indicators.length - 1).map(i => {
+      return indicators.filter((i, ii) => ii === indicators.length - 5).map(i => {
         return {
           width: chartWidth,
           height: chartHeight,
@@ -102,16 +102,40 @@ export default {
     },
     ticks () {
       const { step } = this
+      // return [
+      //   [0, true],
+      //   [0.5, step === 0],
+      //   [1, step <= 1],
+      //   [2, step === 1],
+      //   [3, step === 1],
+      //   [4, step === 1],
+      //   [5, step >= 1],
+      //   [10, step >= 2],
+      //   [15, step === 3]
+      // ]
+      // return [
+      //   [0, true],
+      //   [0.25, true],
+      //   [0.5, true],
+      //   [0.75, true],
+      //   [1, step >= 2],
+      //   [1.25, step >= 3]
+      // ]
+      // return [
+      //   [0, true],
+      //   [0.1, true],
+      //   [0.2, true],
+      //   [0.3, step >= 1],
+      //   [0.4, step >= 2]
+      //   // [0.5, step >= 3]
+      // ],
       return [
-        [0, true],
-        [0.5, step === 0],
-        [1, step <= 1],
-        [2, step === 1],
-        [3, step === 1],
-        [4, step === 1],
-        [5, step >= 1],
-        [10, step >= 2],
-        [15, step === 3]
+        [0.5, true],
+        [1, true],
+        [1.5, true],
+        [2, step >= 1],
+        [2.5, step >= 2],
+        [3, step >= 3]
       ]
     }
   },
@@ -170,6 +194,10 @@ export default {
     max-width: 100vw;
     display: flex;
     justify-content: center;
+
+    .chart-dumbbell {
+      padding: $spacing / 2 0 $spacing / 2;
+    }
   }
 
   .downwards {
@@ -224,7 +252,7 @@ export default {
   .key {
     margin-top: -$spacing / 4;
     .warming-level {
-      margin-left: $spacing / 8;
+      margin: 0 $spacing / 16;
       transition: opacity $transition;
 
       &.fade {

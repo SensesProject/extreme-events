@@ -2,17 +2,26 @@
   <div id="app">
     <SensesMenu message="Work in Progress"/>
     <article>
-      <router-view/>
+      <Intro/>
+      <Categories/>
+      <Maps/>
     </article>
     <!-- <SensesMeta class="senses-meta" id="extreme-events"/> -->
   </div>
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
+import Intro from '@/views/Intro.vue'
+import Categories from '@/views/Categories.vue'
+import Maps from '@/views/Maps.vue'
+
 // import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
-    SensesMenu
+    SensesMenu,
+    Intro,
+    Categories,
+    Maps
     // SensesMeta
   }
 }
@@ -20,8 +29,30 @@ export default {
 
 <style lang="scss">
 @import "library/src/style/base.scss";
-.text {
-  pointer-events: none;
+#app {
+  .text {
+    pointer-events: none;
+  }
+  article {
+    width: 100%;
+    margin-bottom: $spacing;
+    > section, .max-width {
+      margin: auto;
+      width: 100%;
+      max-width: calc(768px + #{$spacing});
+      padding-left: $spacing / 2;
+      padding-right: $spacing / 2;
+    }
+    // background: getColor(gray, 90);
+  }
+  p {
+    .no-break {
+      white-space: nowrap;
+    }
+    + p {
+      margin-top: $spacing / 2;
+    }
+  }
 }
 </style>
 
@@ -32,12 +63,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  article {
-    width: 100vw;
-    max-width: calc(768px + #{$spacing});
-    padding: 0 $spacing / 2 0;
-    // background: getColor(gray, 90);
-  }
+
   .senses-meta {
     margin: $spacing $spacing / 2 $spacing;
   }

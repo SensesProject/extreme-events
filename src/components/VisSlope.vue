@@ -1,14 +1,25 @@
 <template>
   <div class="vis-slope">
     <div class="plots" v-if="plots">
-      <ChartSlope :width="chartWidth" :height="chartHeight"
-      :indicator="indicator"
-      :warming-level="warmingLevel"
-      :reference="reference"
-      :dimension="dimension"
-      :label-left="labelLeft" :label-right="labelRight"
-      :colorize-by="colorizeBy"
-      :all-labels="allLabels"/>
+      <div v-for="(ind, i) in indicators" :key="`i-${i}`" >
+        <ChartSlope :width="chartWidth / 2" :height="chartHeight / 2"
+        :indicator="ind"
+        :warming-level="warmingLevel"
+        :reference="reference"
+        :dimension="dimension"
+        :label-left="labelLeft" :label-right="labelRight"
+        :colorize-by="colorizeBy"
+        :all-labels="allLabels"/>
+        <ChartSlope :width="chartWidth / 2" :height="chartHeight / 2"
+        :indicator="ind"
+        :warming-level="warmingLevel"
+        :reference="reference"
+        :dimension="dimension"
+        :label-left="labelLeft" :label-right="labelRight"
+        :colorize-by="colorizeBy"
+        :all-labels="allLabels"
+        hide-ref/>
+      </div>
     </div>
   </div>
 </template>
@@ -32,29 +43,40 @@ export default {
       default: 0,
       type: Number
     },
-    warmingLevel: Number,
-    indicator: String,
-    reference: String,
-    dimension: String,
+    warmingLevel: {
+      type: Number,
+      default: 2
+    },
+    indicator: {
+      type: String,
+      default: 'heatwave'
+    },
+    reference: {
+      type: String,
+      default: 'gdpPerCapita'
+    },
+    dimension: {
+      type: String,
+      default: 'population'
+    },
     allLabels: Boolean,
     labelLeft: {
       type: Array,
-      default () { return ['USA', 'CAN', 'North America'] }
+      default () { return [] }
     },
     labelRight: {
       type: Array,
-      default () { return ['South Asia', 'CHE'] }
+      default () { return [] }
     },
     colorizeBy: {
       type: String,
-      default: 'region'
+      default: 'topRef'
     }
   },
   data () {
     return {
       indicators: ['crop-failure', 'river-flood', 'tropical-cyclone', 'wildfire', 'drought', 'heatwave'],
-      countries: Object.keys(raw).filter(c => c !== 'world'),
-      warmingLevels: [0]
+      countries: Object.keys(raw).filter(c => c !== 'world')
     }
   },
   computed: {
@@ -78,27 +100,6 @@ export default {
           indicator: i.replace(/-/g, ' ')
         }
       })
-    }
-  },
-  watch: {
-    step: {
-      handler (step) {
-        switch (step) {
-          case 0:
-            this.warmingLevels = [0]
-            break
-          case 1:
-            this.warmingLevels = [0, 1]
-            break
-          case 2:
-            this.warmingLevels = [0, 1, 1.5]
-            break
-          case 3:
-            this.warmingLevels = [0, 1, 1.5, 2]
-            break
-        }
-      },
-      immediate: true
     }
   }
 }
@@ -128,7 +129,13 @@ export default {
     width: 1200px;
     max-width: 100vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   svg {

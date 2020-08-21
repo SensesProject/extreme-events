@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    events: ['tropical-cyclone', 'river-flood', 'crop-failure', 'wildfire', 'drought', 'heatwave']
   },
   mutations: {
   },

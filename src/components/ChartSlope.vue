@@ -38,7 +38,7 @@
         </g>
         <g class="countries">
           <g v-for="(d, i) in data" :key="`d-${i}`" class="country" :class="[d.country.iso]">
-            <line x1="6" :y1="d.y1" :y2="d.y2" :x2="innerWidth - 6" :class="[d.color, {fade: d.fade}]" :stroke="d.stroke"/>
+            <line x1="6" :y1="hideRef ? d.y2 : d.y1" :y2="d.y2" :x2="innerWidth - 6" :class="[d.color, {fade: d.fade}]" :stroke="d.stroke"/>
             <g class="labels">
               <g v-if="d.label === 'left' || allLabels" :transform="`translate(0 ${d.y1})`">
                 <text x="-6" y="3" text-anchor="end" :fill="d.stroke" :class="[d.color]">{{ d.country.stats.name }}</text>
@@ -107,6 +107,10 @@ export default {
     allLabels: {
       type: Boolean,
       default: false
+    },
+    hideRef: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -119,7 +123,7 @@ export default {
     })
     return {
       countries,
-      padding: [48, 150, 32, 150],
+      padding: [48, 75, 32, 75],
       warmingLevels: [0, 0.5, 1.0, 1.5, 2.0],
       colors: {
         'South Asia': 'blue',
@@ -173,13 +177,18 @@ export default {
       const { countries, warmingLevel, indicator, innerHeight, dimension } = this
       const values = countries.map(c => c[indicator][dimension][warmingLevel])
       const domain = [Math.min(...values, 0), Math.max(...values)]
-      return scaleLinear().domain(domain).range([innerHeight, 0]).nice(5)
+      return scalePow().exponent(1).domain(domain).range([innerHeight, 0]).nice(5)
     },
     rightScaleColors () {
       const { countries, warmingLevel, indicator, dimension } = this
       const values = countries.map(c => c[indicator][dimension][warmingLevel])
       const domain = [Math.min(...values, 0), Math.max(...values)]
       return scaleLinear().domain(domain).range(['#c8005f', '#00a5d5'])
+    },
+    colorScale () {
+      const { countries } = this
+      const m = countries.length
+      return scaleLinear().domain([0, m * 0.1, m * 0.5, m * 0.9, m]).range(['#c8005f', '#FAD1E4', '#d8d8e4', '#D1F1FA', '#00a5d5'])
     },
     leftScale () {
       const { countries, reference, innerHeight } = this
@@ -191,11 +200,11 @@ export default {
       const { countries, reference } = this
       const values = countries.map(c => c.stats[reference])
       const domain = [Math.min(...values, 0), Math.max(...values)]
-      return scalePow().exponent(0.4).domain(domain).range(['#c8005f', '#00a5d5'])
+      return scaleLinear().domain(domain).range(['#f00', '#00f'])
     },
     data () {
       const { countries, leftScale, rightScale, leftScaleColors, rightScaleColors, reference, indicator, warmingLevel, dimension, colors, colorizeBy, regions, labelLeft, labelRight } = this
-      return countries.map(country => {
+      return countries.sort((a, b) => a.stats[reference] > b.stats[reference]).map((country, index) => {
         const label = labelLeft.indexOf(country.iso) !== -1
           ? 'left' : labelRight.indexOf(country.iso) !== -1
             ? 'right' : null
@@ -206,6 +215,7 @@ export default {
         )
         let color = 'default'
         let stroke = null
+        let faded = false
         switch (colorizeBy) {
           case 'region':
             color = colors[regions[country.iso]]
@@ -216,6 +226,17 @@ export default {
           case 'reference':
             color = null
             stroke = leftScaleColors(country.stats[reference])
+            break
+          case 'topRef':
+            const range = 50
+            color = index < range ? 'red' : index > countries.length - 1 - range ? 'blue' : 'default'
+            faded = color === 'default'
+            if (!faded) {
+              console.log(country.stats.name)
+            }
+            // stroke = null
+            // color = null
+            // stroke = this.colorScale(index)
             break
           case 'indicator':
             color = null
@@ -228,10 +249,10 @@ export default {
           country,
           label,
           color,
-          fade: !highlight,
+          fade: !highlight || faded,
           stroke
         }
-      })
+      }) // .reverse()
     },
     regionLabels () {
       const { countries, leftScale, rightScale, reference, indicator, warmingLevel, dimension, colors, colorizeBy, regions, labelLeft, labelRight, innerWidth } = this
@@ -320,7 +341,7 @@ $transition: $transition * 2;
       .axis {
         line {
           stroke: $color-pale-gray;
-          stroke-width: 2;
+          stroke-width: 1;
         }
         text {
           fill: $color-deep-gray;
@@ -336,7 +357,7 @@ $transition: $transition * 2;
       mix-blend-mode: multiply;
       line {
         mix-blend-mode: multiply;
-        stroke-width: 2;
+        stroke-width: 1;
         stroke-linecap: round;
         &.default {
           stroke: $color-dark-gray;
@@ -355,7 +376,8 @@ $transition: $transition * 2;
           stroke: $color-dark-gray;
         }
         mix-blend-mode: multiply;
-        stroke-width: 2;
+        opacity: 0.8;
+        stroke-width: 1;
         stroke-linecap: round;
 
         &.fade {
@@ -367,7 +389,7 @@ $transition: $transition * 2;
       circle {
         @include tint(fill);
         // @include tint(stroke);
-        stroke-width: 2;
+        stroke-width: 1;
       }
     }
   }

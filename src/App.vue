@@ -5,24 +5,27 @@
       <Intro/>
       <Categories/>
       <Maps/>
+      <Countries/>
     </article>
-    <!-- <SensesMeta class="senses-meta" id="extreme-events"/> -->
+    <SensesMeta class="senses-meta" id="extreme-events"/>
   </div>
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
 import Intro from '@/views/Intro.vue'
 import Categories from '@/views/Categories.vue'
+import Countries from '@/views/Countries.vue'
 import Maps from '@/views/Maps.vue'
 
-// import SensesMeta from 'library/src/components/SensesMeta.vue'
+import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
     SensesMenu,
     Intro,
     Categories,
-    Maps
-    // SensesMeta
+    Maps,
+    Countries,
+    SensesMeta
   }
 }
 </script>

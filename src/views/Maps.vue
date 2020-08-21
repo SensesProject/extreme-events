@@ -10,13 +10,43 @@
         The data shown base on calculations from climate and climate impact models. It's crucial to comprehend what constitutes exposure since different definitions likely lead to vastly different outcomes. For that reason, we show the share of land and population exposed and the change in exposure compared to preindustrial levels.
       </p>
     </section>
+    <LayoutScrollytelling>
+      <template v-slot:vis="{ width, height, step }">
+        <EarthWrapper :width="width" :height="height" :step="step"/>
+      </template>
+      <template v-slot:text="{ width, height, step }">
+        <div class="observers">
+          <IntersectionObserverFracture class="io-0" :step="0" align="center" :class="{active: step === 0}">
+            <p class="serif">As discussed earlier, at <span class="highlight no-hover red">+2°C,</span> heatwaves affect a substential part of global land area.</p>
+          </IntersectionObserverFracture>
+          <IntersectionObserverFracture class="io-1" :step="1" align="center" :class="{active: step === 1}">
+            <p class="serif">While drought affects less land overall, events are even more spread.</p>
+          </IntersectionObserverFracture>
+          <IntersectionObserverFracture class="io-2" :step="2" align="center" :class="{active: step === 2}">
+            <p class="serif">Other events are much more confined. Tropical cyclones mostly affect pacific coastal regions.</p>
+          </IntersectionObserverFracture>
+          <IntersectionObserverFracture class="io-3" :step="3" align="center" :class="{active: step === 3}">
+            <p class="serif">And crop failure concentrates in North-India and Pakistan.</p>
+          </IntersectionObserverFracture>
+          <!-- <IntersectionObserverFracture class="io-3" :step="3" align="center" :class="{active: step === 3}"/> -->
+        </div>
+      </template>
+    </LayoutScrollytelling>
     </div>
   </div>
 </template>
 
 <script>
+import EarthWrapper from '@/components/EarthWrapper.vue'
+import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
+import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
 export default {
   name: 'maps',
+  components: {
+    EarthWrapper,
+    LayoutScrollytelling,
+    IntersectionObserverFracture
+  },
   data () {
     return {
       indicators: ['crop-failure', 'river-flood', 'tropical-cyclone', 'wildfire', 'drought', 'heatwave']
@@ -44,70 +74,17 @@ export default {
     margin-top: $spacing;
   }
 
-  .cat-grid {
-    display: grid;
-    gap: $spacing / 4 $spacing;
-    grid-template-columns: repeat(1, 1fr);
-    h3 {
-      text-transform: capitalize;
-      grid-column-start: 1;
-      grid-column-end: 2;
-      grid-row-start: 1;
-      grid-row-end: 2;
+  .intersection-observer {
+    padding: 50vh 0 20vh;
 
-      .glyph {
-        color: $color-neon;
-        display: inline-block;
-        padding-left: $spacing / 12;
-        transform: translateY(-$spacing / 12) scale(2);
-      }
+    &.io-3 {
+      padding-bottom: 60vh;
     }
 
-    div {
-      grid-column-start: 1;
-      grid-column-end: 2;
-      // grid-row-start: 3;
-      // grid-row-end: 4;
-    }
-
-    .chart-dumbbell {
-      margin-top: -$spacing / 4;
-      grid-column-start: 1;
-      grid-column-end: 2;
-      grid-row-start: 2;
-      grid-row-end: 3;
-    }
-    @include min-width($narrow) {
-      grid-template-rows: auto 1fr;
-      grid-template-columns: repeat(2, 1fr);
-
-      hr {
-        grid-column-start: 1;
-        grid-column-end: 3;
+    ::v-deep {
+      > div {
+        background: none;
       }
-
-      h3 {
-        grid-column-start: 2;
-        grid-column-end: 3;
-      }
-
-      div {
-        grid-column-start: 2;
-        grid-column-end: 3;
-      }
-
-      .chart-dumbbell {
-        margin-top: $spacing / 4;
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 3;
-      }
-    }
-    @include min-width($medium) {
-      grid-template-columns: 3fr 3fr;
-
-      // grid-template-columns: 300px 1fr 1fr;
     }
   }
 }

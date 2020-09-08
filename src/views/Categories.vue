@@ -1,17 +1,26 @@
 <template>
   <div class="categories max-width">
     <section class="wide cat-intro">
-      <h2 class="serif">Extreme Event Categories</h2>
       <p>
-        Extents and impacts of extreme events depend on underlying meteorological, hydrological, and climatological events. But also on human factors such as land use, water and agricultural management, and population density.
+        Extents and impacts of extreme events depend on underlying meteorological, hydrological, and climatological events. But as we have already seen in the case of crop failure also on human factors such as land use, water and agricultural management, and population density.
       </p>
       <p>
-        The data shown base on calculations from climate and climate impact models. It's crucial to comprehend what constitutes exposure since different definitions likely lead to vastly different outcomes. For that reason, we show the share of land and population exposed and the change in exposure compared to preindustrial levels.
+        In this module we show six extreme event categories:
+        <span class="no-break"><span class="glyph glyph-hurricanes"/>tropical cyclones</span>,
+        <span class="no-break"><span class="glyph glyph-floods"/>river floods</span>,
+        <span class="no-break"><span class="glyph glyph-crop-failure"/>crop failures</span>,
+        <span class="no-break"><span class="glyph glyph-wildfires"/>wildfires</span>,
+        <span class="no-break"><span class="glyph glyph-droughts"/>droughts</span>, and
+        <span class="no-break"><span class="glyph glyph-floods"/>heatwaves</span>.
+      </p>
+      <p>
+        At the global scale we look at how these affect land and population at different levels of global warming and discuss modeling uncertainty. On the national scale we show which countries are most exposed to extreme events and their geographical and economical setting.
       </p>
     </section>
+    <HelperGradients/>
     <!-- <section > -->
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[0].replace(/-/g, ' ') }}<span class="glyph glyph-wildfires"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[0].replace(/-/g, ' ') }}<span class="glyph glyph-wildfires"/></h2></div>
       <div>
         <p>Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. That limits both how much land area and how many people can such events affect.</p>
         <p>Here, the four major crops maize, wheat, soybean, and rice, are considered. If yields fall below the 2.5th percentile of the preindustrial baseline distribution crop failure is assessed. For population, only people working in agriculture are considered vulnerable.</p>
@@ -20,7 +29,7 @@
     </section>
     <hr>
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[1].replace(/-/g, ' ') }}<span class="glyph glyph-hurricanes"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[1].replace(/-/g, ' ') }}<span class="glyph glyph-hurricanes"/></h2></div>
       <div>
         Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. This limits both, how much land area and how many people can be exposed to such events.
       </div>
@@ -28,7 +37,7 @@
     </section>
     <hr>
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[2].replace(/-/g, ' ') }}<span class="glyph glyph-crop-failure"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[2].replace(/-/g, ' ') }}<span class="glyph glyph-crop-failure"/></h2></div>
       <div>
         <p>Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. That limits both how much land area and how many people can such events affect.</p>
         <p>Here, the four major crops maize, wheat, soybean, and rice, are considered. If yields fall below the 2.5th percentile of the preindustrial baseline distribution crop failure is assessed. For population, only people working in agriculture are considered vulnerable.</p>
@@ -37,7 +46,7 @@
     </section>
     <hr>
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[3].replace(/-/g, ' ') }}<span class="glyph glyph-floods"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[3].replace(/-/g, ' ') }}<span class="glyph glyph-floods"/></h2></div>
       <div>
         Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. This limits both, how much land area and how many people can be exposed to such events.
       </div>
@@ -45,7 +54,7 @@
     </section>
     <hr>
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[4].replace(/-/g, ' ') }}<span class="glyph glyph-droughts"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[4].replace(/-/g, ' ') }}<span class="glyph glyph-droughts"/></h2></div>
       <div>
         Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. This limits both, how much land area and how many people can be exposed to such events.
       </div>
@@ -53,7 +62,7 @@
     </section>
     <hr>
     <section class="cat-grid">
-      <h3 class="wide serif">{{ indicators[5].replace(/-/g, ' ') }}<span class="glyph glyph-floods"/></h3>
+      <div class="wide"><h2 class="serif">{{ indicators[5].replace(/-/g, ' ') }}<span class="glyph glyph-floods"/></h2></div>
       <div>
         Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. This limits both, how much land area and how many people can be exposed to such events.
       </div>
@@ -64,11 +73,12 @@
 </template>
 
 <script>
+import HelperGradients from '@/components/HelperGradients.vue'
 import ChartDumbbell from '@/components/ChartDumbbell.vue'
 import raw from '@/assets/data/countries.json'
 export default {
   name: 'categories',
-  components: { ChartDumbbell },
+  components: { ChartDumbbell, HelperGradients },
   data () {
     return {
       indicators: ['wildfire', 'tropical-cyclone', 'crop-failure', 'river-flood', 'drought', 'heatwave']
@@ -92,9 +102,9 @@ export default {
 <style lang="scss" scoped>
 @import "library/src/style/global.scss";
 .categories {
-  h2 {
-    margin: $spacing 0 $spacing / 2;
-  }
+  // h2 {
+  //   margin: $spacing 0 $spacing / 2;
+  // }
   hr {
     border: 0;
     height: 0;
@@ -102,15 +112,24 @@ export default {
     margin: $spacing / 2 0;
   }
 
-  section + section {
+  section {
     margin-top: $spacing;
+  }
+
+  p {
+    .glyph {
+      color: $color-neon;
+      display: inline-block;
+      // padding-right§: $spacing / 12;
+      transform: scale(1.6);
+    }
   }
 
   .cat-grid {
     display: grid;
     gap: $spacing / 4 $spacing;
     grid-template-columns: repeat(1, 1fr);
-    h3 {
+    h2 {
       text-transform: capitalize;
       grid-column-start: 1;
       grid-column-end: 2;
@@ -120,8 +139,8 @@ export default {
       .glyph {
         color: $color-neon;
         display: inline-block;
-        padding-left: $spacing / 12;
-        transform: translateY(-$spacing / 12) scale(2);
+        padding-left: $spacing / 8;
+        transform: translateY(-$spacing / 12) scale(1.8);
       }
     }
 
@@ -150,7 +169,7 @@ export default {
         grid-column-end: 3;
       }
 
-      h3 {
+      h2 {
         grid-column-start: 1;
         grid-column-end: 2;
       }

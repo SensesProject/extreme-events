@@ -6,7 +6,7 @@
           <!-- <g class="line" v-for="(l, i) in lines" :key="i">
             <polyline :points="c.points" :class="c.color"/>
           </g> -->
-          <g class="line" v-for="(l, i) in lines" :key="i">
+          <g class="line" v-for="(l, i) in lines" :key="i" :class="[l.country.iso]">
             <polyline :points="l.points" :class="l.color"/>
           </g>
         </g>

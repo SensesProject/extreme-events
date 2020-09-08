@@ -2,9 +2,10 @@
   <div id="app">
     <SensesMenu message="Work in Progress"/>
     <article>
-      <Intro/>
-      <Categories/>
       <Maps/>
+      <Categories/>
+      <!-- <Intro/> -->
+      <Uncertainty/>
       <Countries/>
     </article>
     <SensesMeta class="senses-meta" id="extreme-events"/>
@@ -12,19 +13,21 @@
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
-import Intro from '@/views/Intro.vue'
+// import Intro from '@/views/Intro.vue'
 import Categories from '@/views/Categories.vue'
 import Countries from '@/views/Countries.vue'
+import Uncertainty from '@/views/Uncertainty.vue'
 import Maps from '@/views/Maps.vue'
 
 import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
     SensesMenu,
-    Intro,
+    // Intro,
     Categories,
     Maps,
     Countries,
+    Uncertainty,
     SensesMeta
   }
 }

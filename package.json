@@ -12,7 +12,7 @@
     "d3-ease": "^1.0.6",
     "d3-format": "^1.4.3",
     "d3-scale": "^3.2.0",
-    "earth": "file:../earth",
+    "earth": "github:SensesProject/earth#refactor",
     "library": "github:SensesProject/library",
     "vue": "^2.6.10",
     "vue-resize-directive": "^1.2.0",

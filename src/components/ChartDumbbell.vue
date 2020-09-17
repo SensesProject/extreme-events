@@ -1,14 +1,6 @@
 <template>
   <div class="chart-dumbbell" :style="{width: width ? `${width}px` : '100%'}" v-resize:debounce.initial="onResize">
-    <div v-if="topLabels" class="dimensions tiny top-labels" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
-      <div v-for="(d, i) in dimensions" :key="`dim-${i}`" :style="{width: `${barWidth}px`}">
-        <div v-if="d.glyph">
-          <span :class="['glyph',`glyph-${d.glyph}`]"/>
-        </div>
-        <span>{{ d.name }}</span>
-      </div>
-    </div>
-    <svg width="100%" :height="height" :class="{'no-transition': noTransition}">
+    <svg width="100%" :height="chartHeight" :class="{'no-transition': noTransition}">
       <g :transform="`translate(0 16)`">
         <g class="axis"
           :transform="`translate(${
@@ -54,7 +46,7 @@
         </g>
       </g>
     </svg>
-    <div v-if="!topLabels" class="dimensions tiny" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
+    <div class="dimensions tiny" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
       <div v-for="(d, i) in dimensions" :key="`dim-${i}`" :style="{width: `${barWidth}px`}">
         <div v-if="d.glyph">
           <span :class="['glyph',`glyph-${d.glyph}`]"/>
@@ -149,10 +141,6 @@ export default {
       type: Boolean,
       default: true
     },
-    topLabels: {
-      type: Boolean,
-      default: false
-    },
     noTransition: {
       type: Boolean,
       default: false
@@ -166,9 +154,13 @@ export default {
     }
   },
   computed: {
-    innerHeight () {
+    chartHeight () {
       const { height } = this
-      return height - 16
+      return height - 64
+    },
+    innerHeight () {
+      const { chartHeight } = this
+      return chartHeight - 16
     },
     yScale () {
       const { data, warmingLevels, dimensions, innerHeight, ticks, relative } = this
@@ -362,7 +354,7 @@ $transition: $transition * 2;
     width: 100%;
     div {
       color: $color-deep-gray;
-      text-align: center;
+      // text-align: center;
       padding-top: $spacing / 8;
       // hyphens: auto;
 
@@ -371,18 +363,12 @@ $transition: $transition * 2;
         font-size: 3em;
       }
     }
-
-    &.top-labels {
-      position: absolute;
-      div {
-        padding-top: 0;
-      }
-    }
   }
   .key {
+    align-self: flex-start;
     margin-top: $spacing / 4;
-    .warming-level {
-      margin: 0 $spacing / 16;
+    .warming-level + .warming-level {
+      margin: 0 0 0 $spacing / 8;
     }
   }
 }

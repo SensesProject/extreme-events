@@ -60,7 +60,7 @@ export default {
         ['#F5FBFF', '#EF8224', '#6F3DAE']
       ][fullStep]
       return {
-        background: '#F0F0FF',
+        background: '#FFFFFF',
         text: '#48484c',
         borderColor: '#D8D8EE',
         colorScale

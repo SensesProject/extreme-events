@@ -4,7 +4,7 @@
       <template v-slot:vis="{ width, height, step }">
         <EarthWrapper :width="width" :height="height" :step="step"/>
       </template>
-      <template v-slot:text="{ width, height, step }">
+      <template v-slot:text="{ step }">
         <div class="observers wide">
           <IntersectionObserver class="title" :step="0" align="center" :class="{active: step < 1}">
             <h1 class="serif">Extreme Events</h1>

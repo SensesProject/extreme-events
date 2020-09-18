@@ -22,24 +22,26 @@
               <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
             </transition-group>
             <transition-group name="fade" tag="g">
-              <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`" :style="{ transform: s.transform }">
-                <line :class="s.class" :x2="barWidth"/>
-                <template v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1">
-                  <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
-                    {{s.value}}{{absoluteUnits ? 'M people' : '%'}}
-                  </text>
-                  <template v-else>
-                    <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
-                      {{s.value}}%
+              <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`">
+                <g :style="{ transform: s.transform, color: 'red' }">
+                  <line :class="s.class" :x2="barWidth"/>
+                  <template v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1">
+                    <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
+                      {{s.value}}{{absoluteUnits ? 'M people' : '%'}}
                     </text>
-                    <text :class="s.class" y="-3" :x="barWidth * 0.75">
-                      {{s.change}}×
-                    </text> -->
-                    <text :class="s.class" y="-3" :x="barWidth / 2">
-                      {{s.change}}×
-                    </text>
+                    <template v-else>
+                      <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
+                        {{s.value}}%
+                      </text>
+                      <text :class="s.class" y="-3" :x="barWidth * 0.75">
+                        {{s.change}}×
+                      </text> -->
+                      <text :class="s.class" y="-3" :x="barWidth / 2">
+                        {{s.change}}×
+                      </text>
+                    </template>
                   </template>
-                </template>
+                </g>
               </g>
             </transition-group>
           </g>

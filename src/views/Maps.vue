@@ -5,29 +5,19 @@
         <EarthWrapper :width="width" :height="height" :step="step"/>
       </template>
       <template v-slot:text="{ step }">
-        <div class="observers wide">
+        <div class="observers wide serif">
           <IntersectionObserver class="title" :step="0" align="center" :class="{active: step < 1}">
-            <h1 class="serif">Extreme Events</h1>
-            <p class="serif">
-              Climate change makes extreme events more frequent and more intense. This will increase fatalities, displacement, poverty and economic damage.
-            </p>
+            <div v-html="getText('intro')[0]"/>
           </IntersectionObserver>
           <IntersectionObserverFracture class="io-0" :step="0" align="center" :class="{active: step < 1}">
-            <p class="serif">
-              At +2°C global warming about 6.8% of the global land area is exposed to <span class="highlight no-hover yellow">heatwaves</span> at least once a year – a 20-fold increase compared to pre-industrial temperature levels.
-            </p>
+            <div v-html="getText('intro')[1]"/>
           </IntersectionObserverFracture>
           <IntersectionObserverFracture class="io-1" :step="1" align="center" :class="{active: step >= 1  && step < 2}">
-            <p class="serif">
-              For <span class="highlight no-hover neon">Tropical cyclones</span> which mostly affect island states in the indian and pacific ocean, the increase in exposed land is far lower. But impacts are likely to be more severe due to highly populated coastal regions.
-            </p>
+            <div v-html="getText('intro')[2]"/>
           </IntersectionObserverFracture>
           <IntersectionObserverFracture class="io-2" :step="2" align="center" :class="{active: step >= 2}">
-            <p class="serif">
-              The Region of Pakistan, northern India and Nepal shows the highest exposure to <span class="highlight no-hover orange">Crop failure</span>. Given that thses events are confined to agricultural land, the exposure is also largely dependent on human factors.
-            </p>
+            <div v-html="getText('intro')[3]"/>
           </IntersectionObserverFracture>
-          <!-- <IntersectionObserverFracture class="io-3" :step="3" align="center" :class="{active: step === 3}"/> -->
         </div>
       </template>
     </LayoutScrollytelling>
@@ -39,6 +29,7 @@ import EarthWrapper from '@/components/EarthWrapper.vue'
 import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
 import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
 import IntersectionObserverFracture from 'library/src/components/IntersectionObserverFracture.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'maps',
   components: {
@@ -53,6 +44,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getText'])
   }
 }
 </script>
@@ -73,7 +65,7 @@ export default {
     margin-top: $spacing;
   }
 
-  .intersection-observer {
+  ::v-deep .intersection-observer {
     padding: 25vh 0;
     text-align: center;
 
@@ -104,15 +96,15 @@ export default {
       padding-bottom: 60vh;
     }
 
-    ::v-deep {
-      > div {
-        background: none;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-        width: 100%;
-        max-width: 640px;
-      }
+    // ::v-deep {
+    > div {
+      background: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      width: 100%;
+      max-width: 640px;
     }
+    // }
   }
 }
 </style>

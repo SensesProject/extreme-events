@@ -32,7 +32,7 @@
               <text y="3">{{ e.replace(/-/g, ' ') }}</text>
             </g>
             <g transform="translate(0 -8)">
-              <text class="symbol">{{ symbols[e] }}</text>
+              <text class="symbol">{{ glyphs[e] }}</text>
             </g>
             <!-- <g :transform="`translate(0 ${innerHeight - 3})`">
               <text y="16">{{ scales[e].domain()[0] }}%</text>
@@ -96,13 +96,13 @@ export default {
       regions: Regions,
       width: 320,
       height: 480,
-      symbols: {
-        'tropical-cyclone': '',
-        'river-flood': '',
-        'crop-failure': '',
-        'wildfire': '',
-        'drought': '',
-        'heatwave': ''
+      glyphs: {
+        'tropical-cyclone': '',
+        'river-flood': '',
+        'crop-failure': '',
+        'wildfire': '',
+        'drought': '',
+        'heatwave': ''
       }
     }
   },

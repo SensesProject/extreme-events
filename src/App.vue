@@ -59,6 +59,14 @@ export default {
       margin-top: $spacing / 2;
     }
   }
+
+  .keyword {
+    @include tint(color, 40);
+    font-family: $font-sans;
+    &.no {
+      hyphens: none;
+    }
+  }
 }
 </style>
 

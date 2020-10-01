@@ -29,7 +29,7 @@ function parse (text) {
             .replace(/^[^\n]*/, '')
             .trim()
             .replace()
-            .replace(/@([^(]+)\(([^)]+)\)/g, (a, b, c) => `<span class="highlight no-hover ${b}">${c}</span>`)
+            .replace(/@([^(]+)\(([^)]+)\)/g, (a, b, c) => `<span class="keyword ${b}">${c}</span>`)
             .replace(/glyph([^(]*)\(([^)]+)\)/g, (a, b, c) => `<span class="glyph ${b} glyph-${c}"></span>`)
         )
       )

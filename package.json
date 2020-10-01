@@ -13,10 +13,11 @@
     "d3-format": "^1.4.3",
     "d3-scale": "^3.2.0",
     "dompurify": "^2.0.15",
-    "earth": "github:SensesProject/earth#refactor",
+    "earth": "file:../earth",
     "library": "github:SensesProject/library",
     "marked": "^1.1.1",
     "vue": "^2.6.10",
+    "vue-interpolate": "^0.1.2",
     "vue-resize-directive": "^1.2.0",
     "vue-router": "^3.1.3",
     "vuex": "^3.0.1"

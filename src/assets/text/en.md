@@ -1,4 +1,4 @@
-+++ intro 0
+e+++ intro 0
 
 # Extreme Events
 
@@ -87,3 +87,32 @@ Here, the four major crops maize, wheat, soybean, and rice, are considered. If y
 Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. That limits both how much land area and how many people can such events affect.
 
 Here, the four major crops maize, wheat, soybean, and rice, are considered. If yields fall below the 2.5th percentile of the preindustrial baseline distribution crop failure is assessed. For population, only people working in agriculture are considered vulnerable.
+
+
++++ countries-intro
+
+## Regional Differences
+
+Agricultural land spatially confines where crop failure may occur. People working in agriculture are primarily affected to crop failure since trade can typically mitigate shortages. That limits both how much land area and how many people can such events affect.
+
+Here, the four major crops maize, wheat, soybean, and rice, are considered. If yields fall below the 2.5th percentile of the preindustrial baseline distribution crop failure is assessed. For population, only people working in agriculture are considered vulnerable.
+
++++ countries 1
+
+different countries are affected to different degrees. looking at crop failure on the national level the population of @blue(Pakistan) and @yellow(Nepal) are most affected.
+
++++ countries 2
+
+@blue(Countries with high gdp) tend to be less affected by with the exception of wildfires in @green(Australia) and heatwaves in @neon(Qatar)
+
++++ countries 3
+
+different countries are affected to different degrees. looking at crop failure on the national level the population of @blue(Pakistan) and @yellow(Nepal) are most affected.
+
++++ countries 4
+
+different countries are affected to different degrees. looking at crop failure on the national level the population of @blue(Pakistan) and @yellow(Nepal) are most affected.
+
++++ countries 5
+
+different countries are affected to different degrees. looking at crop failure on the national level the population of @blue(Pakistan) and @yellow(Nepal) are most affected.

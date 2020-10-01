@@ -1,6 +1,6 @@
 <template>
   <div class="chart-dumbbell" :style="{width: width ? `${width}px` : '100%'}" v-resize:debounce.initial="onResize">
-    <svg width="100%" :height="chartHeight" :class="{'no-transition': noTransition}">
+    <svg width="100%" :height="chartHeight - 64" :class="{'no-transition': noTransition}">
       <g :transform="`translate(0 16)`">
         <g class="axis"
           :transform="`translate(${
@@ -18,32 +18,37 @@
           <g class="bar" v-for="(b, bi) in bars" :key="`bar-${bi}`" :transform="`translate(${b.x} 0)`">
             <line :x2="barWidth" :transform="`translate(0 ${innerHeight})`"/>
             <!-- <line :x2="barWidth" :transform="`translate(0 0)`"/> -->
-            <transition-group name="fade" tag="g">
+            <!-- <transition-group name="fade" tag="g">
               <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
-            </transition-group>
-            <transition-group name="fade" tag="g">
-              <g v-for="(s, si) in b.stripes" class="stripe" :key="`stripe-${si}`">
-                <g :style="{ transform: s.transform, color: 'red' }">
-                  <line :class="s.class" :x2="barWidth"/>
-                  <template v-if="warmingLevelLabels.indexOf(s.warmingLevel) !== -1">
-                    <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
-                      {{s.value}}{{absoluteUnits ? 'M people' : '%'}}
-                    </text>
-                    <template v-else>
-                      <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
-                        {{s.value}}%
+            </transition-group> -->
+            <VueInterpolate tag="g" :attrs="{ bar: {value: b, duration: 400}}" v-slot="{ attrs, active }">
+              <template>
+                <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
+                  <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
+                </g>
+                <g v-for="(s, si) in attrs.bar.stripes" class="stripe" :key="`stripe-${si}`">
+                  <g :style="{ color: 'red' }" :transform="`translate(0 ${s.y})`">
+                    <line :class="s.class" :x2="barWidth" :opacity="s.opacity"/>
+                    <template v-if="!active.bar && s.warmingLevel === Math.max(...warmingLevels)">
+                      <!-- <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
+                        {{s.value}}{{absoluteUnits ? 'M people' : '%'}} {{active}}
                       </text>
-                      <text :class="s.class" y="-3" :x="barWidth * 0.75">
-                        {{s.change}}×
-                      </text> -->
+                      <template v-else> -->
+                        <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
+                          {{s.value}}%
+                        </text>
+                        <text :class="s.class" y="-3" :x="barWidth * 0.75">
+                          {{s.change}}×
+                        </text> -->
                       <text :class="s.class" y="-3" :x="barWidth / 2">
                         {{s.change}}×
                       </text>
+                      <!-- </template> -->
                     </template>
-                  </template>
+                  </g>
                 </g>
-              </g>
-            </transition-group>
+              </template>
+            </VueInterpolate>
           </g>
         </g>
       </g>
@@ -57,7 +62,7 @@
       </div>
     </div>
     <div class="key tiny" v-if="showKey">
-      <span v-for="(d, i) in [0, 1, 1.5, 2]" :key="`wl-${i}`" class="highlight no-hover warming-level" :class="[colors[i]]">
+      <span v-for="(d, i) in allLevels" :key="`wl-${i}`" class="highlight no-hover warming-level" :class="[colors[i], { hide: warmingLevels.indexOf(d) === -1}]">
         +{{ d }}°C
       </span>
     </div>
@@ -66,6 +71,7 @@
 
 <script>
 // import raw from '@/assets/data/countries.json'
+import VueInterpolate from './Interpolate'
 import { scaleLinear } from 'd3-scale'
 import { format } from 'd3-format'
 import resize from 'vue-resize-directive'
@@ -73,6 +79,9 @@ export default {
   name: 'chart-dumbbell',
   directives: {
     resize
+  },
+  components: {
+    VueInterpolate
   },
   props: {
     width: {
@@ -88,6 +97,12 @@ export default {
       default: null
     },
     warmingLevels: {
+      type: Array,
+      default () {
+        return [0, 1, 1.5, 2]
+      }
+    },
+    allLevels: {
       type: Array,
       default () {
         return [0, 1, 1.5, 2]
@@ -152,17 +167,18 @@ export default {
     return {
       axisWidth: 36,
       chartWidth: 200,
+      chartHeight: 200,
       colors: ['blue', 'yellow', 'orange', 'red']
     }
   },
   computed: {
-    chartHeight () {
-      const { height } = this
-      return height - 64
-    },
+    // chartHeight () {
+    //   const { height } = this
+    //   return height - 64
+    // },
     innerHeight () {
       const { chartHeight } = this
-      return chartHeight - 16
+      return chartHeight - 16 - 64
     },
     yScale () {
       const { data, warmingLevels, dimensions, innerHeight, ticks, relative } = this
@@ -209,11 +225,11 @@ export default {
       return (width - axisWidth - 2) / dimensions.length - 2
     },
     bars () {
-      const { data, dimensions, warmingLevels, barWidth, axisWidth, yScale, innerHeight, centeredAxis, relative, absoluteUnits } = this
+      const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight, centeredAxis, relative, absoluteUnits } = this
       return dimensions.map((d, di) => {
         return {
           x: centeredAxis ? (barWidth + axisWidth + 4) * di : (barWidth + 2) * di + axisWidth + 2,
-          stripes: warmingLevels.map((l) => {
+          stripes: allLevels.map((l) => {
             const value = data[d.key][l]
             const change = value / data[d.key][0]
             const y = yScale(relative ? change : value)
@@ -223,16 +239,18 @@ export default {
               change: format(',.1f')(change),
               y,
               warmingLevel: l,
-              transform: `translate(0px, ${y}px)`
+              opacity: warmingLevels.indexOf(l) === -1 ? 0 : 1
+              // transform: `translate(0px, ${y}px)`
             }
           }).reverse(),
-          gradients: warmingLevels.map((l, li) => {
-            const start = li > 0 ? yScale(data[d.key][warmingLevels[li - 1]] / (relative ? data[d.key][0] : 1)) : innerHeight
+          gradients: allLevels.map((l, li) => {
+            const start = li > 0 ? yScale(data[d.key][allLevels[li - 1]] / (relative ? data[d.key][0] : 1)) : innerHeight
             const end = yScale(data[d.key][l] / (relative ? data[d.key][0] : 1))
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
               y: end,
-              height: start - end
+              height: start - end,
+              opacity: warmingLevels.indexOf(l) === -1 ? 0 : 0.2
             }
           })
         }
@@ -242,6 +260,7 @@ export default {
   methods: {
     onResize (el) {
       this.chartWidth = el.getBoundingClientRect().width
+      this.chartHeight = el.getBoundingClientRect().height
     }
   }
 }
@@ -255,6 +274,9 @@ $transition: $transition * 2;
   flex-direction: column;
   // justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 64px;
 
   .indicator {
     font-weight: $font-weight-bold;
@@ -289,11 +311,11 @@ $transition: $transition * 2;
     }
     .bars {
       .stripe {
-        transition: transform $transition, opacity $transition;
-        &.fade-enter, &.fade-leave-to {
-          opacity: 0;
-          transform: scale(1) !important;
-        }
+        // transition: transform $transition, opacity $transition;
+        // &.fade-enter, &.fade-leave-to {
+        //   opacity: 0;
+        //   transform: scale(1) !important;
+        // }
       }
       line {
         stroke: getColor(gray, 70);
@@ -332,14 +354,14 @@ $transition: $transition * 2;
         }
       }
       rect {
-        opacity: 0.2;
-        transition: transform $transition, opacity $transition $transition;
-        &.fade-leave-active {
-          transition: transform $transition, opacity $transition;
-        }
-        &.fade-enter, &.fade-leave-to {
-          opacity: 0;
-        }
+        // opacity: 0.2;
+        // transition: transform $transition, opacity $transition $transition;
+        // &.fade-leave-active {
+        //   transition: transform $transition, opacity $transition;
+        // }
+        // &.fade-enter, &.fade-leave-to {
+        //   opacity: 0;
+        // }
       }
     }
 
@@ -369,8 +391,15 @@ $transition: $transition * 2;
   .key {
     align-self: flex-start;
     margin-top: $spacing / 4;
-    .warming-level + .warming-level {
-      margin: 0 0 0 $spacing / 8;
+
+    .warming-level {
+      transition: opacity 0.4s;
+      &.hide {
+        opacity: 0.3
+      }
+      + .warming-level {
+        margin: 0 0 0 $spacing / 8;
+      }
     }
   }
 }

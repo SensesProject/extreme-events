@@ -1,32 +1,39 @@
 <template>
   <div class="countries max-width">
-    <section class="wide cat-intro">
-      <h2 class="serif">Countries</h2>
-      <p>
-        Extents and impacts of extreme events depend on underlying meteorological, hydrological, and climatological events. But also on human factors such as land use, water and agricultural management, and population density.
-      </p>
-      <p>
-        The data shown base on calculations from climate and climate impact models. It's crucial to comprehend what constitutes exposure since different definitions likely lead to vastly different outcomes. For that reason, we show the share of land and population exposed and the change in exposure compared to preindustrial levels.
-      </p>
-    </section>
-    <section class="chart">
-      <ChartParallel/>
-    </section>
+    <section class="wide countries" v-html="getText('countries-intro')[0]"/>
+    <LayoutScrollytelling>
+      <template v-slot:vis="{ step }">
+        <VisParallel :step="step"/>
+      </template>
+      <template v-slot:text="{ }">
+        <div class="observers">
+          <IntersectionObserver v-for="(text, i) in getText('countries')" :key="`t${i}`" :class="`io-${i}`" :step="i">
+            <div v-html="text"/>
+          </IntersectionObserver>
+        </div>
+      </template>
+    </LayoutScrollytelling>
   </div>
 </template>
 
 <script>
-import ChartParallel from '@/components/ChartParallel.vue'
+import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
+import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
+import VisParallel from '@/components/VisParallel.vue'
 import raw from '@/assets/data/countries.json'
+
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'countries',
-  components: { ChartParallel },
+  components: { VisParallel, LayoutScrollytelling, IntersectionObserver },
   data () {
     return {
       indicators: ['wildfire', 'tropical-cyclone', 'crop-failure', 'river-flood', 'drought', 'heatwave']
     }
   },
   computed: {
+    ...mapGetters(['getText']),
     categories () {
       const { indicators } = this
       return indicators.map(i => {
@@ -44,8 +51,10 @@ export default {
 <style lang="scss" scoped>
 @import "library/src/style/global.scss";
 .countries {
-  h2 {
-    margin: $spacing 0 $spacing / 2;
+  ::v-deep {
+      h2 {
+      margin: $spacing 0 $spacing / 2;
+    }
   }
 
   section + section {
@@ -56,6 +65,58 @@ export default {
     height: 600px;
     max-height: 100vh;
     width: 50%;
+  }
+
+  ::v-deep {
+      h2 {
+      margin: $spacing 0 $spacing / 2;
+    }
+  }
+
+  .layout-scrollytelling {
+    ::v-deep {
+      .text {
+        margin-left: - $spacing / 2;
+        margin-right: - $spacing / 2;
+
+        h2 {
+          margin-bottom: $spacing / 4;
+          text-transform: capitalize;
+        }
+      }
+    }
+    @include min-width($narrow) {
+      display: flex;
+      flex-direction: row-reverse;
+
+      ::v-deep {
+        .text {
+          flex: 1;
+          margin-left: 0;
+          margin-top: 0;
+          margin-right: $spacing / 2;
+
+          .intersection-observer {
+            &.io-0 {
+              padding-top: 30vh;
+            }
+            .default {
+              padding: 0;
+
+              .glyph {
+                color: $color-neon;
+                transform: scale(2);
+                display: inline-block;
+                margin-left: $spacing / 4;
+              }
+            }
+          }
+        }
+        .vis {
+          flex: 1;
+        }
+      }
+    }
   }
 }
 </style>

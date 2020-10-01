@@ -11,16 +11,16 @@
           </g>
         </g>
         <g class="labels">
-          <g class="label" :transform="`translate(-8 ${innerHeight}) rotate(-90)`">
+          <g class="label" :transform="`translate(${-padding[3] + 16} ${innerHeight}) rotate(-90)`">
             <text>← less exposed</text>
           </g>
-          <g class="label" transform="translate(-8 0) rotate(-90)">
+          <g class="label" :transform="`translate(${-padding[3] + 16} 0) rotate(-90)`">
             <text text-anchor="end">more exposed →</text>
           </g>
-          <g class="label" :transform="`translate(${innerWidth + 16} ${innerHeight}) rotate(-90)`">
+          <g class="label" :transform="`translate(${innerWidth + padding[1] - 8} ${innerHeight}) rotate(-90)`">
             <text>← less exposed</text>
           </g>
-          <g class="label" :transform="`translate(${innerWidth + 16} 0) rotate(-90)`">
+          <g class="label" :transform="`translate(${innerWidth + padding[1] - 8} 0) rotate(-90)`">
             <text text-anchor="end">more exposed →</text>
           </g>
         </g>
@@ -68,7 +68,7 @@ export default {
         return {
           top: [10, 'red'],
           bottom: [10, 'blue'],
-          // regions: [['Europe & Central Asia', 'green'], ['Sub-Saharan Africa', 'purple']],
+          regions: [['Europe & Central Asia', 'green'], ['Sub-Saharan Africa', 'purple']],
           countries: [['PAK', 'yellow'], ['IND', 'orange']]
         }
       }
@@ -92,7 +92,7 @@ export default {
     })
     return {
       countries,
-      padding: [32, 20, 0, 20],
+      padding: [32, 32, 0, 32],
       regions: Regions,
       width: 320,
       height: 480,
@@ -163,7 +163,9 @@ export default {
           if (country != null) color = country[1]
         }
         return {
-          points: events.map((e, i) => `${i * colWidth} ${scales[e](c[e][dimension][warmingLevel])}`).join(' '),
+          points: events.map((e, i) => {
+            return [-10, 0, 10].map(off => `${i * colWidth + off} ${scales[e](c[e][dimension][warmingLevel])}`).join(' ')
+          }).join(' '),
           rankedPoints: events.map((e, i) => `${i * colWidth} ${rankedScales[e](rankings[e].indexOf(c[e][dimension][warmingLevel]))}`).join(' '),
           country: c,
           color
@@ -222,9 +224,11 @@ $transition: $transition * 2;
           stroke: $color-pale-gray;
           @include tint(stroke);
           mix-blend-mode: multiply;
+          stroke-width: 2;
 
           &.default {
-            opacity: 0.5;
+            stroke-width: 1;
+            opacity: 0.3;
           }
         }
       }

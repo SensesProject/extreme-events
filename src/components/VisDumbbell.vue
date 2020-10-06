@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import raw from '@/assets/data/countries.json'
+import raw from '@/assets/data/detail.json'
 import { scaleLinear } from 'd3-scale'
 export default {
   name: 'VisDumbbell',

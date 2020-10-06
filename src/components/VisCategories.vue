@@ -1,10 +1,10 @@
 <template>
-  <ChartDumbbell show-change show-key v-bind="chart" />
+  <ChartDumbbell v-bind="chart" />
 </template>
 
 <script>
 import ChartDumbbell from '@/components/ChartDumbbell.vue'
-import raw from '@/assets/data/countries.json'
+import raw from '@/assets/data/detail.json'
 export default {
   name: 'vis-categories',
   components: { ChartDumbbell },

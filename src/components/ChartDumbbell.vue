@@ -1,51 +1,41 @@
 <template>
-  <div class="chart-dumbbell" :style="{width: width ? `${width}px` : '100%'}" v-resize:debounce.initial="onResize">
-    <svg width="100%" :height="chartHeight - 64" :class="{'no-transition': noTransition}">
+  <div class="chart-dumbbell" v-resize:debounce.initial="onResize">
+    <svg width="100%" :height="chartHeight">
       <g :transform="`translate(0 16)`">
         <g class="axis"
-          :transform="`translate(${
-            centeredAxis ? barWidth + axisWidth / 2 + 2 : axisWidth / 2
-          } 0)`">
+          :transform="`translate(${barWidth + axisWidth / 2 + 2} 0)`">
           <transition-group name="fade" tag="g">
             <g v-for="(tick, i) in yTicks" :key="`tick-${i}-${tick.value}`"
               class="tick" :class="{hide: tick.hide}" :style="{transform:`translate(0px, ${tick.y}px)`}">
               <line :x1="-tick.x" :x2="tick.x"/>
-              <text :y="tick.textOffset" :class="{centered: centeredAxis}" :x="centeredAxis ? 0 : -tick.x">{{tick.value}}{{relative ? '×':'%'}}</text>
+              <text :y="tick.textOffset" class="centered">{{tick.value}}%</text>
             </g>
           </transition-group>
         </g>
         <g class="bars">
           <g class="bar" v-for="(b, bi) in bars" :key="`bar-${bi}`" :transform="`translate(${b.x} 0)`">
             <line :x2="barWidth" :transform="`translate(0 ${innerHeight})`"/>
-            <!-- <line :x2="barWidth" :transform="`translate(0 0)`"/> -->
-            <!-- <transition-group name="fade" tag="g">
-              <rect v-for="(g, gi) in b.gradients" :key="`gradient-${gi}`" :width="barWidth" :height="1" :fill="g.fill" :style="{transform: `translate(0, ${g.y}px) scaleY(${g.height})`}"/>
-            </transition-group> -->
             <VueInterpolate tag="g" :attrs="{ bar: {value: b, duration: 400}}" v-slot="{ attrs, active }">
               <template>
-                <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
-                  <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
-                </g>
-                <g v-for="(s, si) in attrs.bar.stripes" class="stripe" :key="`stripe-${si}`">
-                  <g :style="{ color: 'red' }" :transform="`translate(0 ${s.y})`">
-                    <line :class="s.class" :x2="barWidth" :opacity="s.opacity"/>
-                    <template v-if="!active.bar && s.warmingLevel === Math.max(...warmingLevels)">
-                      <!-- <text v-if="!showChange || s.warmingLevel === 0" :class="s.class" y="-3" :x="barWidth / 2">
-                        {{s.value}}{{absoluteUnits ? 'M people' : '%'}} {{active}}
-                      </text>
-                      <template v-else> -->
-                        <!-- <text :class="s.class" y="-3" :x="barWidth * 0.25">
-                          {{s.value}}%
-                        </text>
-                        <text :class="s.class" y="-3" :x="barWidth * 0.75">
-                          {{s.change}}×
-                        </text> -->
-                      <text :class="s.class" y="-3" :x="barWidth / 2">
-                        {{s.change}}×
-                      </text>
-                      <!-- </template> -->
-                    </template>
+                <template v-if="highlightLevel == null">
+                  <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
+                    <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
                   </g>
+                </template>
+                <g v-for="(s, si) in attrs.bar.stripes" class="stripe" :key="`stripe-${si}`">
+                  <g :transform="`translate(0 ${s.y})`">
+                    <line :class="s.class" :x2="barWidth" :opacity="s.opacity"/>
+                    <text v-if="!active.bar && s.warmingLevel === activeLevel" :class="s.class" y="-3" :x="barWidth / 2">
+                      {{s.change}}×
+                    </text>
+                  </g>
+                  <template v-if="s.warmingLevel === highlightLevel">
+                    <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`">
+                      <g v-for="(im, imi) in cm" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im})`">
+                        <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/>
+                      </g>
+                    </g>
+                  </template>
                 </g>
               </template>
             </VueInterpolate>
@@ -53,7 +43,7 @@
         </g>
       </g>
     </svg>
-    <div class="dimensions tiny" :style="{paddingLeft: `${centeredAxis ? 0 : axisWidth + 2}px`}">
+    <div class="dimensions tiny">
       <div v-for="(d, i) in dimensions" :key="`dim-${i}`" :style="{width: `${barWidth}px`}">
         <div v-if="d.glyph">
           <span :class="['glyph',`glyph-${d.glyph}`]"/>
@@ -61,8 +51,13 @@
         <span>{{ d.name }}</span>
       </div>
     </div>
-    <div class="key tiny" v-if="showKey">
-      <span v-for="(d, i) in allLevels" :key="`wl-${i}`" class="highlight no-hover warming-level" :class="[colors[i], { hide: warmingLevels.indexOf(d) === -1}]">
+    <div class="key tiny">
+      <span v-for="(d, i) in allLevels" :key="`wl-${i}`"
+        class="highlight warming-level"
+        :class="[colors[i], { hide: warmingLevels.indexOf(d) === -1}]"
+        @mouseover="highlightLevel = d"
+        @mouseout="highlightLevel = null"
+        @mouseleave="highlightLevel = null">
         +{{ d }}°C
       </span>
     </div>
@@ -84,14 +79,6 @@ export default {
     VueInterpolate
   },
   props: {
-    width: {
-      type: Number,
-      default: null
-    },
-    height: {
-      type: Number,
-      default: 768
-    },
     data: {
       type: Object,
       default: null
@@ -102,41 +89,9 @@ export default {
         return [0, 1, 1.5, 2]
       }
     },
-    allLevels: {
-      type: Array,
-      default () {
-        return [0, 1, 1.5, 2]
-      }
-    },
-    warmingLevelLabels: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
     domain: {
       type: Array,
       default: null
-    },
-    indicator: {
-      type: String,
-      default: null
-    },
-    showChange: {
-      type: Boolean,
-      default: false
-    },
-    relative: {
-      type: Boolean,
-      default: false
-    },
-    absoluteUnits: {
-      type: Boolean,
-      default: false
-    },
-    showKey: {
-      type: Boolean,
-      default: false
     },
     ticks: {
       type: Array,
@@ -153,35 +108,35 @@ export default {
           name: 'population exposed'
         }]
       }
-    },
-    centeredAxis: {
-      type: Boolean,
-      default: true
-    },
-    noTransition: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
     return {
       axisWidth: 36,
-      chartWidth: 200,
-      chartHeight: 200,
-      colors: ['blue', 'yellow', 'orange', 'red']
+      width: 200,
+      height: 200,
+      colors: ['blue', 'yellow', 'orange', 'red'],
+      highlightLevel: null,
+      allLevels: [0, 1, 1.5, 2]
     }
   },
   computed: {
-    // chartHeight () {
-    //   const { height } = this
-    //   return height - 64
-    // },
+    chartHeight () {
+      const { height } = this
+      return height - 64
+    },
     innerHeight () {
       const { chartHeight } = this
-      return chartHeight - 16 - 64
+      return chartHeight - 16
+    },
+    maxLevel () {
+      return Math.max(...this.warmingLevels)
+    },
+    activeLevel () {
+      return this.highlightLevel != null ? this.highlightLevel : this.maxLevel
     },
     yScale () {
-      const { data, warmingLevels, dimensions, innerHeight, ticks, relative } = this
+      const { data, warmingLevels, dimensions, innerHeight, ticks } = this
       let { domain } = this
       const range = [innerHeight, 0]
       if (ticks != null) {
@@ -190,7 +145,7 @@ export default {
       }
       if (domain == null) {
         const values = dimensions.map(d => warmingLevels.map(l => {
-          return relative ? data[d.key][l] / data[d.key][0] : data[d.key][l]
+          return data[d.key][l].median
         })).flat()
         domain = [Math.min(...values, 0), Math.max(...values)]
       }
@@ -219,33 +174,32 @@ export default {
       })
     },
     barWidth () {
-      const { axisWidth, dimensions, centeredAxis } = this
-      const width = this.chartWidth
-      if (centeredAxis) return (width - axisWidth - 4) / dimensions.length
-      return (width - axisWidth - 2) / dimensions.length - 2
+      const { axisWidth, dimensions, width } = this
+      return (width - axisWidth - 4) / dimensions.length
     },
     bars () {
-      const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight, centeredAxis, relative, absoluteUnits } = this
+      const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight } = this
       return dimensions.map((d, di) => {
         return {
-          x: centeredAxis ? (barWidth + axisWidth + 4) * di : (barWidth + 2) * di + axisWidth + 2,
+          x: (barWidth + axisWidth + 4) * di,
           stripes: allLevels.map((l) => {
-            const value = data[d.key][l]
-            const change = value / data[d.key][0]
-            const y = yScale(relative ? change : value)
+            const value = data[d.key][l].median
+            const change = value / data[d.key][0].median
+            const y = yScale(value)
             return {
               class: [`level-${`${l}`.replace(/\./, '-')}`],
-              value: format(',.2~r')(absoluteUnits ? d.key === 'population-exposed' ? value * 7.8 : value * 127 : value),
+              value: format(',.2~r')(value),
               change: format(',.1f')(change),
               y,
+              cm: Object.keys(data[d.key][l].cm).map(cm => data[d.key][l].cm[cm].im.map(im => yScale(im))),
               warmingLevel: l,
               opacity: warmingLevels.indexOf(l) === -1 ? 0 : 1
               // transform: `translate(0px, ${y}px)`
             }
           }).reverse(),
           gradients: allLevels.map((l, li) => {
-            const start = li > 0 ? yScale(data[d.key][allLevels[li - 1]] / (relative ? data[d.key][0] : 1)) : innerHeight
-            const end = yScale(data[d.key][l] / (relative ? data[d.key][0] : 1))
+            const start = li > 0 ? yScale(data[d.key][allLevels[li - 1]].median) : innerHeight
+            const end = yScale(data[d.key][l].median)
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
               y: end,
@@ -259,10 +213,15 @@ export default {
   },
   methods: {
     onResize (el) {
-      this.chartWidth = el.getBoundingClientRect().width
-      this.chartHeight = el.getBoundingClientRect().height
+      this.width = el.getBoundingClientRect().width
+      this.height = el.getBoundingClientRect().height
     }
   }
+  // watch: {
+  //   maxLevel (l) {
+  //     this.highlightLevel = l
+  //   }
+  // }
 }
 </script>
 
@@ -276,12 +235,6 @@ $transition: $transition * 2;
   align-items: center;
   height: 100%;
   width: 100%;
-  padding-bottom: 64px;
-
-  .indicator {
-    font-weight: $font-weight-bold;
-    color: $color-neon;
-  }
 
   svg {
     overflow: visible;
@@ -353,22 +306,6 @@ $transition: $transition * 2;
           text-anchor: end;
         }
       }
-      rect {
-        // opacity: 0.2;
-        // transition: transform $transition, opacity $transition $transition;
-        // &.fade-leave-active {
-        //   transition: transform $transition, opacity $transition;
-        // }
-        // &.fade-enter, &.fade-leave-to {
-        //   opacity: 0;
-        // }
-      }
-    }
-
-    &.no-transition {
-      * {
-        transition: none !important;
-      }
     }
   }
 
@@ -395,7 +332,8 @@ $transition: $transition * 2;
     .warming-level {
       transition: opacity 0.4s;
       &.hide {
-        opacity: 0.3
+        opacity: 0.3;
+        pointer-events: none;
       }
       + .warming-level {
         margin: 0 0 0 $spacing / 8;

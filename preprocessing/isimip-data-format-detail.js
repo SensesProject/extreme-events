@@ -71,5 +71,5 @@ countries.forEach(c => {
 fs.writeFileSync('./data/detail.json', JSON.stringify(data, null, 2))
 
 function format (val) {
-  return +(val * 1).toFixed(2)
+  return +(val * 1).toFixed(4)
 }

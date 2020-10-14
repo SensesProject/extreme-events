@@ -3,16 +3,27 @@
     <svg :width="width" :height="height">
       <g class="axis" :transform="`translate(${width / 2} ${innerHeight})`">
         <!-- <NormalDistribution class="base" v-bind="props[0]"/> -->
-        <VueInterpolate tag="g" :attrs="{ props: {value: props[step], duration: 400}}" v-slot="{ attrs, active }">
+        <VueInterpolate tag="g" :attrs="{ props: {value: props[step], duration: 400}}" v-slot="{ attrs }">
           <NormalDistribution class="new" v-bind="attrs.props" :max="width"/>
         </VueInterpolate>
         <NormalDistribution class="base" v-bind="props[0]" :y="-0.5"/>
       </g>
+      <g class="labels" :transform="`translate(${width / 2} 0)`">
+        <VueInterpolate tag="g" :attrs="{ opacity: {value: step === 1 || step === 3 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
+          <text :opacity="attrs.opacity" :y="innerHeight / 2 + 8" :x="-width * 0.085">→</text>
+        </VueInterpolate>
+        <VueInterpolate tag="g" :attrs="{
+          opacity: {value: step === 2 || step === 3 ? 1 : 0, duration: 400},
+          x: {value: step <= 2 ? 0 : width * 0.1, duration: 400}
+        }" v-slot="{ attrs }">
+          <text :opacity="attrs.opacity" :y="innerHeight * 0.1 + 8" :x="attrs.x">↓</text>
+        </VueInterpolate>
+      </g>
       <g class="axis" :transform="`translate(${width / 2} ${height})`">
         <!-- <line :x1="-width / 2" :x2="width / 2"/> -->
         <text>average</text>
-        <text class="left" :x="-width * 0.3">← colder</text>
-        <text class="right" :x="width * 0.3">hotter →</text>
+        <text :x="-width * 0.3">← colder</text>
+        <text :x="width * 0.3">hotter →</text>
       </g>
     </svg>
   </div>
@@ -117,9 +128,9 @@ export default {
       line {
         stroke: $color-deep-gray;
       }
-      text {
-        text-anchor: middle;
-      }
+    }
+    text {
+      text-anchor: middle;
     }
   }
 }

@@ -72,6 +72,8 @@ export default {
           }
         }
       }
+
+      padding-bottom: 30vh;
       &:first-child {
         padding-top: calc(100vh + #{$spacing});
       }

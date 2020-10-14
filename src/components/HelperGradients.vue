@@ -17,6 +17,18 @@
           <stop class="start" offset="0%"/>
           <stop class="stop" offset="100%"/>
         </linearGradient>
+        <linearGradient id="dist" y1="0" x2="1">
+          <stop class="b-1" offset="0%"/>
+          <stop class="b-1" offset="20%"/>
+          <stop class="b-2" offset="20%"/>
+          <stop class="b-2" offset="30%"/>
+          <stop class="g" offset="30%"/>
+          <stop class="g" offset="70%"/>
+          <stop class="r-2" offset="70%"/>
+          <stop class="r-2" offset="80%"/>
+          <stop class="r-1" offset="80%"/>
+          <stop class="r-1" offset="100%"/>
+        </linearGradient>
       </defs>
     </svg>
 </template>
@@ -55,6 +67,25 @@ svg.helper-gradients {
     }
     .stop {
       stop-color: $color-red;
+    }
+  }
+  #dist {
+    .b-1 {
+      stop-color: $color-blue;
+    }
+    .b-2 {
+      // stop-color: transparentize($color-blue, 0.25);
+      stop-color: getColor(blue, 80);
+    }
+    .g {
+      stop-color: getColor(gray, 90);
+    }
+    .r-1 {
+      stop-color: $color-red;
+    }
+    .r-2 {
+      // stop-color: transparentize($color-red, 0.25);
+      stop-color: getColor(red, 80);
     }
   }
 }

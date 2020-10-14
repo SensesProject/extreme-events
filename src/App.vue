@@ -3,8 +3,8 @@
     <SensesMenu message="Work in Progress"/>
     <article>
       <Maps/>
+      <Distribution/>
       <Categories/>
-      <!-- <Intro/> -->
       <Uncertainty/>
       <Countries/>
     </article>
@@ -13,7 +13,7 @@
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
-// import Intro from '@/views/Intro.vue'
+import Distribution from '@/views/Distribution.vue'
 import Categories from '@/views/Categories.vue'
 import Countries from '@/views/Countries.vue'
 import Uncertainty from '@/views/Uncertainty.vue'
@@ -23,7 +23,7 @@ import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
     SensesMenu,
-    // Intro,
+    Distribution,
     Categories,
     Maps,
     Countries,

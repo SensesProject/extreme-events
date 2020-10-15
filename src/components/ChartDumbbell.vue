@@ -17,7 +17,7 @@
             <line :x2="barWidth" :transform="`translate(0 ${innerHeight})`"/>
             <VueInterpolate tag="g" :attrs="{ bar: {value: b, duration: 400}}" v-slot="{ attrs, active }">
               <template>
-                <template v-if="highlightLevel == null">
+                <template>
                   <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
                     <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
                   </g>
@@ -32,7 +32,9 @@
                   <template v-if="s.warmingLevel === highlightLevel">
                     <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`">
                       <g v-for="(im, imi) in cm" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im})`">
-                        <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/>
+                        <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
+                        <circle r="2" :class="s.class" class="fill"
+                          :cx="barWidth / s.cm.length * cmi + (barWidth / s.cm.length - 16) / cm.length * imi + 8" :opacity="s.opacity"/>
                       </g>
                     </g>
                   </template>
@@ -283,6 +285,20 @@ $transition: $transition * 2;
         }
         &.level-2 {
           stroke: $color-red;
+        }
+      }
+      circle {
+        &.level-0 {
+          fill: getColor(blue, 50);
+        }
+        &.level-1 {
+          fill: getColor(yellow, 50);
+        }
+        &.level-1-5 {
+          fill: getColor(orange, 50);
+        }
+        &.level-2 {
+          fill: getColor(red, 50);
         }
       }
       text {

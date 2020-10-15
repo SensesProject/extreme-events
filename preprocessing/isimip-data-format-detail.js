@@ -11,30 +11,30 @@ const countries = ['world']
 const data = {}
 
 const indicators = ['all-events', 'confined-events', 'extensive-events', 'crop-failure', 'drought', 'heatwave', 'river-flood', 'tropical-cyclone', 'wildfire']
-const warminglevels = [0, 0.5, 1, 1.5, 2]
+const warminglevels = [0, 1, 1.5, 2]
 
 countries.forEach(c => {
-  const { name, stats } = require(`./data/ISIpedia/${c}/country.json`)
+  // const { name, stats } = require(`./data/ISIpedia/${c}/country.json`)
   data[c] = {
-    stats: {
-      name,
-      population: +stats.find(d => d.type === 'POP_TOTL').value,
-      populationDensity: +stats.find(d => d.type === 'POP_DNST').value,
-      urbanization: +stats.find(d => d.type === 'URB_POP_PRCT').value,
-      populationGrowth: +stats.find(d => d.type === 'POP_GROWTH').value,
-      gdp: +stats.find(d => d.type === 'GDP').value / 1000,
-      gdpPerCapita: +stats.find(d => d.type === 'GDP').value / +stats.find(d => d.type === 'POP_TOTL').value,
-      hdi: +stats.find(d => d.type === 'HDI').value,
-      co2: +stats.find(d => d.type === 'CO2_EM').value
-    }
+    // stats: {
+    //   name,
+    //   population: +stats.find(d => d.type === 'POP_TOTL').value,
+    //   populationDensity: +stats.find(d => d.type === 'POP_DNST').value,
+    //   urbanization: +stats.find(d => d.type === 'URB_POP_PRCT').value,
+    //   populationGrowth: +stats.find(d => d.type === 'POP_GROWTH').value,
+    //   gdp: +stats.find(d => d.type === 'GDP').value / 1000,
+    //   gdpPerCapita: +stats.find(d => d.type === 'GDP').value / +stats.find(d => d.type === 'POP_TOTL').value,
+    //   hdi: +stats.find(d => d.type === 'HDI').value,
+    //   co2: +stats.find(d => d.type === 'CO2_EM').value
+    // }
   }
   indicators.forEach(i => {
     if (
-      !fs.existsSync(`./data/ISIpedia/${c}/${i}-population.json`) ||
-      !fs.existsSync(`./data/ISIpedia/${c}/${i}-land.json`)
+      !fs.existsSync(`./data/extreme-events/${i}-population.json`) ||
+      !fs.existsSync(`./data/extreme-events/${i}-land.json`)
     ) return
-    const population = require(`./data/ISIpedia/${c}/${i}-population.json`).data
-    const land = require(`./data/ISIpedia/${c}/${i}-land.json`).data
+    const population = require(`./data/extreme-events/${i}-population.json`).data
+    const land = require(`./data/extreme-events/${i}-land.json`).data
     data[c][i] = {
       population: {},
       land: {}
@@ -68,7 +68,8 @@ countries.forEach(c => {
   })
 })
 
-fs.writeFileSync('./data/detail.json', JSON.stringify(data, null, 2))
+fs.writeFileSync('./data/detail.json', JSON.stringify(data))
+// fs.writeFileSync('./data/detail.json', JSON.stringify(data, null, 2))
 
 function format (val) {
   return +(val * 1).toFixed(4)

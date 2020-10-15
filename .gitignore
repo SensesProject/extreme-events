@@ -24,3 +24,5 @@ yarn-error.log*
 preprocessing/credentials.json
 preprocessing/data/ISIpedia
 preprocessing/data/cube-old
+preprocessing/data/global_exposure
+preprocessing/data/extreme-events

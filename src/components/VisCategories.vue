@@ -34,7 +34,7 @@ export default {
     },
     chart () {
       const { step, categories } = this
-      let category = 'river-flood'
+      let category = 'crop-failure'
       let warmingLevelLabels = [2]
       let warmingLevels = [0, 1, 1.5, 2]
       let ticks = null
@@ -45,11 +45,10 @@ export default {
           warmingLevels = [0]
           ticks = [
             [0, true],
-            [0.1, true],
-            [0.2, true],
-            [0.3, false],
-            [0.4, false],
-            [0.5, false]
+            [0.25, true],
+            [0.5, true],
+            [0.75, true],
+            [1, false]
           ]
           // domain = [0, 0.2]
           break
@@ -57,32 +56,29 @@ export default {
           warmingLevels = [0, 1]
           ticks = [
             [0, true],
-            [0.1, true],
-            [0.2, true],
-            [0.3, true],
-            [0.4, false],
-            [0.5, false]
+            [0.25, true],
+            [0.5, true],
+            [0.75, true],
+            [1, false]
           ]
           break
         case 2:
           warmingLevels = [0, 1, 1.5]
           ticks = [
             [0, true],
-            [0.1, true],
-            [0.2, true],
-            [0.3, true],
-            [0.4, true],
-            [0.5, false]
+            [0.25, true],
+            [0.5, true],
+            [0.75, true],
+            [1, false]
           ]
           break
         case 3:
           ticks = [
             [0, true],
-            [0.1, true],
-            [0.2, true],
-            [0.3, true],
-            [0.4, true],
-            [0.5, true]
+            [0.25, true],
+            [0.5, true],
+            [0.75, true],
+            [1, true]
           ]
           break
         case 4:
@@ -92,7 +88,7 @@ export default {
           category = 'tropical-cyclone'
           break
         case 6:
-          category = 'crop-failure'
+          category = 'river-flood'
           break
         case 7:
           category = 'drought'

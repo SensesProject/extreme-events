@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "download": "node isimip-data-download.js",
+    "restructure": "node isimip-data-restructure.js",
     "format": "node isimip-data-format.js",
-    "clean": "node isimip-data-clean-up.js"
+    "clean": "node isimip-data-clean-up.js",
+    "fix": "node isimip-data-fix.js"
   },
   "author": "",
   "license": "ISC",

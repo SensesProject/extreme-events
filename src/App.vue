@@ -2,17 +2,29 @@
   <div id="app">
     <SensesMenu message="Work in Progress"/>
     <article>
-      <router-view/>
+      <Maps/>
+      <Distribution/>
+      <Categories/>
+      <Conclusion/>
     </article>
     <SensesMeta class="senses-meta" id="extreme-events"/>
   </div>
 </template>
 <script>
 import SensesMenu from 'library/src/components/SensesMenu.vue'
+import Distribution from '@/views/Distribution.vue'
+import Categories from '@/views/Categories.vue'
+import Conclusion from '@/views/Conclusion.vue'
+import Maps from '@/views/Maps.vue'
+
 import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
     SensesMenu,
+    Distribution,
+    Categories,
+    Maps,
+    Conclusion,
     SensesMeta
   }
 }
@@ -20,8 +32,38 @@ export default {
 
 <style lang="scss">
 @import "library/src/style/base.scss";
-.text {
-  pointer-events: none;
+#app {
+  .text {
+    pointer-events: none;
+  }
+  article {
+    width: 100%;
+    margin-bottom: $spacing;
+    > section, .max-width {
+      margin: auto;
+      width: 100%;
+      max-width: calc(768px + #{$spacing});
+      padding-left: $spacing / 2;
+      padding-right: $spacing / 2;
+    }
+    // background: getColor(gray, 90);
+  }
+  p {
+    .no-break {
+      white-space: nowrap;
+    }
+    + p {
+      margin-top: $spacing / 2;
+    }
+  }
+
+  .keyword {
+    @include tint(color, 40);
+    font-family: $font-sans;
+    &.no {
+      hyphens: none;
+    }
+  }
 }
 </style>
 
@@ -32,12 +74,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  article {
-    width: 100vw;
-    max-width: calc(768px + #{$spacing});
-    padding: 0 $spacing / 2 0;
-    // background: getColor(gray, 90);
-  }
+
   .senses-meta {
     margin: $spacing $spacing / 2 $spacing;
   }

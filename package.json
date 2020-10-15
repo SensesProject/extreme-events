@@ -9,10 +9,16 @@
   },
   "dependencies": {
     "core-js": "^3.3.2",
+    "d3-ease": "^1.0.6",
     "d3-format": "^1.4.3",
     "d3-scale": "^3.2.0",
+    "dompurify": "^2.0.15",
+    "earth": "file:../earth",
     "library": "github:SensesProject/library",
+    "marked": "^1.1.1",
     "vue": "^2.6.10",
+    "vue-interpolate": "^0.1.2",
+    "vue-resize-directive": "^1.2.0",
     "vue-router": "^3.1.3",
     "vuex": "^3.0.1"
   },
@@ -24,6 +30,7 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "raw-loader": "^4.0.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"

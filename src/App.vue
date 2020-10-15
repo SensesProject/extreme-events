@@ -5,8 +5,7 @@
       <Maps/>
       <Distribution/>
       <Categories/>
-      <Uncertainty/>
-      <Countries/>
+      <Conclusion/>
     </article>
     <SensesMeta class="senses-meta" id="extreme-events"/>
   </div>
@@ -15,8 +14,7 @@
 import SensesMenu from 'library/src/components/SensesMenu.vue'
 import Distribution from '@/views/Distribution.vue'
 import Categories from '@/views/Categories.vue'
-import Countries from '@/views/Countries.vue'
-import Uncertainty from '@/views/Uncertainty.vue'
+import Conclusion from '@/views/Conclusion.vue'
 import Maps from '@/views/Maps.vue'
 
 import SensesMeta from 'library/src/components/SensesMeta.vue'
@@ -26,8 +24,7 @@ export default {
     Distribution,
     Categories,
     Maps,
-    Countries,
-    Uncertainty,
+    Conclusion,
     SensesMeta
   }
 }

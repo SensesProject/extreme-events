@@ -1,61 +1,54 @@
 +++ intro 0
 
-# Extreme Events Under Climate Change
+# Extreme Events
 
-Climate change with its rising temperatures has many impacts on nature and society. While we observe a rising mean temperature we also observe changes in the occurrence, frequency and intensity of extreme events.
+With an increase in global mean temperatures, extreme events like droughts, floods, and heavy storms become more frequent and severe.
 
 +++ intro 1
 
-In this module we learn about extreme event under climate change and begin to explore extreme event projections that are based on data collected under the umbrella of the [ISIMIP project](https://www.isimip.org/).
+At +2°C global warming, @yellow(heatwaves) affect substantial portions of the worlds land surface.
 
 +++ intro 2
 
-The rotating globe shows such a projection for @yellow(heatwaves). However, unlike i that depictions we here boil the spatial patterns down to global averages. [TODO tweak the following sentence]
+Coastal regions – some of them densely populated – are increasingly exposed to @neon(tropical cyclones).
 
 +++ intro 3
 
-The focus of this learn module is on the relationship between a rising global mean temperature and the spatial distribution of extreme events as well on the uncertainty in these extreme event projections.
+And certain areas heavily reliant on agriculture will suffer more and more from @orange(crop failure).
+
++++ intro-module
+
+In this module, we take a global perspective focussing less on geographical differences but the general relationship between rising temperatures and the exposure of land and population to extreme events. We explore six types of extreme events, namely glyph(crop-failure) crop failure, glyph(tropical-cyclone) tropical cyclone, glyph(river-flood) river flood, glyph(wildfire) wildfire, glyph(drought) drought, and glyph(heatwave) heatwave. Furthermore, we discuss the uncertainty in these extreme event projections.
 
 +++ dist-intro
 
-## Extreme events and climate change: The example of temperature
-In the example here we show the typical distribution of temperatures (the daily average temperatures). When we put these temperatures on the horizontal axis, and plot the number of days, that feature that temperature within a year on the vertical axis, we obtain the shown plot. This plot shows how the temperatures are distributed over the course of a year, and fittingly such a plot is known as a i"distribution". The distribution shown here is know as the ["normal distribution"](https://en.wikipedia.org/wiki/Normal_distribution). While for instance the daily average temperature or the daily air pressure follow this type of distribution, not all meteorological quantities do. An example of a quantity following a different distribution is the daily precipitation. Still, temperature and the normal distribution are useful example when discussing extreme events.
+## Climate Change, Impacts, and Extreme Events
+
+Changes and effects that occur in natural or societal systems and are due to climate change are known as *climate impacts*. Examples of this are the bleaching of coral riffs due to the acidification of oceans, crop failures due to excessive heat or lack of precipitation, and a decreased work productivity of humans. In climate impacts research, these systems are called *sectors*. Examples include agriculture, forestry, and human health. New meteorological extremes lead to new extremes in climate impacts. In particular shifts in the spatial and temporal distributions as well as in the events' magnitude are projected. [TODO: clearer distinction between climate impacts and extreme events]
 
 +++ dist 1
 
-Technically, extreme events are events that lie at both the lower and the higher tail ends of a distribution. One can see that while the number of days at a given point that feature the average temperature is the largest, the really high or low temperatures occur only on very few days. So extreme events have two properties: They feature the most extreme values, i.e. the highest or the lowest observed values, and they are rare.
+Temperature is a major driver for many extreme events, including heatwaves, droughts, and crop failure. Technically, extreme events occur at both the lower and the higher tail ends of a distribution. In this case, when temperatures are especially @blue(cold) or @orange(hot). As the distribution shows, this is relatively rare.
 
 +++ dist 2
 
-A normal distribution is characterized by two numbers, its "mean" (μ, pronunciation "myu"), i.e. the temperature that occurs most often, and its "variance" (σ pronunciation "sigma"), the width of the distribution. Climate change generally changes both of these values, so, while the distribution is shifted to the right (increased "mean"), it is also stretched (increased "sigma").
+Under climate change, the mean temperature rises and shifts the distribution to the right. Temperatures that have been rare in the past occur now @orange(much more frequently) and @red(reach even higher).
 
 +++ dist 3
 
-We can see that in the distribution that has undergone climate change temperatures that have been extreme and rare in the past, occur now much more frequently (light red) and even @red(higher temperatures) are reached (dark red). 
+Additionally, the variance increases: Average temperatures become less frequent, and the distribution spreads out.
 
 +++ dist 4
 
-The former extreme events turn into the new normal. At the same time, since the new distribution has a larger variance, cold days (light blue area) still occur. So cold days don't mean that climate change has not happened.
+Both trends put together means hot temperatures become even more @orange(frequent) and @red(extreme). While @blue(cold temperatures) still occur, they do so less frequently.
 
 +++ cat-intro
 
-## Impact of climate change and impact models
-Changes and effects that occur in natural or societal systems and are due to climate change are knows as "climate impacts". Examples of this are the bleaching of coral riffs due to the acidification of oceans, crop failures due to excessive heat or droughts, or a decreased work productivity of humans. In climate impacts research these systems are knows as "sectors". Examples are agriculture, forestry or human health.
-New meteorological extremes, as discussed in the previous section, lead to new extremes in climate impacts. In particular shifts in the spatial and temporal distributions as well as in the events' magnitude are projected.
+To investigate impacts and extreme events under a changing climate, researchers use computer programs that implement the most important processes in a sector and drive them with climate data as the input. For more details on this see the [impact modelling learn module](TODO link to impact learn module).
 
-In order to investigate impacts under a changing climate, researchers use computer programs that implement the most important processes in a sector and drive them with climate data as the input. For more details on this see the [impact modelling learn module](TODO link to impact learn module).
+The impact projections used here originate from the [ISIMIP project](https://www.isimip.org) – a collection of impact model simulations driven with the same climate and socio-economic input data, thus allowing for a cross-model and cross-sector analysis. 
 
-## Climate projection used in this learn module
-As mentions previously, the impact projections used here originate from the ISIMIP project. This is a large collection of impact model simulations that were driven with the same input, both regarding the climate and socioeconomics and thus allow for a cross model/cross sector analysis. This analysis covers six types of extreme events: 
-
-glyph(tropical-cyclone) tropical cyclone  
-glyph(river-flood) river flood  
-glyph(crop-failure) crop failure  
-glyph(wildfire) wildfire  
-glyph(drought) drought  
-glyph(heatwave) heatwave
-
-In order to not only look at future global warming but also at the climate change that has already occurred, the thresholds of what constitutes an extreme event have been (mostly) defined in terms of the preindustrial climate, i.e. the climate that has not been influenced by anthropogenic green house gas emissions. For the exact definitions we refer to the descriptions in the [SENSES Earth](/earth) module which gives access to the full data set. (TODO, oder die Definitionen hier doch nochmal hinpacken?). In the following we discuss the findings for each type of extreme event separately. 
+The thresholds of what constitutes an extreme event are defined mostly in terms of the preindustrial climate. To show climate change that has already occurred as well as future global warming. In the following, we discuss the findings for each type of extreme event separately.
 
 +++ categories crop-failure 0
 
@@ -68,9 +61,9 @@ The plots on the right show what percentage of the land area (excluding Greenlan
 ### Crop failure at 1.0 °C
 Overall, we see no increase in the land area exposed to crop failure at 1.0 °C (look at the "1.0×"). Currently we have experienced about 1.2 °C global warming compared to the preindustrail climate, so 1.0 °C roughly describes the current world. However, this is due to the fact that the changes projected from the four climate models average out. If we look at the output according to the climate model that has driven it (in the plot on the right the columns of single points from left to right: GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR and  MIROC5) we can see that while for instance HadGEM2-ES projects a slight decrease, GFDL-ESM2M, on the other hand, projects an increase. This shows that models might differ even in the sign of the projected changes. Similarly, results obtained from the same climate model, but from different impact models, might exhibit a significant range, i.e. uncertainty. In the current case, the models' spread, when driven by GFDL-ESM2M is larger than the one obtained by going with HadGEM2-ES.
 
-+++ categories river-flood 2
-
 In order to quantify the effects on the population, we have also overlaid the exposed land area maps with population data. More specifically, we used a population map of 2005. We kept the population constant in order to concentrate on the pure climate change effect instead of changing population patterns. With respect to the population, we see that already in the current world, again under the assumption of a 2005 population distribution, there is an increase in the number of people exposed to crop failure (×1.2). Again, there is a clear difference in the projections from the four GCMs. As before, HadGEM2-ES and GFDL-ESM2M based projections show essentially no increase while the IPSL-CM5A-LR based projections project the largest increase. And within the projections from a single GCM, we again see models spreads. For instance, in the case of IPSL-CM5-ES driven models, the individual impacts models project and increase between [TODO auf fertige plots warten.]
+
++++ categories river-flood 2
 
 +++ categories river-flood 3
 

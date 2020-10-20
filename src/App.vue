@@ -47,6 +47,10 @@ export default {
       padding-right: $spacing / 2;
     }
     // background: getColor(gray, 90);
+
+    h2 {
+      margin: $spacing * 1.5 0 $spacing / 2;
+    }
   }
   p {
     .no-break {
@@ -54,6 +58,12 @@ export default {
     }
     + p {
       margin-top: $spacing / 2;
+    }
+
+    .glyph {
+      color: $color-neon;
+      display: inline-block;
+      transform: scale(1.6);
     }
   }
 

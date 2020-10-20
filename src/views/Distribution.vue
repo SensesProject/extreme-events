@@ -1,5 +1,6 @@
 <template>
   <div class="distribution max-width">
+    <section class="wide" v-html="getText('intro-module')[0]"/>
     <section class="wide dist-intro" v-html="getText('dist-intro')[0]"/>
     <LayoutScrollytelling :top="top">
       <template v-slot:vis="{ step }" >
@@ -47,8 +48,15 @@ export default {
 <style lang="scss" scoped>
 @import "library/src/style/global.scss";
 .distribution {
+  padding-top: $spacing;
+  padding-bottom: $spacing;
+
   section + section {
     margin-top: $spacing;
+  }
+
+  .dist-intro {
+    padding-bottom: $spacing;
   }
 
   .layout-scrollytelling {

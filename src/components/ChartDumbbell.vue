@@ -204,8 +204,8 @@ export default {
             const end = yScale(data[d.key][l].median)
             return {
               fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
-              y: end,
-              height: start - end,
+              y: start - end > 0 ? end : start,
+              height: Math.abs(start - end),
               opacity: warmingLevels.indexOf(l) === -1 ? 0 : 0.2
             }
           })

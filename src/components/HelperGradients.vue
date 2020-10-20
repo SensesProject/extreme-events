@@ -71,11 +71,11 @@ svg.helper-gradients {
   }
   #dist {
     .b-1 {
-      stop-color: $color-blue;
+      stop-color: $color-neon;
     }
     .b-2 {
       // stop-color: transparentize($color-blue, 0.25);
-      stop-color: getColor(blue, 80);
+      stop-color: getColor(blue, 60);
     }
     .g {
       stop-color: getColor(gray, 90);
@@ -85,7 +85,7 @@ svg.helper-gradients {
     }
     .r-2 {
       // stop-color: transparentize($color-red, 0.25);
-      stop-color: getColor(red, 80);
+      stop-color: getColor(orange, 60);
     }
   }
 }

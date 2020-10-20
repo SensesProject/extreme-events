@@ -52,7 +52,7 @@ export default {
 @import "library/src/style/global.scss";
 .maps {
   // padding: $spacing 0;
-  background: getColor(gray, 90);
+  // background: getColor(gray, 90);
   // padding: $spacing/2  0;
   h2 {
     margin: 0 0 $spacing / 2;
@@ -93,7 +93,7 @@ export default {
     }
 
     &.io-2 {
-      padding-bottom: 60vh;
+      padding-bottom: 30vh;
     }
 
     // ::v-deep {

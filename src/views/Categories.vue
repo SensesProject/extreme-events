@@ -75,12 +75,12 @@ export default {
   }
 
   .cat-intro::v-deep {
-    .glyph {
-      color: $color-neon;
-      display: inline-block;
-      // padding-right§: $spacing / 12;
-      transform: scale(1.6);
-    }
+    // .glyph {
+    //   color: $color-neon;
+    //   display: inline-block;
+    //   // padding-right§: $spacing / 12;
+    //   transform: scale(1.6);
+    // }
   }
 
   .layout-scrollytelling {

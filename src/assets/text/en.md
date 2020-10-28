@@ -30,10 +30,7 @@ Changes and effects that occur in natural or societal systems and are due to cli
 
 +++ dist 1.1
 
-Temperature is a major driver for many extreme events. Here we show the distribution of days, say within a year, with a certain temparature. 
-
-+++ dist 1.2
-In this illustration, the horizontal axis shows the temperature while the vertical axis shows the number of days, again within a year, at a given temperature. 
+Temperature is a major driver for many extreme events. Here we show the distribution of days, say within a year, with a certain temparature. In this illustration, the horizontal axis shows the temperature while the vertical axis shows the number of days, again within a year, at a given temperature. 
 
 +++ dist 1.3
 Technically, extreme events are the events that lie at both the lower and the higher tail ends of a distribution. In this case, when temperatures are especially @blue(cold) or @orange(hot). As the distribution shows, this is relatively rare. The depicted shape is known as the *normal distribution.* Please be aware that not all meteorological quantities, e.g. precipitation, follow a normal distribution.
@@ -45,9 +42,6 @@ Under climate change, the mean temperature rises and shifts the distribution to 
 +++ dist 3
 
 Additionally, the *variance* increases: Average temperatures become less frequent, and the distribution spreads out.
-
-+++ dist 4
-
 Both trends put together means hot temperatures become even more @orange(frequent) and @red(extreme). While @blue(cold temperatures) still occur, they do so less frequently. [IPCC, (2011) muss noch nirgendwo hin]
 
 +++ cat-intro
@@ -155,6 +149,29 @@ At @red(+2\,°C) the models draw a less uniform picture. Most notably, the clima
 
 Apart from the uncertainties in the modeling chain, there is another effect that contributes to uncertainties in crop modelling: So far we don’t know exactly to what magnitude the CO₂ fertilization amounts, and furthermore some leeway exists in associating a CO₂ concentration to a particular global warming level.
 
+
++++ cat-wildfire-title
+
+## Wildfire glyph(wildfire)
+
++++ cat-wildfire-definition
+
+### Land area
+
+Annual aggregate of monthly burned land area simulated by global vegetation models.
+
+### Population
+
+Total population of burned land area.
+
++++ cat-wildfire 1
+
+For wildfire, discrepancies across climate models are almost neglectable. However {two of the impact models}(ORCHIDEE and VISIT) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
+
++++ cat-wildfire 2
+
+[not sure if we need this one, *it looks quite boring*]
+
 +++ cat-river-flood-title
 
 ## River Floods glyph(river-flood)
@@ -200,28 +217,6 @@ Exposure projections for tropical cyclones are rather conservative, as we only c
 +++ cat-tropical-cyclone 2
 
 In contrast to the earlier examples, projections for tropical cyclones are driven by a single impact model. However, for every climate model and warming level 100 runs of possible tropical cyclones were executed. Unsuprisingly, these runs project similar outcomes. Again, we can mostly attribute the apparent variance to the climate models.
-
-+++ cat-wildfire-title
-
-## Wildfire glyph(wildfire)
-
-+++ cat-wildfire-definition
-
-### Land area
-
-Annual aggregate of monthly burned land area simulated by global vegetation models.
-
-### Population
-
-Total population of burned land area.
-
-+++ cat-wildfire 1
-
-For wildfire, discrepancies across climate models are almost neglectable. However {two of the impact models}(ORCHIDEE and VISIT) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
-
-+++ cat-wildfire 2
-
-[not sure if we need this one, *it looks quite boring*]
 
 +++ conclusion
 

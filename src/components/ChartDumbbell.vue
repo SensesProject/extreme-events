@@ -5,7 +5,7 @@
         <g class="axis"
           :transform="`translate(${barWidth + axisWidth / 2 + 2} 0)`">
           <transition-group name="fade" tag="g">
-            <g v-for="(tick, i) in yTicks" :key="`tick-${i}-${tick.value}`"
+            <g v-for="(tick) in yTicks" :key="`tick-${tick.value}`"
               class="tick" :class="{hide: tick.hide}" :style="{transform:`translate(0px, ${tick.y}px)`}">
               <line :x1="-tick.x" :x2="tick.x"/>
               <text :y="tick.textOffset" class="centered">{{tick.value}}%</text>
@@ -18,26 +18,38 @@
             <VueInterpolate tag="g" :attrs="{ bar: {value: b, duration: 400}}" v-slot="{ attrs, active }">
               <template>
                 <template>
-                  <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
-                    <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
-                  </g>
+                  <transition name="fade">
+                    <g v-if="!showSpread">
+                      <g v-for="(g, gi) in attrs.bar.gradients" :key="`gradient-${gi}`">
+                        <rect :key="`gradient-inner-${gi}`" v-if="g.opacity !== 0" :width="barWidth" :height="g.height" :y="g.y" :fill="g.fill" :opacity="g.opacity"/>
+                      </g>
+                    </g>
+                  </transition>
                 </template>
                 <g v-for="(s, si) in attrs.bar.stripes" class="stripe" :key="`stripe-${si}`">
                   <g :transform="`translate(0 ${s.y})`">
-                    <line :class="s.class" :x2="barWidth" :opacity="s.opacity"/>
-                    <text v-if="!active.bar && s.warmingLevel === activeLevel" :class="s.class" y="-3" :x="barWidth / 2">
-                      {{s.change}}×
-                    </text>
+                    <transition name="fade">
+                      <line v-if="!showSpread" :class="[s.class, {active: s.warmingLevel === highlightLevel}]" :x2="barWidth" :opacity="highlightLevel == null || s.warmingLevel === activeLevel ? s.opacity : s.opacity * 0.8"/>
+                    </transition>
+                    <transition name="fade">
+                      <text :key="b.stripes[si].value" v-if="s.warmingLevel === activeLevel && !showSpread" :class="s.class" y="-3" :x="barWidth / 2">
+                        {{b.stripes[si].value}}%
+                      </text>
+                    </transition>
                   </g>
-                  <template v-if="s.warmingLevel === highlightLevel">
-                    <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`">
-                      <g v-for="(im, imi) in cm" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im})`">
-                        <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
-                        <circle r="2" :class="s.class" class="fill"
-                          :cx="barWidth / s.cm.length * cmi + (barWidth / s.cm.length - 16) / cm.length * imi + 8" :opacity="s.opacity"/>
+                  <transition name="fade">
+                    <g v-if="showSpread && s.warmingLevel === activeLevel" class="cm">
+                      <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
+                        <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/>
+                        <line :class="s.class" :x2="cmInnerWidth" :opacity="s.opacity" :transform="`translate(0 ${cm.median})`"/>
+                        <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im})`">
+                          <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
+                          <circle r="2" :class="s.class" class="fill"
+                            :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
+                        </g>
                       </g>
                     </g>
-                  </template>
+                  </transition>
                 </g>
               </template>
             </VueInterpolate>
@@ -54,13 +66,19 @@
       </div>
     </div>
     <div class="key tiny">
-      <span v-for="(d, i) in allLevels" :key="`wl-${i}`"
-        class="highlight warming-level"
-        :class="[colors[i], { hide: warmingLevels.indexOf(d) === -1}]"
-        @mouseover="highlightLevel = d"
-        @mouseout="highlightLevel = null"
-        @mouseleave="highlightLevel = null">
-        +{{ d }}°C
+      <span>
+        <span v-for="(d, i) in allLevels" :key="`wl-${i}`"
+          class="highlight warming-level"
+          :class="[colors[i], { hide: warmingLevels.indexOf(d) === -1}]"
+          @mouseover="highlightLevel = d"
+          @mouseout="highlightLevel = null"
+          @mouseleave="highlightLevel = null">
+          +{{ d }}°C
+        </span>
+      </span>
+      <span class="button warming-level" @click="showSpread = !showSpread">
+        <!-- Show {{showSpread ? 'Median' : 'Spread'}} -->
+        Toggle View
       </span>
     </div>
   </div>
@@ -104,7 +122,7 @@ export default {
       default () {
         return [{
           key: 'land',
-          name: 'land area affected'
+          name: 'land area exposed'
         }, {
           key: 'population',
           name: 'population exposed'
@@ -119,7 +137,9 @@ export default {
       height: 200,
       colors: ['blue', 'yellow', 'orange', 'red'],
       highlightLevel: null,
-      allLevels: [0, 1, 1.5, 2]
+      allLevels: [0, 1, 1.5, 2],
+      oldTicks: [],
+      showSpread: false
     }
   },
   computed: {
@@ -147,7 +167,7 @@ export default {
       }
       if (domain == null) {
         const values = dimensions.map(d => warmingLevels.map(l => {
-          return data[d.key][l].median
+          return Math.max(...Object.keys(data[d.key][l].cm).map(k => Math.max(...data[d.key][l].cm[k].im)))
         })).flat()
         domain = [Math.min(...values, 0), Math.max(...values)]
       }
@@ -179,6 +199,14 @@ export default {
       const { axisWidth, dimensions, width } = this
       return (width - axisWidth - 4) / dimensions.length
     },
+    cmWidth () {
+      const { barWidth } = this
+      return barWidth / 4
+    },
+    cmInnerWidth () {
+      const { cmWidth } = this
+      return cmWidth - 4
+    },
     bars () {
       const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight } = this
       return dimensions.map((d, di) => {
@@ -193,7 +221,16 @@ export default {
               value: format(',.2~r')(value),
               change: format(',.1f')(change),
               y,
-              cm: Object.keys(data[d.key][l].cm).map(cm => data[d.key][l].cm[cm].im.map(im => yScale(im))),
+              cm: Object.keys(data[d.key][l].cm).map(key => {
+                const cm = data[d.key][l].cm[key]
+                const im = cm.im.map(im => yScale(im))
+                return {
+                  median: yScale(cm.median),
+                  max: Math.max(...im),
+                  min: Math.min(...im),
+                  im
+                }
+              }),
               warmingLevel: l,
               opacity: warmingLevels.indexOf(l) === -1 ? 0 : 1
               // transform: `translate(0px, ${y}px)`
@@ -202,9 +239,10 @@ export default {
           gradients: allLevels.map((l, li) => {
             const start = li > 0 ? yScale(data[d.key][allLevels[li - 1]].median) : innerHeight
             const end = yScale(data[d.key][l].median)
+            const negative = start - end < 0
             return {
-              fill: `url(#level-${`${l}`.replace(/\./, '-')})`,
-              y: start - end > 0 ? end : start,
+              fill: `url(#level-${`${l}`.replace(/\./, '-')}${negative ? '-reverse' : ''})`,
+              y: negative ? start : end,
               height: Math.abs(start - end),
               opacity: warmingLevels.indexOf(l) === -1 ? 0 : 0.2
             }
@@ -217,13 +255,19 @@ export default {
     onResize (el) {
       this.width = el.getBoundingClientRect().width
       this.height = el.getBoundingClientRect().height
+    },
+    setSpread (val) {
+      this.showSpread = val
+    },
+    setLevel (val) {
+      this.highlightLevel = val
+    }
+  },
+  watch: {
+    yTicks (newVal, oldVal) {
+      this.oldTicks = oldVal
     }
   }
-  // watch: {
-  //   maxLevel (l) {
-  //     this.highlightLevel = l
-  //   }
-  // }
 }
 </script>
 
@@ -265,6 +309,12 @@ $transition: $transition * 2;
       }
     }
     .bars {
+      .fade-leave-active {
+        transition: opacity $transition;
+      }
+      .fade-enter, .fade-leave-to {
+        opacity: 0;
+      }
       .stripe {
         // transition: transform $transition, opacity $transition;
         // &.fade-enter, &.fade-leave-to {
@@ -276,18 +326,30 @@ $transition: $transition * 2;
         stroke: getColor(gray, 70);
         &.level-0 {
           stroke: $color-blue;
+          &.active {
+            stroke: getColor(blue, 40)
+          }
         }
         &.level-1 {
           stroke: $color-yellow;
+          &.active {
+            stroke: getColor(yellow, 40)
+          }
         }
         &.level-1-5 {
           stroke: $color-orange;
+          &.active {
+            stroke: getColor(orange, 40)
+          }
         }
         &.level-2 {
           stroke: $color-red;
+          &.active {
+            stroke: getColor(red, 40)
+          }
         }
       }
-      circle {
+      circle, .cm rect {
         &.level-0 {
           fill: getColor(blue, 50);
         }
@@ -304,16 +366,16 @@ $transition: $transition * 2;
       text {
         text-anchor: middle;
         &.level-0 {
-          fill: getColor(blue, 40);
+          fill: getColor(blue, 20);
         }
         &.level-1 {
-          fill: getColor(yellow, 40);
+          fill: getColor(yellow, 20);
         }
         &.level-1-5 {
-          fill: getColor(orange, 40);
+          fill: getColor(orange, 20);
         }
         &.level-2 {
-          fill: getColor(red, 40);
+          fill: getColor(red, 20);
         }
         &.left {
           text-anchor: start;
@@ -344,6 +406,9 @@ $transition: $transition * 2;
   .key {
     align-self: flex-start;
     margin-top: $spacing / 4;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 
     .warming-level {
       transition: opacity 0.4s;
@@ -354,6 +419,10 @@ $transition: $transition * 2;
       + .warming-level {
         margin: 0 0 0 $spacing / 8;
       }
+    }
+    .button {
+      align-self: flex-end;
+      justify-self: flex-end;
     }
   }
 }

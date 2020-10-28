@@ -17,6 +17,9 @@ import Categories from '@/views/Categories.vue'
 import Conclusion from '@/views/Conclusion.vue'
 import Maps from '@/views/Maps.vue'
 
+import tippy, { followCursor } from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+
 import SensesMeta from 'library/src/components/SensesMeta.vue'
 export default {
   components: {
@@ -26,6 +29,24 @@ export default {
     Maps,
     Conclusion,
     SensesMeta
+  },
+  data () {
+    return {
+      tips: null
+    }
+  },
+  mounted () {
+    this.tips = tippy('.md-tooltip', {
+      // trigger: 'click',
+      followCursor: 'horizontal',
+      offset: [0, 5],
+      maxWidth: 300,
+      content: (reference) => reference.getAttribute('data-tooltip'),
+      plugins: [followCursor]
+    })
+  },
+  beforeDestroy () {
+    this.tips.destroy()
   }
 }
 </script>
@@ -33,6 +54,7 @@ export default {
 <style lang="scss">
 @import "library/src/style/base.scss";
 #app {
+
   .text {
     pointer-events: none;
   }
@@ -49,7 +71,26 @@ export default {
     // background: getColor(gray, 90);
 
     h2 {
-      margin: $spacing * 1.5 0 $spacing / 2;
+      margin: $spacing * 1.5 0 $spacing / 4;
+    }
+  }
+  .dotted {
+    // font-family: $font-serif;
+    // font-weight: $font-weight-bold;
+
+    background: repeating-linear-gradient(to left, transparent 0em, transparent 0.4em, $color-white 0.4em, $color-white 0.6em),
+    linear-gradient(to top, transparent 0.075em, $color-neon 0.075em, $color-neon 0.2em, transparent 0.2em);
+
+    transition: background $transition, color $transition;
+
+    &:hover {
+      color: $color-neon;
+    }
+  }
+  ul {
+    .dotted {
+      background: repeating-linear-gradient(to left, transparent 0em, transparent 0.4em, getColor(gray, 90) 0.4em, getColor(gray, 90) 0.6em),
+      linear-gradient(to top, transparent 0.075em, getColor(neon, 40) 0.075em, getColor(neon, 40) 0.2em, transparent 0.2em);
     }
   }
   p {
@@ -73,6 +114,16 @@ export default {
     &.no {
       hyphens: none;
     }
+  }
+}
+.tippy-box {
+  background-color: getColor(neon, 50);
+  color: $color-white;
+  font-size: 0.8em;
+  border-radius: $spacing / 8;
+
+  .tippy-arrow {
+    color: getColor(neon, 50);
   }
 }
 </style>

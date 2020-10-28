@@ -1,5 +1,5 @@
 <template>
-  <ChartDumbbell v-bind="chart" />
+  <ChartDumbbell ref="chart" v-bind="chart" />
 </template>
 
 <script>
@@ -16,12 +16,14 @@ export default {
     height: {
       default: 768,
       type: Number
+    },
+    indicators: {
+      default: null,
+      type: Array
     }
   },
   data () {
-    return {
-      indicators: ['wildfire', 'tropical-cyclone', 'crop-failure', 'river-flood', 'drought', 'heatwave']
-    }
+    return { }
   },
   computed: {
     categories () {
@@ -33,69 +35,78 @@ export default {
       }))
     },
     chart () {
-      const { step, categories } = this
-      let category = 'crop-failure'
+      const { step, categories, indicators } = this
+      let category = 'heatwave'
       let warmingLevelLabels = [2]
       let warmingLevels = [0, 1, 1.5, 2]
       let ticks = null
       let domain = null
+      let level = null
+      let spread = false
 
       switch (step) {
         case 0:
+        case 1:
           warmingLevels = [0]
-          ticks = [
-            [0, true],
-            [0.25, true],
-            [0.5, true],
-            [0.75, true],
-            [1, false]
-          ]
+          // ticks = [
+          //   [0, true],
+          //   [0.25, true],
+          //   [0.5, true],
+          //   [0.75, true],
+          //   [1, false]
+          // ]
           // domain = [0, 0.2]
           break
-        case 1:
-          warmingLevels = [0, 1]
-          ticks = [
-            [0, true],
-            [0.25, true],
-            [0.5, true],
-            [0.75, true],
-            [1, false]
-          ]
-          break
         case 2:
-          warmingLevels = [0, 1, 1.5]
-          ticks = [
-            [0, true],
-            [0.25, true],
-            [0.5, true],
-            [0.75, true],
-            [1, false]
-          ]
+          warmingLevels = [0, 1]
           break
         case 3:
-          ticks = [
-            [0, true],
-            [0.25, true],
-            [0.5, true],
-            [0.75, true],
-            [1, true]
-          ]
+          // warmingLevels = [0, 1, 1.5]
+
           break
         case 4:
-          category = 'wildfire'
+          level = 1.5
           break
         case 5:
-          category = 'tropical-cyclone'
+          spread = true
           break
         case 6:
-          category = 'river-flood'
-          break
+          spread = true
         case 7:
-          category = 'drought'
+          category = indicators[1]
           break
         case 8:
-          category = 'heatwave'
+          category = indicators[2]
           break
+        case 9:
+          category = indicators[2]
+          level = 0
+          spread = true
+          break
+        case 10:
+          category = indicators[2]
+          spread = true
+          break
+        case 11:
+          spread = true
+        case 12:
+          category = indicators[3]
+          break
+        case 13:
+          spread = true
+        case 14:
+          category = indicators[4]
+          break
+        case 16:
+          spread = true
+        case 15:
+          category = indicators[5]
+          break
+      }
+
+      if (this.$refs.chart) {
+        this.$refs.chart.setLevel(level)
+        this.$refs.chart.setSpread(spread)
       }
 
       return {

@@ -4,17 +4,17 @@
       <g class="axis" :transform="`translate(${width / 2} ${innerHeight})`">
         <!-- <NormalDistribution class="base" v-bind="props[0]"/> -->
         <VueInterpolate tag="g" :attrs="{ props: {value: props[step], duration: 400}}" v-slot="{ attrs }">
-          <NormalDistribution class="new" v-bind="attrs.props" :max="width"/>
+          <NormalDistribution class="new" v-bind="attrs.props" :max="width" :class="{start: step <= 1}"/>
         </VueInterpolate>
-        <NormalDistribution class="base" v-bind="props[0]" :y="-0.5"/>
+        <NormalDistribution class="base" v-bind="props[1]" :y="-0.5"/>
       </g>
       <g class="labels" :transform="`translate(${width / 2} 0)`">
-        <VueInterpolate tag="g" :attrs="{ opacity: {value: step === 1 || step === 3 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
+        <VueInterpolate tag="g" :attrs="{ opacity: {value: step === 3 || step === 5 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
           <text :opacity="attrs.opacity" :y="innerHeight / 2 + 8" :x="-width * 0.085">→</text>
         </VueInterpolate>
         <VueInterpolate tag="g" :attrs="{
-          opacity: {value: step === 2 || step === 3 ? 1 : 0, duration: 400},
-          x: {value: step <= 2 ? 0 : width * 0.1, duration: 400}
+          opacity: {value: step === 4 || step === 5 ? 1 : 0, duration: 400},
+          x: {value: step <= 4 ? 0 : width * 0.1, duration: 400}
         }" v-slot="{ attrs }">
           <text :opacity="attrs.opacity" :y="innerHeight * 0.1 + 8" :x="attrs.x">↓</text>
         </VueInterpolate>
@@ -63,6 +63,16 @@ export default {
       const { width, innerHeight } = this
 
       return [{
+        width: width * 0.6,
+        height: innerHeight,
+        x: 0,
+        opacity: 0
+      }, {
+        width: width * 0.6,
+        height: innerHeight,
+        x: 0,
+        opacity: 1
+      }, {
         width: width * 0.6,
         height: innerHeight,
         x: 0
@@ -120,8 +130,11 @@ export default {
         stroke-dasharray: 4 4;
       }
       &.new {
-        // fill: getColor(yellow, 60);
         fill: url(#dist);
+        transition: fill $transition;
+        &.start {
+          fill: url(#dist-start);
+        }
       }
     }
     .axis {

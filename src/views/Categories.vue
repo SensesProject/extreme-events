@@ -1,35 +1,54 @@
 <template>
   <div class="categories max-width">
-    <section class="wide cat-intro" v-html="getText('cat-intro')[0]">
-      <!-- <p>
-        Extents and impacts of extreme events depend on underlying meteorological, hydrological, and climatological events. But as we have already seen in the case of crop failure also on human factors such as land use, water and agricultural management, and population density.
-      </p>
-      <p>
-        In this module we show six extreme event categories:
-        <span class="no-break"><span class="glyph glyph-tropical-cyclone"/>tropical cyclones</span>,
-        <span class="no-break"><span class="glyph glyph-river-flood"/>river floods</span>,
-        <span class="no-break"><span class="glyph glyph-crop-failure"/>crop failures</span>,
-        <span class="no-break"><span class="glyph glyph-wildfire"/>wildfires</span>,
-        <span class="no-break"><span class="glyph glyph-drought"/>droughts</span>, and
-        <span class="no-break"><span class="glyph glyph-heatwave"/>heatwaves</span>.
-      </p>
-      <p>
-        At the global scale we look at how these affect land and population at different levels of global warming and discuss modeling uncertainty. On the national scale we show which countries are most exposed to extreme events and their geographical and economical setting.
-      </p> -->
-    </section>
+    <section class="wide cat-intro" v-html="getText('cat-intro')[0]"/>
     <HelperGradients/>
-    <section>
-
-    </section>
     <LayoutScrollytelling>
       <template v-slot:vis="{ height, step }">
-        <VisCategories :height="height" :step="step"/>
+        <VisCategories :height="height" :step="step" :indicators="indicators"/>
       </template>
-      <template v-slot:text="{ }">
+      <template v-slot:text="{ step }">
         <div class="observers">
-          <IntersectionObserver v-for="(text, i) in getText('categories')" :key="`t${i}`" :class="`io-${i}`" :step="i">
-            <div v-html="text"/>
+          <IntersectionObserver :step="0" :class="{active: step === 0}">
+            <div v-html="getText('cat-exposure')[0]"/>
           </IntersectionObserver>
+          <IntersectionObserver :step="1" :class="{active: step === 1}">
+            <div v-html="getText('cat-heatwave-title')[0]"/>
+            <GemExpandable title="How is exposure to heatwaves defined?"><span v-html="getText('cat-heatwave-definition')[0]"/></GemExpandable>
+            <div v-html="getText('cat-heatwave')[0]"/>
+          </IntersectionObserver>
+          <IntersectionObserver :step="2" :class="{active: step === 2}">
+            <div v-html="getText('cat-heatwave')[1]"/>
+          </IntersectionObserver>
+          <IntersectionObserver :step="3" :class="{active: step === 3}">
+            <div v-html="getText('cat-heatwave')[2]"/>
+          </IntersectionObserver>
+          <IntersectionObserver :step="4" :class="{active: step === 4}">
+            <div v-html="getText('cat-heatwave')[3]"/>
+          </IntersectionObserver>
+          <IntersectionObserver :step="5" :class="{active: step === 5}">
+            <div v-html="getText('cat-heatwave')[4]"/>
+          </IntersectionObserver>
+          <template v-for="({cat, i}) in indicators.filter((cat,i) => i > 0).map((cat,i) => ({cat, i: i > 1 ? i * 2 + 7 : i * 2 + 6}))">
+            <IntersectionObserver :key="`${cat}-0`" :step="i" :class="{active: step === i}">
+              <div v-html="getText(`cat-${cat}-title`)[0]"/>
+              <GemExpandable :title="`How is exposure to ${cat.replace(/-/g, ' ')} defined?`"><span v-html="getText(`cat-${cat}-definition`)[0]"/></GemExpandable>
+              <div v-html="getText(`cat-${cat}`)[0]"/>
+            </IntersectionObserver>
+            <IntersectionObserver :key="`${cat}-1`" :step="i + 1" :class="{active: step === i + 1}">
+              <div v-html="getText(`cat-${cat}`)[1]"/>
+            </IntersectionObserver>
+            <IntersectionObserver v-if="getText(`cat-${cat}`)[2] != null" :key="`${cat}-2`" :step="i + 2" :class="{active: step === i + 2}">
+              <div v-html="getText(`cat-${cat}`)[2]"/>
+            </IntersectionObserver>
+          </template>
+          <!-- <IntersectionObserver :step="8" :class="{active: step === 8}">
+            <div v-html="getText('cat-crop-failure-title')[0]"/>
+            <GemExpandable title="How is exposure to crop failure defined?"><span v-html="getText('cat-crop-failure-definition')[0]"></span></GemExpandable>
+            <div v-html="getText('cat-crop-failure')[0]"/>
+          </IntersectionObserver>
+          <IntersectionObserver :step="9" :class="{active: step === 9}">
+            <div v-html="getText('cat-crop-failure')[1]"/>
+          </IntersectionObserver> -->
         </div>
       </template>
     </LayoutScrollytelling>
@@ -39,16 +58,17 @@
 <script>
 import HelperGradients from '@/components/HelperGradients.vue'
 import VisCategories from '@/components/VisCategories.vue'
+import GemExpandable from '@/components/GemExpandable.vue'
 import LayoutScrollytelling from 'library/src/components/LayoutScrollytelling.vue'
 import IntersectionObserver from 'library/src/components/IntersectionObserver.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'categories',
-  components: { VisCategories, HelperGradients, LayoutScrollytelling, IntersectionObserver },
+  components: { VisCategories, HelperGradients, LayoutScrollytelling, IntersectionObserver, GemExpandable },
   data () {
     return {
-      // indicators: ['wildfire', 'tropical-cyclone', 'crop-failure', 'river-flood', 'drought', 'heatwave'],
+      indicators: ['heatwave', 'drought', 'crop-failure', 'wildfire', 'river-flood', 'tropical-cyclone']
       // icons: ['wildfire', 'tropical-cyclone', 'crop-failure', 'river-flood', 'drought', 'heatwave']
     }
   },
@@ -88,10 +108,18 @@ export default {
       .text {
         margin-left: - $spacing / 2;
         margin-right: - $spacing / 2;
+      }
 
-        h2 {
-          margin-bottom: $spacing / 4;
-          text-transform: capitalize;
+      .glyph {
+        color: $color-neon;
+        transform: scale(2);
+        display: inline-block;
+        margin-left: $spacing / 4;
+      }
+
+      .intersection-observer {
+        .default {
+          width: 100%;
         }
       }
     }
@@ -107,18 +135,28 @@ export default {
           margin-right: $spacing / 2;
 
           .intersection-observer {
-            &.io-0 {
-              padding-top: 30vh;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            opacity: 0.25;
+            > * {
+              pointer-events: none;
+            }
+            transition: opacity $transition;
+            &:nth-of-type(1) {
+              padding-top: 15vh;
+            }
+            &:nth-last-of-type(1) {
+              padding-bottom: 40vh;
             }
             .default {
               padding: 0;
-
-              .glyph {
-                color: $color-neon;
-                transform: scale(2);
-                display: inline-block;
-                margin-left: $spacing / 4;
+            }
+            &.active {
+              opacity: 1;
+              > * {
+                pointer-events: initial;
               }
+              // pointer-events: unset;
             }
           }
         }

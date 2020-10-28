@@ -6,10 +6,10 @@
       <template v-slot:vis="{ step }" >
         <VisDist :step="step" v-resize:debounce.initial="onResize"/>
       </template>
-      <template v-slot:text="{ }">
+      <template v-slot:text="{ step }">
         <div class="observers">
           <IntersectionObserver v-for="(text, i) in getText('dist')" :key="`t${i}`" :class="`io-${i}`" :step="i">
-            <div v-html="text"/>
+            <div class="md-text" :class="{active: i === step}" v-html="text"/>
           </IntersectionObserver>
         </div>
       </template>
@@ -81,12 +81,22 @@ export default {
         }
       }
 
-      padding-bottom: 30vh;
+      padding-bottom: 20vh;
+      padding-top: 20vh;
       &:first-child {
         padding-top: calc(100vh + #{$spacing});
       }
       &:last-child {
         padding-bottom: 40vh;
+      }
+
+      .md-text {
+        opacity: 0.25;
+        transition: opacity $transition;
+
+        &.active {
+          opacity: 1
+        }
       }
     }
   }

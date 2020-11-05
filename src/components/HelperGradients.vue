@@ -33,6 +33,31 @@
           <stop class="stop" offset="0%"/>
           <stop class="start" offset="100%"/>
         </linearGradient>
+        <linearGradient id="level-2-5" y1="1" x2="0">
+          <stop class="start" offset="0%"/>
+          <stop class="stop" offset="100%"/>
+        </linearGradient>
+        <linearGradient id="level-2-5-reverse" y1="1" x2="0">
+          <stop class="stop" offset="0%"/>
+          <stop class="start" offset="100%"/>
+        </linearGradient>
+        <linearGradient id="level-3" y1="1" x2="0">
+          <stop class="start" offset="0%"/>
+          <stop class="stop" offset="100%"/>
+        </linearGradient>
+        <linearGradient id="level-3-reverse" y1="1" x2="0">
+          <stop class="stop" offset="0%"/>
+          <stop class="start" offset="100%"/>
+        </linearGradient>
+        <linearGradient id="level-3-5" y1="1" x2="0">
+          <stop class="start" offset="0%"/>
+          <stop class="stop" offset="100%"/>
+        </linearGradient>
+        <linearGradient id="level-3-5-reverse" y1="1" x2="0">
+          <stop class="stop" offset="0%"/>
+          <stop class="start" offset="100%"/>
+        </linearGradient>
+
         <linearGradient id="dist" y1="0" x2="1">
           <stop class="b-1" offset="0%"/>
           <stop class="b-1" offset="20%"/>
@@ -91,6 +116,16 @@ svg.helper-gradients {
     }
     .stop {
       stop-color: $color-red;
+    }
+  }
+  #level-2-5, #level-2-5-reverse, #level-3, #level-3-reverse, #level-3-5, #level-3-5-reverse {
+    .start {
+      stop-color: transparentize($color-red, 0.7);
+      // stop-color: $color-red;
+    }
+    .stop {
+      stop-color: transparentize($color-purple, 0.4);
+      // stop-color: $color-purple;
     }
   }
   #dist {

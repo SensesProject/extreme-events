@@ -70,7 +70,7 @@ countries.forEach(c => {
   })
 })
 
-fs.writeFileSync('./data/detail.json', JSON.stringify(data))
+fs.writeFileSync('../src/assets/data/detail.json', JSON.stringify(data))
 // fs.writeFileSync('./data/detail.json', JSON.stringify(data, null, 2))
 
 function format (val) {

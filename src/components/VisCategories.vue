@@ -38,7 +38,7 @@ export default {
       const { step, categories, indicators } = this
       let category = 'heatwave'
       let warmingLevelLabels = [2]
-      let warmingLevels = [0, 1, 1.5, 2]
+      let warmingLevels = [0, 1, 1.5, 2, 3]
       let ticks = null
       let domain = null
       let level = null
@@ -72,6 +72,7 @@ export default {
           spread = true
           annotations = [{
             col: 'land',
+            warming: 2,
             cm: 'GFDL-ESM2M',
             im: null,
             label: 'GFDL-ESM2M',
@@ -81,6 +82,7 @@ export default {
             }
           }, {
             col: 'land',
+            warming: 2,
             cm: 'HadGEM2-ES',
             im: null,
             label: 'HadGEM2-ES',
@@ -90,15 +92,37 @@ export default {
             }
           }, {
             col: 'land',
-            cm: 'IPSL-CM5A-LR',
+            warming: 3,
+            cm: 'HadGEM2-ES',
             im: null,
-            label: 'IPSL-CM5A-LR',
+            label: 'HadGEM2-ES',
             align: {
               top: true,
               left: false
             }
           }, {
             col: 'land',
+            warming: 2,
+            cm: 'IPSL-CM5A-LR',
+            im: null,
+            label: 'IPSL-CM5A-LR',
+            align: {
+              top: false,
+              left: false
+            }
+          }, {
+            col: 'land',
+            warming: 3,
+            cm: 'IPSL-CM5A-LR',
+            im: null,
+            label: 'IPSL-CM5A-LR',
+            align: {
+              top: false,
+              left: false
+            }
+          }, {
+            col: 'land',
+            warming: 2,
             cm: 'MIROC5',
             im: null,
             label: 'MIROC5',
@@ -112,6 +136,7 @@ export default {
           spread = true
           annotations = [{
             col: 'land',
+            warming: 2,
             cm: 'GFDL-ESM2M',
             im: 5,
             label: 'Impact Model',
@@ -121,6 +146,7 @@ export default {
             }
           }, {
             col: 'land',
+            warming: 2,
             cm: 'MIROC5',
             im: null,
             label: 'Impact Model Median',

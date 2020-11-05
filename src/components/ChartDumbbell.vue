@@ -39,30 +39,34 @@
                   </g>
                   <transition name="fade">
                     <g v-if="showSpread && s.warmingLevel === activeLevel" class="cm">
-                      <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
-                        <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/>
-                        <g :transform="`translate(0 ${cm.median})`">
-                          <line :class="s.class" :x2="cmInnerWidth" :opacity="s.opacity"/>
-                        </g>
-                        <template v-if="cm.im.length > 1">
-                          <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im.y})`">
-                            <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
-                            <circle v-if="im.y !== null" r="2" :class="s.class" class="fill"
-                              :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
+                      <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`">
+                        <g v-if="cm.median != null" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
+                          <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/>
+                          <g :transform="`translate(0 ${cm.median})`">
+                            <line :class="s.class" :x2="cmInnerWidth" :opacity="s.opacity"/>
                           </g>
-                        </template>
+                          <template v-if="cm.im.length > 1">
+                            <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`">
+                              <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
+                              <circle v-if="im.y !== null" r="2" :class="s.class" class="fill" :transform="`translate(0 ${im.y})`"
+                                :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
+                            </g>
+                          </template>
+                        </g>
                       </g>
-                      <g v-for="(cm, cmi) in s.cm" :key="`an-stripe-${si}-${cmi}`" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
-                        <!-- <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/> -->
-                        <transition name="fade">
-                          <ChartAnnotation v-if="cm.annotation && !active.bar" :key="`${cm.annotation.label}-${cmi}`" v-bind="{align: cm.annotation.align, label: cm.annotation.label}" arrow :transform="`translate(${cmInnerWidth / 2} ${cm.median})`"/>
-                        </transition>
-                        <g v-for="(im, imi) in cm.im" :key="`an-stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im.y})`">
+                      <g v-for="(cm, cmi) in s.cm" :key="`an-stripe-${si}-${cmi}`">
+                        <g v-if="cm.median != null" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
+                          <!-- <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/> -->
                           <transition name="fade">
-                            <ChartAnnotation v-if="im.annotation && !active.bar" :key="im.annotation.label" v-bind="{align: im.annotation.align, label: im.annotation.label}" :transform="`translate(${(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2} 0)`"/>
+                            <ChartAnnotation v-if="cm.annotation && !active.bar" :key="`${cm.annotation.label}-${cmi}`" v-bind="{align: cm.annotation.align, label: cm.annotation.label}" arrow :transform="`translate(${cmInnerWidth / 2} ${cm.median})`"/>
                           </transition>
-                          <!-- <circle r="2" :class="s.class" class="fill"
-                            :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/> -->
+                          <g v-for="(im, imi) in cm.im" :key="`an-stripe-${si}-${cmi}-${imi}`">
+                            <transition name="fade">
+                              <ChartAnnotation v-if="im.annotation && !active.bar && im.y !== null" :key="im.annotation.label" v-bind="{align: im.annotation.align, label: im.annotation.label}" :transform="`translate(${(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2} ${im.y})`"/>
+                            </transition>
+                            <!-- <circle r="2" :class="s.class" class="fill"
+                              :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/> -->
+                          </g>
                         </g>
                       </g>
                     </g>
@@ -125,7 +129,7 @@ export default {
     warmingLevels: {
       type: Array,
       default () {
-        return [0, 1, 1.5, 2]
+        return [0, 1, 1.5, 2, 3]
       }
     },
     domain: {
@@ -158,9 +162,9 @@ export default {
       axisWidth: 36,
       width: 200,
       height: 200,
-      colors: ['blue', 'yellow', 'orange', 'red'],
+      colors: ['blue', 'yellow', 'orange', 'red', 'purple'],
       highlightLevel: null,
-      allLevels: [0, 1, 1.5, 2],
+      allLevels: [0, 1, 1.5, 2, 3],
       oldTicks: [],
       showSpread: false
     }
@@ -175,7 +179,7 @@ export default {
       return chartHeight - 16
     },
     maxLevel () {
-      return Math.max(...this.warmingLevels)
+      return Math.max(...this.warmingLevels.filter(l => l <= 2))
     },
     activeLevel () {
       return this.highlightLevel != null ? this.highlightLevel : this.maxLevel
@@ -248,9 +252,8 @@ export default {
                 const annotation = annotations.find(a => a.col === d.key && a.cm === key && a.im == null && (a.warming == null || a.warming === l))
                 const cm = data[d.key][l].cm[key]
                 const im = cm.im.map((im, imi) => ({ y: im !== null ? yScale(im) : null, annotation: annotations.find(a => a.col === d.key && a.cm === key && a.im === imi && (a.warming == null || a.warming === l)) }))
-                console.log(im)
                 return {
-                  median: yScale(cm.median),
+                  median: cm.median === null ? null : yScale(cm.median),
                   max: Math.max(...im.filter(i => i.y != null).map(i => i.y)),
                   min: Math.min(...im.filter(i => i.y != null).map(i => i.y)),
                   im,
@@ -374,6 +377,12 @@ $transition: $transition * 2;
             stroke: getColor(red, 40)
           }
         }
+        &.level-2-5, &.level-3, &.level-3-5, &.level-4 {
+          stroke: $color-purple;
+          &.active {
+            stroke: getColor(purple, 40)
+          }
+        }
       }
       circle, .cm rect {
         &.level-0 {
@@ -387,6 +396,9 @@ $transition: $transition * 2;
         }
         &.level-2 {
           fill: getColor(red, 50);
+        }
+        &.level-2-5, &.level-3, &.level-3-5, &.level-4 {
+          fill: getColor(purple, 50);
         }
       }
       text {
@@ -402,6 +414,9 @@ $transition: $transition * 2;
         }
         &.level-2 {
           fill: getColor(red, 20);
+        }
+        &.level-2-5, &.level-3, &.level-3-5, &.level-4 {
+          fill: getColor(purple, 20);
         }
         &.left {
           text-anchor: start;

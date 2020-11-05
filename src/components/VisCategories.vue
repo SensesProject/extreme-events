@@ -85,7 +85,7 @@ export default {
             im: null,
             label: 'HadGEM2-ES',
             align: {
-              top: false,
+              top: true,
               left: false
             }
           }, {
@@ -103,7 +103,7 @@ export default {
             im: null,
             label: 'MIROC5',
             align: {
-              top: true,
+              top: false,
               left: false
             }
           }]

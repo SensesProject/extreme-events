@@ -11,7 +11,7 @@ const countries = ['world']
 const data = {}
 
 const indicators = ['all-events', 'confined-events', 'extensive-events', 'crop-failure', 'drought', 'heatwave', 'river-flood', 'tropical-cyclone', 'wildfire']
-const warminglevels = [0, 1, 1.5, 2]
+const warminglevels = [0, 1, 1.5, 2, 3]
 
 countries.forEach(c => {
   // const { name, stats } = require(`./data/ISIpedia/${c}/country.json`)
@@ -33,13 +33,15 @@ countries.forEach(c => {
       !fs.existsSync(`./data/extreme-events/${i}-population.json`) ||
       !fs.existsSync(`./data/extreme-events/${i}-land.json`)
     ) return
+    const temperatureList = require(`./data/extreme-events/${i}-population.json`).temperature_list
     const population = require(`./data/extreme-events/${i}-population.json`).data
     const land = require(`./data/extreme-events/${i}-land.json`).data
     data[c][i] = {
       population: {},
       land: {}
     }
-    warminglevels.forEach((t, wl) => {
+    warminglevels.forEach((t) => {
+      const wl = temperatureList.indexOf(t)
       data[c][i].population[t] = {
         median: format(population.overall.median[wl]),
         cm: Object.fromEntries(Object.keys(population).filter(cm => cm !== 'overall').map(cm => {
@@ -72,5 +74,6 @@ fs.writeFileSync('./data/detail.json', JSON.stringify(data))
 // fs.writeFileSync('./data/detail.json', JSON.stringify(data, null, 2))
 
 function format (val) {
+  if (val == null) return null
   return +(val * 1).toFixed(4)
 }

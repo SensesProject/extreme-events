@@ -47,7 +47,7 @@
                         <template v-if="cm.im.length > 1">
                           <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im.y})`">
                             <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
-                            <circle r="2" :class="s.class" class="fill"
+                            <circle v-if="im.y !== null" r="2" :class="s.class" class="fill"
                               :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
                           </g>
                         </template>
@@ -247,11 +247,12 @@ export default {
               cm: Object.keys(data[d.key][l].cm).sort((a, b) => a > b).map(key => {
                 const annotation = annotations.find(a => a.col === d.key && a.cm === key && a.im == null && (a.warming == null || a.warming === l))
                 const cm = data[d.key][l].cm[key]
-                const im = cm.im.map((im, imi) => ({ y: yScale(im), annotation: annotations.find(a => a.col === d.key && a.cm === key && a.im === imi && (a.warming == null || a.warming === l)) }))
+                const im = cm.im.map((im, imi) => ({ y: im !== null ? yScale(im) : null, annotation: annotations.find(a => a.col === d.key && a.cm === key && a.im === imi && (a.warming == null || a.warming === l)) }))
+                console.log(im)
                 return {
                   median: yScale(cm.median),
-                  max: Math.max(...im.map(i => i.y)),
-                  min: Math.min(...im.map(i => i.y)),
+                  max: Math.max(...im.filter(i => i.y != null).map(i => i.y)),
+                  min: Math.min(...im.filter(i => i.y != null).map(i => i.y)),
                   im,
                   annotation
                 }

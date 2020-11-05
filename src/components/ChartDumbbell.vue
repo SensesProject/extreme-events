@@ -41,11 +41,28 @@
                     <g v-if="showSpread && s.warmingLevel === activeLevel" class="cm">
                       <g v-for="(cm, cmi) in s.cm" :key="`stripe-${si}-${cmi}`" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
                         <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/>
-                        <line :class="s.class" :x2="cmInnerWidth" :opacity="s.opacity" :transform="`translate(0 ${cm.median})`"/>
-                        <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im})`">
-                          <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
-                          <circle r="2" :class="s.class" class="fill"
-                            :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
+                        <g :transform="`translate(0 ${cm.median})`">
+                          <line :class="s.class" :x2="cmInnerWidth" :opacity="s.opacity"/>
+                        </g>
+                        <template v-if="cm.im.length > 1">
+                          <g v-for="(im, imi) in cm.im" :key="`stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im.y})`">
+                            <!-- <line :class="s.class" :x1="barWidth / 3 * cmi" :x2="barWidth / 3 * (cmi + 1)" :opacity="s.opacity * 0.5"/> -->
+                            <circle r="2" :class="s.class" class="fill"
+                              :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/>
+                          </g>
+                        </template>
+                      </g>
+                      <g v-for="(cm, cmi) in s.cm" :key="`an-stripe-${si}-${cmi}`" :transform="`translate(${cmWidth * cmi + 2}, 0)`">
+                        <!-- <rect :class="s.class" :width="cmInnerWidth" :height="cm.max - cm.min" :y="cm.min" opacity="0.3"/> -->
+                        <transition name="fade">
+                          <ChartAnnotation v-if="cm.annotation && !active.bar" :key="`${cm.annotation.label}-${cmi}`" v-bind="{align: cm.annotation.align, label: cm.annotation.label}" arrow :transform="`translate(${cmInnerWidth / 2} ${cm.median})`"/>
+                        </transition>
+                        <g v-for="(im, imi) in cm.im" :key="`an-stripe-${si}-${cmi}-${imi}`" :transform="`translate(0 ${im.y})`">
+                          <transition name="fade">
+                            <ChartAnnotation v-if="im.annotation && !active.bar" :key="im.annotation.label" v-bind="{align: im.annotation.align, label: im.annotation.label}" :transform="`translate(${(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2} 0)`"/>
+                          </transition>
+                          <!-- <circle r="2" :class="s.class" class="fill"
+                            :cx="(cmInnerWidth - 4) / cm.im.length * (imi + 0.5) + 2" :opacity="s.opacity"/> -->
                         </g>
                       </g>
                     </g>
@@ -86,6 +103,7 @@
 
 <script>
 // import raw from '@/assets/data/countries.json'
+import ChartAnnotation from './ChartAnnotation.vue'
 import VueInterpolate from './Interpolate'
 import { scaleLinear } from 'd3-scale'
 import { format } from 'd3-format'
@@ -96,7 +114,8 @@ export default {
     resize
   },
   components: {
-    VueInterpolate
+    VueInterpolate,
+    ChartAnnotation
   },
   props: {
     data: {
@@ -128,6 +147,10 @@ export default {
           name: 'population exposed'
         }]
       }
+    },
+    annotations: {
+      type: Array,
+      default () { return [] }
     }
   },
   data () {
@@ -208,7 +231,7 @@ export default {
       return cmWidth - 4
     },
     bars () {
-      const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight } = this
+      const { data, dimensions, warmingLevels, allLevels, barWidth, axisWidth, yScale, innerHeight, annotations } = this
       return dimensions.map((d, di) => {
         return {
           x: (barWidth + axisWidth + 4) * di,
@@ -221,14 +244,16 @@ export default {
               value: format(',.2~r')(value),
               change: format(',.1f')(change),
               y,
-              cm: Object.keys(data[d.key][l].cm).map(key => {
+              cm: Object.keys(data[d.key][l].cm).sort((a, b) => a > b).map(key => {
+                const annotation = annotations.find(a => a.col === d.key && a.cm === key && a.im == null && (a.warming == null || a.warming === l))
                 const cm = data[d.key][l].cm[key]
-                const im = cm.im.map(im => yScale(im))
+                const im = cm.im.map((im, imi) => ({ y: yScale(im), annotation: annotations.find(a => a.col === d.key && a.cm === key && a.im === imi && (a.warming == null || a.warming === l)) }))
                 return {
                   median: yScale(cm.median),
-                  max: Math.max(...im),
-                  min: Math.min(...im),
-                  im
+                  max: Math.max(...im.map(i => i.y)),
+                  min: Math.min(...im.map(i => i.y)),
+                  im,
+                  annotation
                 }
               }),
               warmingLevel: l,
@@ -309,7 +334,7 @@ $transition: $transition * 2;
       }
     }
     .bars {
-      .fade-leave-active {
+      .fade-leave-active, .fade-enter-active {
         transition: opacity $transition;
       }
       .fade-enter, .fade-leave-to {

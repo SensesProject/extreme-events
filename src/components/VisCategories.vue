@@ -43,6 +43,7 @@ export default {
       let domain = null
       let level = null
       let spread = false
+      let annotations = []
 
       switch (step) {
         case 0:
@@ -69,9 +70,66 @@ export default {
           break
         case 5:
           spread = true
+          annotations = [{
+            col: 'land',
+            cm: 'GFDL-ESM2M',
+            im: null,
+            label: 'GFDL-ESM2M',
+            align: {
+              top: false,
+              left: false
+            }
+          }, {
+            col: 'land',
+            cm: 'HadGEM2-ES',
+            im: null,
+            label: 'HadGEM2-ES',
+            align: {
+              top: false,
+              left: false
+            }
+          }, {
+            col: 'land',
+            cm: 'IPSL-CM5A-LR',
+            im: null,
+            label: 'IPSL-CM5A-LR',
+            align: {
+              top: true,
+              left: false
+            }
+          }, {
+            col: 'land',
+            cm: 'MIROC5',
+            im: null,
+            label: 'MIROC5',
+            align: {
+              top: true,
+              left: false
+            }
+          }]
           break
         case 6:
           spread = true
+          annotations = [{
+            col: 'land',
+            cm: 'GFDL-ESM2M',
+            im: 5,
+            label: 'Impact Model',
+            align: {
+              top: true,
+              left: false
+            }
+          }, {
+            col: 'land',
+            cm: 'MIROC5',
+            im: null,
+            label: 'Impact Model Median',
+            arrow: true,
+            align: {
+              top: false,
+              left: false
+            }
+          }]
         case 7:
           category = indicators[1]
           break
@@ -115,7 +173,8 @@ export default {
         ticks,
         warmingLevels,
         warmingLevelLabels,
-        region: null
+        region: null,
+        annotations
       }
     }
   }

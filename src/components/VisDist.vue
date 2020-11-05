@@ -7,12 +7,11 @@
           <circle v-for="(d, i) in dots" :key="`d-${i}`" r="2" :cx="d.x" :cy="d.y"/>
         </g> -->
         <!-- <NormalDistribution class="base" v-bind="props[0]"/> -->
+        <NormalDistribution class="base" :max="width" v-bind="props[1]" :y="-0.5"/>
         <VueInterpolate tag="g" :attrs="{ props: {value: props[step], duration: 400}}" v-slot="{ attrs }">
           <!-- <NormalDistribution class="new" v-bind="attrs.props" :max="width" :class="{start: step <= 1}"/> -->
           <NormalDistributionDots class="dot-wrapper" v-bind="attrs.props" :max="width" :class="{start: step <= 1}" :stage1="step > 0 ? width * 0.4 / 2 : width" :stage2="step > 0 ? width * 0.6 / 2 : width"/>
         </VueInterpolate>
-
-        <NormalDistribution class="base" v-bind="props[1]" :y="-0.5"/>
       </g>
       <g class="labels" :transform="`translate(${width / 2} 0)`">
         <VueInterpolate tag="g" :attrs="{ opacity: {value: step === 3 || step === 4 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
@@ -27,9 +26,23 @@
       </g>
       <g class="axis" :transform="`translate(${width / 2} ${height})`">
         <!-- <line :x1="-width / 2" :x2="width / 2"/> -->
-        <text>average</text>
-        <text :x="-width * 0.3">← colder</text>
-        <text :x="width * 0.3">hotter →</text>
+        <text class="label">temperature</text>
+        <text class="label" :x="-width * 0.3">← colder</text>
+        <text class="label" :x="width * 0.3">hotter →</text>
+      </g>
+      <!-- <g class="axis x-axis" :transform="`translate(0 ${height/2}) rotate(-90)`">
+        <text :x="-innerHeight / 2">↑ higher</text>
+        <text :x="0">frequency</text>
+        <text :x="innerHeight / 2">hotter →</text>
+      </g> -->
+      <g class="axis x-axis">
+        <text>Distribution of daily average temperatures</text>
+        <text class="label" y="20">more frequent</text>
+        <text class="label" y="20" x="-14">↑</text>
+        <text class="label" :y="innerHeight - 16">less frequent</text>
+        <text class="label" :y="innerHeight - 16" x="-14">↓</text>
+        <!-- <text :x="0">frequency</text>
+        <text :x="innerHeight / 2">hotter →</text> -->
       </g>
     </svg>
   </div>
@@ -132,15 +145,15 @@ export default {
           // fill: url(#dist);
           fill: none;
           stroke: $color-deep-gray;
-          stroke-width: 1;
-          stroke-dasharray: 4 4;
+          stroke-width: 2;
+          stroke-dasharray: 6 6;
         }
       }
       .dot-wrapper {
         .normal-dist {
           fill: none;
           stroke: $color-deep-gray;
-          stroke-width: 1;
+          stroke-width: 2;
           // stroke-dasharray: 4 4;
 
           // fill: url(#dist);
@@ -150,13 +163,21 @@ export default {
           // }
         }
       }
+      text {
+        text-anchor: middle;
+      }
       .axis {
         line {
           stroke: $color-deep-gray;
         }
-      }
-      text {
-        text-anchor: middle;
+        .label {
+          fill: getColor(gray, 40);
+        }
+        &.x-axis {
+          text {
+            text-anchor: start;
+          }
+        }
       }
     }
   }

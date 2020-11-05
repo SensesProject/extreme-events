@@ -2,7 +2,7 @@
   <g>
     <path v-bind="props" ref="path" class="normal-dist" :d="path" :transform="`translate(0 ${y})`"/>
     <g class="dots" v-if="showDots">
-      <circle v-for="(d) in dots" :key="`d-${d.x}-${d.y}`" :class="[d.class]" r="2.5" :cx="d.x" :cy="d.y" :opacity="d.opacity"/>
+      <circle v-for="(d) in dots" :key="`d-${d.x}-${d.y}`" :class="[d.class]" r="3.5" :cx="d.x" :cy="d.y" :opacity="d.opacity"/>
     </g>
   </g>
 </template>
@@ -113,9 +113,12 @@ export default {
     mix-blend-mode: multiply;
 
     circle {
-      fill: getColor(neon, 80);
+      fill: getColor(gray, 80);
+      @include tint(fill, 50);
+      // &.blue, &.orange {
+      //   @include tint(fill, 60);
+      // }
 
-      @include tint(fill);
       transition: fill $transition;
     }
   }

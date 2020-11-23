@@ -1,6 +1,14 @@
 <template>
     <svg class="helper-gradients" :width="0" :height="0">
       <defs>
+        <template v-for="c1 in ['blue', 'yellow', 'orange', 'red', 'purple']">
+          <template v-for="c2 in ['blue', 'yellow', 'orange', 'red', 'purple']">
+            <linearGradient :key="`${c1}-${c2}`" :id="`grad-${c1}-${c2}`" y1="1" x2="0">
+              <stop class="grad" :class="c1" offset="0%"/>
+              <stop class="grad" :class="c2"  offset="100%"/>
+            </linearGradient>
+          </template>
+        </template>
         <linearGradient id="level-0" y1="1" x2="0">
           <stop class="start" offset="0%"/>
           <stop class="stop" offset="100%"/>
@@ -85,13 +93,17 @@
 <style scoped lang="scss">
 @import "library/src/style/global.scss";
 svg.helper-gradients {
+
+  .grad {
+    @include tint(stop-color);
+  }
   pointer-events: none;
   #level-0, #level-0-reverse {
     .start {
-      stop-color: $color-light-gray;
+      stop-color: transparent;
     }
     .stop {
-      stop-color: $color-blue;
+      stop-color: transparent;
     }
   }
   #level-1, #level-1-reverse {
@@ -120,11 +132,11 @@ svg.helper-gradients {
   }
   #level-2-5, #level-2-5-reverse, #level-3, #level-3-reverse, #level-3-5, #level-3-5-reverse {
     .start {
-      stop-color: transparentize($color-red, 0.7);
+      stop-color: $color-red;
       // stop-color: $color-red;
     }
     .stop {
-      stop-color: transparentize($color-purple, 0.4);
+      stop-color: $color-purple;
       // stop-color: $color-purple;
     }
   }

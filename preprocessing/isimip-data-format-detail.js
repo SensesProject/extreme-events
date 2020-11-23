@@ -44,24 +44,24 @@ countries.forEach(c => {
       const wl = temperatureList.indexOf(t)
       data[c][i].population[t] = {
         median: format(population.overall.median[wl]),
-        cm: Object.fromEntries(Object.keys(population).filter(cm => cm !== 'overall').map(cm => {
+        cm: Object.fromEntries(Object.keys(population).filter(cm => cm !== 'overall').sort().map(cm => {
           return [
             cm,
             {
               median: format(population[cm].median[wl]),
-              im: Object.keys(population[cm].runs).map(im => format(population[cm].runs[im].mean[wl]))
+              im: Object.fromEntries(Object.keys(population[cm].runs).map(im => [im, format(population[cm].runs[im].mean[wl])]))
             }
           ]
         }))
       }
       data[c][i].land[t] = {
         median: format(land.overall.median[wl]),
-        cm: Object.fromEntries(Object.keys(land).filter(cm => cm !== 'overall').map(cm => {
+        cm: Object.fromEntries(Object.keys(land).filter(cm => cm !== 'overall').sort().map(cm => {
           return [
             cm,
             {
               median: format(land[cm].median[wl]),
-              im: Object.keys(land[cm].runs).map(im => format(land[cm].runs[im].mean[wl]))
+              im: Object.fromEntries(Object.keys(land[cm].runs).map(im => [im, format(land[cm].runs[im].mean[wl])]))
             }
           ]
         }))

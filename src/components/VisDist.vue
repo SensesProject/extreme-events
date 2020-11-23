@@ -26,7 +26,7 @@
       </g>
       <g class="axis" :transform="`translate(${width / 2} ${height})`">
         <!-- <line :x1="-width / 2" :x2="width / 2"/> -->
-        <text class="label">temperature</text>
+        <text>temperature</text>
         <text class="label" :x="-width * 0.3">← colder</text>
         <text class="label" :x="width * 0.3">hotter →</text>
       </g>
@@ -36,7 +36,7 @@
         <text :x="innerHeight / 2">hotter →</text>
       </g> -->
       <g class="axis x-axis">
-        <text>Distribution of daily average temperatures</text>
+        <text>distribution of daily average temperatures</text>
         <text class="label" y="20">more frequent</text>
         <text class="label" y="20" x="-14">↑</text>
         <text class="label" :y="innerHeight - 16">less frequent</text>

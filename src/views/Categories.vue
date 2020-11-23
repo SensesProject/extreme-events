@@ -16,28 +16,31 @@
             <GemExpandable title="How is exposure to heatwaves defined?"><span v-html="getText('cat-heatwave-definition')[0]"/></GemExpandable>
             <div v-html="getText('cat-heatwave')[0]"/>
           </IntersectionObserver>
-          <IntersectionObserver :step="2" :class="{active: step === 2}">
+          <IntersectionObserver :step="1.1" :class="{active: step === 1.1}">
             <div v-html="getText('cat-heatwave')[1]"/>
           </IntersectionObserver>
-          <IntersectionObserver :step="3" :class="{active: step === 3}">
+          <IntersectionObserver :step="1.2" :class="{active: step === 1.2}">
             <div v-html="getText('cat-heatwave')[2]"/>
           </IntersectionObserver>
-          <IntersectionObserver :step="4" :class="{active: step === 4}">
+          <IntersectionObserver :step="1.3" :class="{active: step === 1.3}">
             <div v-html="getText('cat-heatwave')[3]"/>
           </IntersectionObserver>
-          <IntersectionObserver :step="5" :class="{active: step === 5}">
+          <IntersectionObserver :step="1.4" :class="{active: step === 1.4}">
             <div v-html="getText('cat-heatwave')[4]"/>
           </IntersectionObserver>
-          <template v-for="({cat, i}) in indicators.filter((cat,i) => i > 0).map((cat,i) => ({cat, i: i > 1 ? i * 2 + 7 : i * 2 + 6}))">
-            <IntersectionObserver :key="`${cat}-0`" :step="i" :class="{active: step === i}">
+          <IntersectionObserver :step="1.5" :class="{active: step === 1.5}">
+            <div v-html="getText('cat-heatwave')[5]"/>
+          </IntersectionObserver>
+          <template v-for="({cat, i}) in indicators.filter((cat,i) => i > 0).map((cat,i) => ({cat, i: i + 2}))">
+            <IntersectionObserver :key="`${i}-0`" :step="i" :class="{active: step === i}">
               <div v-html="getText(`cat-${cat}-title`)[0]"/>
               <GemExpandable :title="`How is exposure to ${cat.replace(/-/g, ' ')} defined?`"><span v-html="getText(`cat-${cat}-definition`)[0]"/></GemExpandable>
               <div v-html="getText(`cat-${cat}`)[0]"/>
             </IntersectionObserver>
-            <IntersectionObserver :key="`${cat}-1`" :step="i + 1" :class="{active: step === i + 1}">
+            <IntersectionObserver :key="`${i}-1`" :step="i + 0.1" :class="{active: step === i + 0.1}">
               <div v-html="getText(`cat-${cat}`)[1]"/>
             </IntersectionObserver>
-            <IntersectionObserver v-if="getText(`cat-${cat}`)[2] != null" :key="`${cat}-2`" :step="i + 2" :class="{active: step === i + 2}">
+            <IntersectionObserver v-if="getText(`cat-${cat}`)[2] != null" :key="`${i}-2`" :step="i + 0.2" :class="{active: step === i + 0.2}">
               <div v-html="getText(`cat-${cat}`)[2]"/>
             </IntersectionObserver>
           </template>
@@ -135,8 +138,8 @@ export default {
           margin-right: $spacing / 2;
 
           .intersection-observer {
-            padding-top: 5vh;
-            padding-bottom: 5vh;
+            padding-top: 10vh;
+            padding-bottom: 10vh;
             opacity: 0.25;
             > * {
               pointer-events: none;

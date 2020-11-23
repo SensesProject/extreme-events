@@ -17,7 +17,7 @@ import Categories from '@/views/Categories.vue'
 import Conclusion from '@/views/Conclusion.vue'
 import Maps from '@/views/Maps.vue'
 
-import tippy, { followCursor } from 'tippy.js'
+import tippy, { inlinePositioning } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 
 import SensesMeta from 'library/src/components/SensesMeta.vue'
@@ -38,11 +38,11 @@ export default {
   mounted () {
     this.tips = tippy('.md-tooltip', {
       // trigger: 'click',
-      followCursor: 'horizontal',
+      inlinePositioning: true,
       offset: [0, 5],
       maxWidth: 300,
       content: (reference) => reference.getAttribute('data-tooltip'),
-      plugins: [followCursor]
+      plugins: [inlinePositioning]
     })
   },
   beforeDestroy () {
@@ -78,19 +78,26 @@ export default {
     // font-family: $font-serif;
     // font-weight: $font-weight-bold;
 
-    background: repeating-linear-gradient(to left, transparent 0em, transparent 0.4em, $color-white 0.4em, $color-white 0.6em),
-    linear-gradient(to top, transparent 0.075em, $color-neon 0.075em, $color-neon 0.2em, transparent 0.2em);
+    // background: repeating-linear-gradient(to left, transparent 0em, transparent 0.4em, $color-white 0.4em, $color-white 0.6em),
+    // linear-gradient(to top, transparent 0.075em, $color-neon 0.075em, $color-neon 0.2em, transparent 0.2em);
 
+    // &:hover {
+    //   color: $color-neon;
+    // }
+    // background: getColor(neon, 100);
+
+    background: linear-gradient(to top, transparent 0.0em, getColor(neon, 100) 0.0em, getColor(neon, 100) 0.33em, transparent 0.33em);
     transition: background $transition, color $transition;
 
     &:hover {
-      color: $color-neon;
+      background: linear-gradient(to top, transparent 0.0em, getColor(neon, 50) 0.0em, getColor(neon, 50) 0.33em, transparent 0.33em);
     }
+    // border-radius: $border-radius;
+    // padding: 0 $spacing / 16;
   }
   ul {
     .dotted {
-      background: repeating-linear-gradient(to left, transparent 0em, transparent 0.4em, getColor(gray, 90) 0.4em, getColor(gray, 90) 0.6em),
-      linear-gradient(to top, transparent 0.075em, getColor(neon, 40) 0.075em, getColor(neon, 40) 0.2em, transparent 0.2em);
+      background: linear-gradient(to top, transparent 0.0em, getColor(neon, 80) 0.0em, getColor(neon, 80) 0.33em, transparent 0.33em);
     }
   }
   p {
@@ -99,6 +106,10 @@ export default {
     }
     + p {
       margin-top: $spacing / 2;
+    }
+
+    a {
+      background: none;
     }
 
     .glyph {
@@ -117,13 +128,14 @@ export default {
   }
 }
 .tippy-box {
-  background-color: getColor(neon, 50);
+  background-color: getColor(neon, 40);
   color: $color-white;
   font-size: 0.8em;
-  border-radius: $spacing / 8;
-
+  border-radius: $spacing / 4;
+  text-align: center;
+  padding: $spacing / 4;
   .tippy-arrow {
-    color: getColor(neon, 50);
+    color: getColor(neon, 40);
   }
 }
 </style>

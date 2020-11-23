@@ -24,43 +24,43 @@ We explore six types of extreme events, namely glyph(heatwave) heatwaves, glyph(
 
 +++ dist-intro
 
-## Climate Change, Impacts, and Extreme Events
+## Defining Extreme Events
 
-Changes and effects that occur in natural or societal systems and are due to climate change are known as *climate impacts*. Examples of this are the bleaching of coral riffs due to the acidification of oceans, crop failures due to excessive heat or lack of precipitation, or a decreased work productivity of humans. In climate impact research, these systems are called *sectors*. Examples include agriculture, forestry, and human health. New meteorological extremes, caused by climate change, lead to more drastic climate impacts. In particular shifts in the spatial and temporal distributions as well as in the events' magnitude are projected. [TODO: clearer distinction between climate impacts and extreme events]
+Climate impacts are the the of climate change on {nature}(e.g. the bleaching of coral riffs due to the acidification of oceans) and {society}(e.g. decreased work productivity due to excessive heat). New meteorological extremes cause increasingly drastic climate impacts. When they surpass a certain threshold we call them extreme events.
 
 +++ dist 1.1
 
-Temperature is a major driver for many extreme events. Here we show the distribution of days, say within a year, with a certain temparature. In this illustration, the horizontal axis shows the temperature while the vertical axis shows the number of days, again within a year, at a given temperature. 
+Temperature is a major driver for many extreme events. In this figure, each dot represents a day which we placed horizontally based on their temperature, starting with cold days on the left.
 
 +++ dist 1.3
-Technically, extreme events are the events that lie at both the lower and the higher tail ends of a distribution. In the case of temperature these are the @blue(coldest) and @orange(hottest) days. As the distribution shows, they are relatively rare. The depicted shape is known as the *normal distribution.* Please be aware that not all meteorological quantities, e.g. precipitation, follow a normal distribution.
+This results in a normal distribution with most days having fairly average temperatures. Extreme events, here, particularly @blue(cold) or @orange(hot) days lie in the tails of the distribution. They are quite rare.
 
 +++ dist 2
 
-Under climate change, the mean temperature rises and shifts the distribution to higher temperatures. Temperatures that have been rare in the past occur now @orange(more frequently) and @red(even higher values) are reached.
+Under climate change, the mean temperature rises and shifts the distribution to higher temperatures. Hot days that have been rare in the past occur now @orange(more frequently) and reach @red(higher temperatures).
 
 +++ dist 3
 
-Additionally, the *variance* increases: Average temperatures become less frequent, and the distribution gets wider.
-Both trends put together means hot temperatures become even more @orange(frequent) and @red(extreme). While @blue(cold temperatures) still occur, they do so less frequently. [IPCC, (2011) muss noch nirgendwo hin]
+Additionally, the variance increases: Average temperatures become less frequent and the distribution spreads out.
+Hot temperatures become even more @orange(frequent) and @red(extreme). Cold days still occur but become @blue(rarer).
 
 +++ cat-intro
 
-To investigate impacts and extreme events under a changing climate, researchers use computer programs that implement the most important processes in a sector and drive them with climate and socioeconomic data as their input. For more details on this see the [impact modelling learn module](TODO link to impact learn module).
+Other drivers for extreme events are among others precipitation and humidity. Not all of them follow a normal distribution but they also tend to become extreme. 
 
-The impact projections used here originate from the [ISIMIP project](https://www.isimip.org) – a collection of impact model simulations driven with the same climate and socioeconomic input data, thus allowing for cross-model and cross-sector analyses. 
+The thresholds of what constitutes extreme events are mostly defined in terms of the preindustrial climate. This allows us to examine extreme events at todays and future global warming levels.
 
-Here the thresholds of what constitutes an extreme event are mostly defined in terms of the preindustrial climate. This approach allows both to show what climate impacts have already occurred as well as to investigate future global warming. In the following, we discuss the findings for each type of extreme event separately.
 
-[Ja, lass die Definitionen nochmal reinpacken, aber zum ausklappen für die die es genau wissen wollen /
-OK, wir müssen die Definitionen sowieso bringen, da wir in SENSES Earth nur die Landflächendefinitionen bringen, aber nicht die für die exponierte Bevölkerung, ich habe sie unten eingefügt]
+
 
 +++ cat-exposure 1
 
 ## Exposure to Extreme Events
 
-We discuss two aspects of extreme events: The share of {global land area}(The global land surface with the exception of Greenland and Antarctica.) as well as the share of the {global population}(Based on total population and population distribution from 
-2005.) exposed to them every year. For this analysis we keep the population constant at 2005 levels regardless of the global warming level, in order to isolate the pure climate change effect, and not dilute it by changing population patterns or numbers. The exact definitions of those exposed land area and the exposed population varies according to the extreme event types and can be found at the start of each section.
+We discuss two aspects of extreme events: The share of {global land area}(Global land surface with the exception of Greenland and Antarctica) as well as the share of the {global population}(Based on total population and population distribution from 
+2005 to isolate the pure climate change effect) exposed to them every year. 
+
+The analysis is based on impact projections that originate from the [ISIMIP project](https://www.isimip.org), a collection of impact model simulations driven by the same input data to enable cross-model and cross-sector comparison. 
 
 +++ cat-heatwave-title
 
@@ -78,25 +78,30 @@ Total population of exposed land area.
 
 +++ cat-heatwave 0°C
 
-At a preindustrial warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. These regions tend to be more densely populated leading to a slightly higher share in the exposed population.
+At a @blue(preindustrial warming level of +0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. These areas have an above average population density resulting to a slightly higher share in the exposed population.
 
 +++ cat-heatwave 1°C
 
-At @yellow(+1\,°C), which roughly translates to today's climate, there is already a more than threefold increase in both, land area and population exposed.
+At @yellow(+1\,°C), which roughly translates to @yellow(today's climate), there is already a more than @yellow(eight times increase) in exposed land area and population.
 
 +++ cat-heatwave 2°C
 
-At @red(+2\,°C) almost a tenth of the global population is exposed to heatwaves every year.
-
-This is particularly alarming as we define heatwave in terms of human physiology. The chosen threshold, a {Humidex}(A measure of how the human body reacts to atmospheric conditions.) of 45, is described as «dangerous» and «heatstrokes are possible».
+We define heatwave in terms of human physiology. The chosen threshold, a {Humidex}(A measure of how the human body reacts to atmospheric conditions) of 45, is considered dangerous as heatstrokes can occur.
+ 
+At @red(+2\,°C) close to @red(1 billion people) are exposed to them every year.
 
 +++ cat-heatwave 1.5°C
 
-Limiting global warming to @orange(+1.5\,°C), as pursued by the Paris Agreement, will help us keep the number of affected people low.
+Limiting global warming to @orange(+1.5\,°C), will help us to keep those numbers considerably lower.
 
 +++ cat-heatwave spread
 
-So far, we looked at highly aggregated data, all of the individual model results have been boiled down to a single number. However, the calculated exposures to extreme events vary not only across regions and years, but also across models. Heatwaves are directly derived from climate model data, and no impact model are involved, so looking at the output of the {four models}(From left to right: GFDL-ESM2M, HadGEM2-ES, IPSL-CM5A-LR, and MIROC5) individually instead of median values we get a better understanding of model uncertainty.
+So far, we looked at multi-model medians of spatially and temporally aggregated data. The outputs from the individual climate models give us a better picture of uncertainty.
+
++++ cat-heatwave spread 3
+
+With higher temperatues the uncertainty increases.
+So far, we looked at multi-model medians. Looking at the climate models separately shows us underlying uncertainty.
 
 +++ cat-drought-title
 

@@ -37,50 +37,59 @@ export default {
     chart () {
       const { step, categories, indicators } = this
       let category = 'heatwave'
-      let warmingLevelLabels = [2]
-      let warmingLevels = [0, 1, 1.5, 2]
+      let warmingLevelLabels = []
+      let warmingLevels
       let ticks = null
       let domain
-      let level = null
-      let spread = false
-      let hideData = false
+      let views
+      let view = 'median'
       let annotations = []
 
       switch (Math.floor(step)) {
         case 0:
-          hideData = true
+          warmingLevels = []
+          category = 'heatwave'
+          domain = [0, 30]
+          views = {
+            median: { label: 'Median', hide: true },
+            climate: { label: 'Climate Models', hide: true },
+            impact: { label: 'Impact Models', hide: true }
+          }
+          break
         case 1:
           category = 'heatwave'
           domain = [0, 30]
-
-          switch (step % 1) {
+          views = {
+            median: { label: 'Median' },
+            climate: { label: 'Climate Models', hide: true },
+            impact: { label: 'Impact Models', hide: true }
+          }
+          switch ((step * 10 % 10) / 10) {
             case 0.0: {
               warmingLevels = [0]
+              warmingLevelLabels = [0, 1, 2, 3, 4]
               break
             }
             case 0.1: {
               warmingLevels = [0, 1]
+              warmingLevelLabels = [0, 1, 2, 3, 4]
               break
             }
             case 0.2: {
               warmingLevels = [0, 1, 1.5, 2]
+              warmingLevelLabels = [0, 1, 2, 3, 4]
               break
             }
             case 0.3: {
+              view = 'climate'
               warmingLevels = [0, 1, 1.5, 2]
-              level = 1.5
+              views.climate.hide = false
               break
             }
             case 0.4: {
-              spread = true
-              warmingLevels = [0, 1, 1.5, 2]
-              level = 2
-              break
-            }
-            case 0.5: {
-              spread = true
+              view = 'climate'
               warmingLevels = [0, 1, 1.5, 2, 3]
-              level = 3
+              views.climate.hide = false
               break
             }
           }
@@ -88,18 +97,73 @@ export default {
           break
         case 2:
           domain = [0, 15]
+          switch ((step * 10 % 10) / 10) {
+            case 0.1: {
+              view = 'climate'
+              break
+            }
+            case 0.2: {
+              view = 'impact'
+              break
+            }
+          }
           break
         case 3:
           domain = [0, 4]
+          switch ((step * 10 % 10) / 10) {
+            case 0.1: {
+              view = 'climate'
+              break
+            }
+            case 0.2: {
+              view = 'impact'
+              break
+            }
+          }
           break
         case 4:
           domain = [0, 8]
+          switch ((step * 10 % 10) / 10) {
+            case 0.1: {
+              view = 'climate'
+              break
+            }
+            case 0.2: {
+              view = 'impact'
+              break
+            }
+          }
           break
         case 5:
           domain = [0, 1]
+          switch ((step * 10 % 10) / 10) {
+            case 0.1: {
+              view = 'climate'
+              break
+            }
+            case 0.2: {
+              view = 'impact'
+              break
+            }
+          }
           break
         case 6:
           domain = [0, 3]
+          switch ((step * 10 % 10) / 10) {
+            case 0.1: {
+              view = 'climate'
+              break
+            }
+            case 0.2: {
+              view = 'impact'
+              break
+            }
+          }
+          views = {
+            median: { label: 'Median' },
+            climate: { label: 'Climate Models' },
+            impact: { label: 'Impact Model Runs' }
+          }
           break
         //   spread = true
         //   annotations = [{
@@ -132,7 +196,6 @@ export default {
         //   break
         // case 9:
         //   category = indicators[2]
-        //   level = 0
         //   spread = true
         //   break
         // case 10:
@@ -157,8 +220,11 @@ export default {
       }
 
       if (this.$refs.chart) {
-        this.$refs.chart.setLevel(level)
-        this.$refs.chart.setSpread(spread)
+        if (view != null) {
+          this.$refs.chart.setOption('view', view, true)
+        }
+        this.$refs.chart.setOption('levels', warmingLevelLabels, true)
+        this.$refs.chart.setOption('annotations', null)
       }
 
       category = indicators[Math.max(Math.floor(step) - 1, 0)]
@@ -169,11 +235,50 @@ export default {
         domain,
         ticks,
         warmingLevels,
-        warmingLevelLabels,
         region: null,
-        hideData,
-        annotations
+        annotations,
+        views
       }
+    }
+  },
+  mounted () {
+    // Dumbbell Triggers
+    [...document.querySelectorAll('.dumbbell-trigger')].forEach(el => {
+      el.addEventListener('mouseover', () => {
+        const trigger = el.getAttribute('data-trigger')
+        const level = this.parseTrigger(trigger, 'L')
+        this.$refs.chart.setOption('levels', level)
+        const climate = this.parseTrigger(trigger, 'C')
+        this.$refs.chart.setOption('climate', climate)
+        const impact = this.parseTrigger(trigger, 'I')
+        this.$refs.chart.setOption('impact', impact)
+        const subject = this.parseTrigger(trigger, 'S')
+        this.$refs.chart.setOption('subject', subject)
+        if (impact) this.$refs.chart.setOption('view', 'impact', true)
+        else if (climate) this.$refs.chart.setOption('view', 'climate', true)
+      })
+      el.addEventListener('mouseleave', () => {
+        this.$refs.chart.setOption('levels', null)
+        this.$refs.chart.setOption('climate', null)
+        this.$refs.chart.setOption('impact', null)
+        this.$refs.chart.setOption('subject', null)
+        // this.$refs.chart.setOption('view', null)
+      })
+    })
+  },
+  beforeDestroy () {
+    // Dumbbell Triggers
+    [...document.querySelectorAll('.dumbbell-trigger')].forEach(el => {
+      const clone = el.cloneNode(true)
+      el.parentNode.replaceChild(clone, el)
+    })
+  },
+  methods: {
+    parseTrigger (trigger, key) {
+      const exp = new RegExp(`${key}([^A-z]+)`)
+
+      if (trigger.match(exp) == null) return null
+      return trigger.match(exp)[1].split(',').map(v => +v)
     }
   }
 }

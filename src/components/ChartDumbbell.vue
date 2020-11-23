@@ -4,82 +4,109 @@
       <g class="title">
         <text :y="dims.textAnchorTop">Global land area and population exposed to {{category}}</text>
       </g>
+      <g class="footer" :transform="`translate(0 ${dims.chartHeight + dims.titleHeight + dims.textAnchorTop})`">
+        <text>land area</text>
+        <text :x="dims.subjectWidth + dims.axisWidth">population</text>
+      </g>
       <g class="chart" :transform="`translate(0 ${dims.titleHeight})`">
         <g class="axis" :transform="`translate(${dims.chartWidth / 2} 0)`">
           <transition-group name="fade" tag="g">
             <g v-for="(tick, i) in yTicks" :key="i"
               class="tick" :transform="`translate(0 ${tick.y})`">
-              <!-- <line v-if="i === 0" :x1="-dims.chartWidth / 2" :x2="dims.chartWidth / 2"/> -->
+              <template v-if="i === 0">
+                <line :x1="-dims.chartWidth / 2" :x2="-dims.axisWidth / 2"/>
+                <line :x1="dims.chartWidth / 2" :x2="dims.axisWidth / 2"/>
+              </template>
               <line :x1="-dims.axisInnerWidth / 2" :x2="dims.axisInnerWidth / 2"/>
               <text :y="dims.textAnchorBottom">{{tick.value}}%</text>
             </g>
           </transition-group>
         </g>
         <g class="subject" v-for="(subject, i) in subjects" :key="i">
-          <g class="gradient" v-bind="filters.gradient">
-            <rect v-for="(level, i) in subject.levels" :key="i" :transform="level.transform"
-              :height="level.gradient.height" :width="dims.subjectWidth" :fill="level.gradient.fill"/>
+          <g class="gradients" v-bind="filters.gradient">
+            <g class="level" v-for="(level, i) in subject.levels" :key="i" :transform="level.transform">
+              <rect v-if="level.gradient" :height="level.gradient.height" :width="dims.subjectWidth"
+                :fill="level.gradient.fill"/>
+            </g>
           </g>
           <g v-bind="filters.sep" class="sep" :transform="`translate(${i * (dims.subjectWidth + dims.axisWidth)} 0)`">
-            <line stroke-width="4" v-for="i in 5" :key="i" :transform="`translate(${(i - 1) * dims.climateWidth} 0)`" :y2="dims.chartHeight"/>
+            <line v-for="i in 3" :key="i" :transform="`translate(${(i) * dims.climateWidth} 0)`" :y1="-dims.lineHeight" :y2="dims.chartHeight - dims.defMargin"/>
           </g>
-          <g class="level" v-for="(level, i) in subject.levels" :key="i">
-            <g class="median" :transform="level.transform">
-              <line v-bind="filters.median" :class="level.color" :x2="dims.subjectWidth"/>
-              <!-- <text :class="level.color" text-anchor="middle" :x="dims.subjectWidth / 2" :y="dims.textAnchorBottom">{{level.val}}%</text> -->
+          <g class="median" v-bind="filters.median">
+           <g class="level" v-for="(level, i) in subject.levels" :key="i" :transform="level.transform" v-bind="filters.levels[i]">
+              <line :class="level.color" :x2="dims.subjectWidth"/>
+              <text v-if="getOption('levels').indexOf(i) !== -1" :class="level.color" text-anchor="middle" :x="dims.subjectWidth / 2" :y="dims.textAnchorBottom">{{level.val}}%</text>
             </g>
-            <path v-bind="filters.climateLine" :class="level.color" :d="level.line"/>
-            <g class="climate" v-for="(climate, i) in level.climates.filter(c => c)" :key="i">
-              <g :opacity="getOption('annotations') === null || getOption('annotations').find(a => a.label[0] === climate.label[0]) ? 1 : 0.2">
-                <g class="gradient" v-if="climate.gradient" v-bind="filters.climateGradient">
-                  <line :transform="climate.transform" :y2="climate.gradient.height"
-                    :x1="dims.climateInnerWidth / 2" :x2="dims.climateInnerWidth / 2 + 0.001" :stroke="climate.gradient.fill"/>
+          </g>
+          <g class="climate" v-bind="filters.climate">
+            <g class="level" v-for="(level, l) in subject.levels" :key="l" v-bind="filters.levels[l]">
+              <g class="climate" v-for="(climate, i) in level.climates.filter(c => c)" :key="i">
+                <g :opacity="annotations === null || annotations.find(a => a.label[0] === climate.label[0]) ? 1 : 0.2">
+                  <g class="gradient" v-if="climate.gradient" v-bind="filters.levelGradients[l]">
+                    <line :transform="climate.transform" :y2="climate.gradient.height"
+                      :x1="dims.climateInnerWidth / 2" :x2="dims.climateInnerWidth / 2 + 0.001" :stroke="climate.gradient.fill"/>
+                  </g>
+                  <g :transform="climate.transform">
+                    <line :class="level.color" :x2="dims.climateInnerWidth"/>
+                  </g>
+                  <g v-if="getOption('view') === 'climate' && climate.highest" class="interaction-layer">
+                    <rect :x="climate.x" :width="dims.climateInnerWidth" :height="dims.chartHeight"
+                      @mouseover="setOption('annotations', [{x: climate.x + dims.climateInnerWidth / 2, y: climate.y, label: climate.label, type: 'model'}])"
+                      @mouseleave="setOption('annotations', null)"/>
+                  </g>
                 </g>
-                <g :transform="climate.transform">
-                  <line v-bind="filters.climate" :class="level.color" :x2="dims.climateInnerWidth"/>
-                </g>
-                <g v-if="getOption('view') === 'climate' && climate.highest" class="interaction-layer">
-                  <rect :x="climate.x" :width="dims.climateInnerWidth" :height="dims.chartHeight"
-                    @mouseover="setOption('annotations', [{x: climate.x + dims.climateInnerWidth / 2, y: climate.y, label: climate.label, type: 'model'}])"
-                    @mouseleave="setOption('annotations', null)"/>
-                </g>
-                <path v-bind="filters.impactLine" :class="level.color" :d="climate.line"/>
               </g>
-              <g class="impact" v-for="(impact, i) in climate.impacts.filter(c => c)" :key="i"
-                :opacity="getOption('annotations') === null || getOption('annotations').find(a => a.label[0] === impact.label[0]) ? 1 : 0.2">
-                <g class="gradient" v-if="category !== 'tropical cyclone' && impact.gradient" v-bind="filters.impactGradient">
-                  <line :transform="impact.transform" :y2="impact.gradient.height"
-                    :x1="impact.gradient.x" :x2="impact.gradient.x + 0.001" :stroke="impact.gradient.fill"/>
-                </g>
-                <g :transform="impact.transform" v-bind="filters.impact">
-                  <line :class="level.color" :x2="impact.width"/>
-                </g>
-                <g v-if="getOption('view') === 'impact' && impact.highest && category !== 'tropical cyclone'" class="interaction-layer">
-                  <rect :x="impact.x" :width="impact.width" :height="dims.chartHeight"
-                    @mouseover="setOption('annotations', [{x: impact.x + impact.width / 2, y: impact.y, label: impact.label, type: 'model'}])"
-                    @mouseleave="setOption('annotations', null)"/>
+            </g>
+          </g>
+          <g class="impact" v-bind="filters.impact">
+            <g class="level" v-for="(level, l) in subject.levels" :key="l" v-bind="filters.levels[l]">
+              <g class="climate" v-for="(climate, i) in level.climates.filter(c => c)" :key="i">
+                <g class="impact" v-for="(impact, i) in climate.impacts.filter(c => c)" :key="i"
+                  :opacity="annotations === null || annotations.find(a => a.label[0] === impact.label[0]) ? 1 : 0.2">
+                  <g class="gradient" v-if="category !== 'tropical cyclone' && impact.gradient" v-bind="filters.levelGradients[l]">
+                    <line :transform="impact.transform" :y2="impact.gradient.height"
+                      :x1="impact.gradient.x" :x2="impact.gradient.x + 0.001" :stroke="impact.gradient.fill"/>
+                  </g>
+                  <g :transform="impact.transform">
+                    <line :class="level.color" :x2="impact.width"/>
+                  </g>
+                  <g v-if="getOption('view') === 'impact' && impact.highest && category !== 'tropical cyclone'" class="interaction-layer">
+                    <rect :x="impact.x" :width="impact.width" :height="dims.chartHeight"
+                      @mouseover="setOption('annotations', [{x: impact.x + impact.width / 2, y: impact.y, label: impact.label, type: 'model'}])"
+                      @mouseleave="setOption('annotations', null)"/>
+                  </g>
                 </g>
               </g>
             </g>
           </g>
         </g>
-        <g class="annotations" v-if="getOption('annotations')">
-          <ChartAnnotation v-for="(a, i) in getOption('annotations').filter(({type}) => type === 'model')" :key="i"
-            v-bind="a" arrow :offset="3" :left="a.x > dims.subjectWidth"/>
+        <g class="ranges">
+          <g class="range" :class="r.color" v-for="(r, i) in ranges" :key="i">
+            <ChartAnnotation :label="`${r.max.val}%`" :color="r.color" :x="r.max.cx" :y="r.max.y" arrow :offset="1"
+              :left="alignRange(r.max.cx)" top/>
+            <ChartAnnotation :label="`${r.min.val}%`" :color="r.color" :x="r.min.cx" :y="r.min.y" arrow :offset="1"
+              :left="alignRange(r.min.cx)" :top="false"/>
+            <!-- <text :x="r.max.cx" :y="r.max.y + dims.textAnchorBottom">{{ r.max.val }}%</text>
+            <text :x="r.min.cx" :y="r.min.y  + dims.textAnchorTop">{{ r.min.val }}%</text> -->
+          </g>
         </g>
-      </g>
-      <g class="footer" :transform="`translate(0 ${dims.chartHeight + dims.titleHeight + dims.textAnchorTop})`">
-        <text>land area</text>
-        <text :x="dims.subjectWidth + dims.axisWidth">population</text>
+        <g class="annotations" v-if="annotations">
+          <ChartAnnotation v-for="(a, i) in annotations" :key="i"
+            v-bind="a" arrow :offset="1" :left="a.x > dims.subjectWidth"/>
+        </g>
+        <g class="annotations" v-if="annotations">
+          <ChartAnnotation v-for="(a, i) in annotations" :key="i"
+            v-bind="a" arrow :offset="1" :left="a.x > dims.subjectWidth"/>
+        </g>
       </g>
     </svg>
     <div class="key tiny">
       <span>
-        <span v-for="(d, i) in allLevels" :key="`wl-${i}`"
+        <span v-for="(d, i) in allLevels" :key="i"
           class="highlight"
           :class="[colors[d], { hide: warmingLevels.indexOf(d) === -1}]"
-          @mouseover="setOption('view', view)"
-          @mouseleave="setOption('view', null)">
+          @mouseover="setOption('levels', [i])"
+          @mouseleave="setOption('levels', null)">
           +{{ d }}°C
         </span>
       </span>
@@ -90,11 +117,11 @@
     <div class="view tiny">
       <span>
         <span v-for="(view, i) in Object.keys(views)" :key="i"
-          :class="getOption('view', true) === view ? 'button' : 'highlight'"
+          :class="[getOption('view', true) === view ? 'button' : 'highlight', {hide: views[view].hide}]"
           @click="setOption('view', view, true)"
           @mouseover="setOption('view', view)"
           @mouseleave="setOption('view', null)">
-          {{ views[view] }}
+          {{ views[view].label }}
         </span>
       </span>
     </div>
@@ -119,10 +146,6 @@ export default {
   },
   props: {
     category: String,
-    hideData: {
-      type: Boolean,
-      default: false
-    },
     data: {
       type: Object,
       default: null
@@ -157,9 +180,15 @@ export default {
         }]
       }
     },
-    annotations: {
-      type: Array,
-      default () { return [] }
+    views: {
+      type: Object,
+      default () {
+        return {
+          median: { label: 'Median' },
+          climate: { label: 'Climate Models' },
+          impact: { label: 'Impact Models' }
+        }
+      }
     }
   },
   data () {
@@ -169,7 +198,6 @@ export default {
       height: 200,
       colors: { 0: 'blue', 1: 'yellow', 1.5: 'orange', 2: 'red', 3: 'purple' },
       gradients: { 0: 'url(#level-0)', 1: 'url(#level-1)', 1.5: 'url(#level-1-5)', 2: 'url(#level-2)', 3: 'url(#level-3)' },
-      views: { median: 'Median', climate: 'Climate Models', impact: 'Impact Models' },
       highlightLevel: null,
       allLevels: [0, 1, 1.5, 2, 3],
       oldTicks: [],
@@ -181,6 +209,22 @@ export default {
           temp: null
         },
         annotations: {
+          fix: null,
+          temp: null
+        },
+        levels: {
+          fix: [],
+          temp: null
+        },
+        climate: {
+          fix: null,
+          temp: null
+        },
+        impact: {
+          fix: null,
+          temp: null
+        },
+        subject: {
           fix: null,
           temp: null
         }
@@ -224,12 +268,6 @@ export default {
         climateInnerWidth
       }
     },
-    maxLevel () {
-      return Math.max(...this.warmingLevels.filter(l => l <= 2))
-    },
-    activeLevel () {
-      return this.highlightLevel != null ? this.highlightLevel : this.maxLevel
-    },
     format () {
       return d3Format(',.2~r')
     },
@@ -249,62 +287,58 @@ export default {
       })
     },
     subjects () {
-      const { data, allLevels, yScale, format, dims, colors, gradients } = this
+      const { data, warmingLevels, yScale, format, dims, colors } = this
+      if (warmingLevels.length === 0) return []
       const subjects = ['land', 'population'].map((subject) => {
         const subjectX = subject === 'land' ? 0 : (dims.subjectWidth + dims.axisWidth)
         return {
-          levels: allLevels.map((level, i) => {
+          levels: warmingLevels.map((level, i) => {
             const val = data[subject][level].median
-            const preVal = i === 0 ? 0 : data[subject][allLevels[i - 1]].median
-            const y = yScale(val)
+            const y = Math.round(yScale(val))
             const climates = Object.keys(data[subject][level].cm).map((climate, i2, climates) => {
               const climateX = subjectX + dims.climateWidth * i2 + dims.defMargin
               const val = data[subject][level].cm[climate].median
               if (val == null) return null
-              const y = yScale(val)
+              const y = Math.round(yScale(val))
               const impacts = Object.keys(data[subject][level].cm[climate].im).map((impact, i3, impacts) => {
                 const impactWidth = dims.climateInnerWidth / impacts.length
                 const impactX = climateX + impactWidth * i3
                 const val = data[subject][level].cm[climate].im[impact]
                 if (val == null) return null
-                // const preVal = i === 0 ? null : data[subject][allLevels[i - 1]].cm[climate].im[impact]
-                const y = yScale(val)
+                const y = Math.round(yScale(val))
                 return {
                   x: impactX,
+                  cx: impactX + impactWidth / 2,
                   y,
-                  label: [impact],
+                  label: [impact, climate],
                   centerX: impactWidth / 2,
                   transform: `translate(${impactX} ${y})`,
                   val: format(val),
                   width: Math.max(impactWidth, 1)
                 }
-              }) // .filter(d => d !== null)
+              })
               return {
                 transform: `translate(${climateX} ${y})`,
                 val: format(val),
                 x: climateX,
+                cx: climateX + dims.climateInnerWidth / 2,
                 y,
                 label: [climate],
-                impacts,
-                line: `M${impacts.filter(c => c !== null).map(impact => `${impact.x + dims.climateWidth / impacts.length / 2},${impact.y}`).join(' L')}`
+                impacts
               }
-            }) // .filter(d => d !== null)
+            })
             return {
               val: format(val),
               transform: `translate(${subjectX} ${y})`,
               x: subjectX,
               y,
               color: colors[level],
-              gradient: {
-                height: yScale(preVal) - y,
-                fill: gradients[level]
-              },
-              climates,
-              line: `M${climates.filter(c => c !== null).map(impact => `${impact.x + dims.climateWidth / 2},${impact.y}`).join(' L')}`
+              climates
             }
           })
         }
       })
+      // make gradients
       subjects.forEach(subject => {
         [...subject.levels].sort((a, b) => a.y < b.y).forEach((level, i, levels) => {
           if (i === 0) return
@@ -345,24 +379,79 @@ export default {
       })
       return subjects
     },
+    ranges () {
+      const levels = this.getOption('levels')
+      const view = this.getOption('view')
+      if (levels.length !== 1 || view === 'median') return []
+      const ranges = this.subjects.map(subject => {
+        return levels.map(level => {
+          const all = ((view === 'climate')
+            ? subject.levels[level].climates
+            : subject.levels[level].climates.filter(d => d != null).map(({ impacts }) => impacts).flat())
+            .filter(d => d != null)
+          const max = all.reduce((prev, curr) => prev.y < curr.y ? prev : curr)
+          const min = all.reduce((prev, curr) => prev.y > curr.y ? prev : curr)
+          return { max, min, color: subject.levels[level].color }
+        })
+      }).flat()
+      return ranges
+    },
+    annotations () {
+      const annotations = this.getOption('annotations')
+      if (annotations != null) return annotations
+      const climate = this.getOption('climate')
+      const impact = this.getOption('impact')
+      const subject = this.getOption('subject')
+      // const level = this.getOption('level')
+      if (climate == null && impact == null) return null
+      if (impact == null) {
+        return this.subjects.filter((s, i) => subject == null || subject.indexOf(i) !== -1).map(subject => {
+          return climate.map(c => {
+            const d = subject.levels.find(l => l.climates[c] && l.climates[c].highest)
+            if (d == null) return null
+            return {
+              x: d.climates[c].cx,
+              y: d.climates[c].y,
+              label: d.climates[c].label
+            }
+          }).filter(d => d != null)
+        }).flat()
+      }
+      return this.subjects.filter((s, i) => subject == null || subject.indexOf(i) !== -1).map(subject => {
+        return (climate || [0, 1, 2, 3]).map(c => {
+          return impact.map(i => {
+            const d = subject.levels.find(l => l.climates[c] && l.climates[c].impacts[i] && l.climates[c].impacts[i].highest)
+            if (d == null) return null
+            return {
+              x: d.climates[c].impacts[i].cx,
+              y: d.climates[c].impacts[i].y,
+              label: d.climates[c].impacts[i].label
+            }
+          }).filter(d => d != null)
+        })
+      }).flat(2)
+    },
     filters () {
       const view = this.getOption('view')
+      const levels = this.getOption('levels')
       return {
-        gradient: view === 'median' ? { opacity: 0.2 } : { opacity: 0.1 },
+        sep: view === 'median' ? { opacity: 0 } : { opacity: 1 },
+        gradient: view === 'median' && (this.getOption('levels', false) == null) ? { opacity: 0.2 } : { opacity: 0.1 },
         median: view === 'median' ? { opacity: 1, strokeWidth: 2 } : { opacity: 0, strokeWidth: 2 },
-        climate: view === 'climate' ? { opacity: 1, strokeWidth: 1 } : { opacity: 0 },
-        climateLine: view === 'climate' ? { opacity: 0, strokeWidth: 1 } : { opacity: 0 },
-        climateGradient: view === 'climate' ? { opacity: 1, strokeWidth: 1 } : { opacity: 0 },
-        impact: view === 'impact' ? { opacity: 1, strokeWidth: 1 } : { opacity: 0 },
-        impactLine: view === 'impact' ? { opacity: 0, strokeWidth: 1 } : { opacity: 0 },
-        impactGradient: view === 'impact' ? { opacity: 1, strokeWidth: 1 } : { opacity: 0 },
-        sep: view === 'median' ? { opacity: 0 } : { opacity: 1 }
+        climate: view === 'climate' ? { opacity: 1 } : { opacity: 0 },
+        impact: view === 'impact' ? { opacity: 1 } : { opacity: 0 },
+        levels: [0, 1, 2, 3, 4].map(l => {
+          return { opacity: levels.length === 0 || levels.indexOf(l) !== -1 ? 1 : 0.1 }
+        }),
+        levelGradients: [0, 1, 2, 3, 4].map(l => {
+          return { opacity: levels.length === 0 || levels.indexOf(l) === -1 ? 1 : 0.1 }
+        })
       }
     }
   },
   methods: {
     getOption (key, fix) {
-      return this.options[key].temp == null || fix ? this.options[key].fix : this.options[key].temp
+      return (this.options[key].temp == null || fix === true) && fix !== false ? this.options[key].fix : this.options[key].temp
     },
     setOption (key, val, fix) {
       this.options[key][fix ? 'fix' : 'temp'] = val
@@ -371,21 +460,22 @@ export default {
       this.width = el.getBoundingClientRect().width
       this.height = el.getBoundingClientRect().height
     },
+    alignRange (x) {
+      const { dims } = this
+      if (x < dims.subjectWidth / 2) return false
+      if (x < dims.subjectWidth) return true
+      if (x < dims.chartWidth - dims.subjectWidth / 2) return false
+      return true
+    },
+    // annotate (opt) {
+    //   const climate = (opt.match(/C([^A-z]+)/) || [])
+    //   console.log(climate)
+    // },
     setSpread (val) {
       this.showSpread = val
     },
     setLevel (val) {
       this.highlightLevel = val
-    },
-    annotate (label, pos) {
-      if (label == null) {
-        this.annotation = null
-        return
-      }
-      this.annotation = {
-        label,
-        transform: `translate({pos.x}, {pos.y})`
-      }
     }
   },
   watch: {
@@ -424,7 +514,8 @@ export default {
     }
     .axis {
       line {
-        stroke: getColor(gray, 70);
+        stroke: getColor(neon, 60);
+        // stroke-dasharray: 2 4;
       }
       text {
         fill: $color-deep-gray;
@@ -440,7 +531,6 @@ export default {
         }
         &.hide {
           opacity: 0;
-          pointer-events: 0;
         }
       }
     }
@@ -460,8 +550,13 @@ export default {
     }
     .sep {
       line {
-        stroke: getColor(gray, 100);
+        stroke: getColor(neon, 60);
+        stroke-dasharray: 2 4;
       }
+    }
+    .range {
+      @include tint(fill);
+      text-anchor: middle;
     }
   }
 

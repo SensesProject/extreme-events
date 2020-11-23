@@ -78,30 +78,29 @@ Total population of exposed land area.
 
 +++ cat-heatwave 0°C
 
-At a @blue(preindustrial warming level of +0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. These areas have an above average population density resulting to a slightly higher share in the exposed population.
+At a @blue(preindustrial) warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. These areas have an above average population density resulting to a slightly higher share when it comes to the exposed population.
 
 +++ cat-heatwave 1°C
 
-At @yellow(+1\,°C), which roughly translates to @yellow(today's climate), there is already a more than @yellow(eight times increase) in exposed land area and population.
+At @!L1(+1\,°C), which roughly translates to @yellow(today's climate), there is already a more than @yellow(eight times increase) in exposed land area and population.
 
 +++ cat-heatwave 2°C
 
 We define heatwave in terms of human physiology. The chosen threshold, a {Humidex}(A measure of how the human body reacts to atmospheric conditions) of 45, is considered dangerous as heatstrokes can occur.
  
-At @red(+2\,°C) close to @red(1 billion people) are exposed to them every year.
-
-+++ cat-heatwave 1.5°C
-
-Limiting global warming to @orange(+1.5\,°C), will help us to keep those numbers considerably lower.
+At @!L3(+2\,°C) close to @red(1 billion people) are exposed to them every year. Limiting global warming to @!L2(+1.5\,°C), will help us to keep those numbers considerably lower.
 
 +++ cat-heatwave spread
 
 So far, we looked at multi-model medians of spatially and temporally aggregated data. The outputs from the individual climate models give us a better picture of uncertainty.
 
+The trend remains clear, but uncertainties increase with @!L3(higher temperatures).
+
 +++ cat-heatwave spread 3
 
-With higher temperatues the uncertainty increases.
-So far, we looked at multi-model medians. Looking at the climate models separately shows us underlying uncertainty.
+At @!L4(+3\,°C) we only have data for @!C1,2(two climate models). But they paint a dire picture, with about a quarter of the worlds population exposed to heatwaves.
+
+We will not explain all extreme events in that much detail, but rather focus on their most relevant aspects. You can always use the key to explore the temperature levels in more detail and switch between median and model view.
 
 +++ cat-drought-title
 
@@ -117,13 +116,15 @@ Area where soil moisture falls below the 2.5th percentile of preindustrial value
 
 Rural population (Klein Goldewijk et al., 2017) of exposed land area.
 
-+++ cat-drought spread
-
-In the case of droughts, the output of the {four climate models}(depicted as columns) is then processed by {eight hydrological models}(depicted as dots; their median as lines). The large spread across these impact models shows the uncertainty in drought projections, now caused by both the climate and the impact models. Still, all impact models {but one}(The hydrological model H08 projects a decrease in drought exposure for two climate models) project an increasing exposure for all climate models.
-
 +++ cat-drought median
 
-In terms of median results, we see a twofold increase in exposed land from @blue(preindustrial levels) to @red(+2\,°C), but only a moderate increase in exposed population.
+In the case of droughts, the output of the {four climate models}(depicted as columns) is then processed by {eight hydrological models}(depicted as dots; their median as lines). The large spread across these impact models shows the uncertainty in drought projections, now caused by both the climate and the impact models. Still, all impact models @!S0I1C1,3(but one) project an increasing exposure for all climate models.
+
++++ cat-drought climate
+
+In terms of median results, we see a twofold increase in exposed land from @!L0(preindustrial levels) to @!L3(+2\,°C), but only a moderate increase in exposed population.
+
++++ cat-drought impact
 
 Both, heatwaves and droughts, count as extensive events, meaning the potentially exposed land area is not confined by {non-climate related factors}(e.g., land use or topography). Therefore, the share of exposed land area is also the highest for those two events.
 
@@ -141,17 +142,17 @@ Area where yields of {considered crops}(maize, wheat, soybean, and rice) fall sh
 
 Population employed in agricualture in exposed land area.
 
-+++ cat-crop-failure 1
++++ cat-crop-failure median
 
-In contrast, crop failure is confined to crop land. While there is no substential change in exposure at @yellow(+1\,°C), the incresase in exposed land becomes apparent at @orange(+1.5\,°C) and for exposed population there's a substential increase at @red(+2\,°C)
+In contrast, crop failure is confined to crop land. While there is no substential change in exposure at @!L1(+1\,°C), the incresase in exposed land becomes apparent at @!L2(+1.5\,°C) and for exposed population there's a substential increase at @!L3(+2\,°C)
 
-+++ cat-crop-failure 2
++++ cat-crop-failure climate
 
-In @blue(preindustrial) climate exposure is generally low and all climate and impact model combinations return quite consistent results.
+In @!L0(preindustrial) climate exposure is generally low and all climate and impact model combinations return quite consistent results.
 
-+++ cat-crop-failure 3
++++ cat-crop-failure impact
 
-At @red(+2\,°C) the models show a less uniform picture. Most notably, the climate model {GFDL-ESM2M}(First column from the left.) projects significantly higher exposure for land and population.
+At @!L3(+2\,°C) the models show a less uniform picture. Most notably, the climate model {GFDL-ESM2M}(First column from the left.) projects significantly higher exposure for land and population.
 
 Apart from the uncertainties in the modeling chain, there is another effect that contributes to uncertainties in crop modelling: So far we don’t know exactly to what magnitude the CO₂ fertilization amounts, and furthermore some leeway exists in associating a CO₂ concentration to a particular global warming level.
 
@@ -170,13 +171,19 @@ Annual aggregate of monthly burned land area simulated by global vegetation mode
 
 Total population of burned land area.
 
-+++ cat-wildfire 1
++++ cat-wildfire median
 
-For wildfire, discrepancies across climate models are almost neglectable. However {two of the impact models}(ORCHIDEE and VISIT) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
+For wildfire, discrepancies across climate models are almost neglectable. However @!S0I3,4C0(two of the impact models) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
 
-+++ cat-wildfire 2
++++ cat-wildfire climate
 
-[not sure if we need this one, *it looks quite boring* / I'd leave it in, for the sake of being complete]
+For wildfire, discrepancies across climate models are almost neglectable. However @!I3,4C0(two of the impact models) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
+
++++ cat-wildfire impact
+
+For wildfire, discrepancies across climate models are almost neglectable. However @!I3,4(two of the impact models) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
+
+
 
 +++ cat-river-flood-title
 
@@ -192,13 +199,17 @@ Flooding is assumed to occur wherever daily {discharge}(water that flows in a ri
 
 Total population of exposed land area.
 
-+++ cat-river-flood 1
++++ cat-river-flood median
 
 River flood projections across impact models are rather concistent with most of the uncertainty resulting from climate models which are known to show poor performance when it comes to reproducing extreme precipitation events.
 
-+++ cat-river-flood 2
++++ cat-river-flood climate
 
-The exposure to river floods for both, land area and population, largely depends flood protection measures. The projections assume a flood protection level capable of withstanding the largest discharges that occur within 100 years in preindustrial conditions. However, assuming this globally is rather optimistic. When looking at the FLOPROS (Scussolini, 2016) database, one can see by far the {largest parts of the world do not reach such protection levels}(Only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level.).  [there is a FLOPROS map, see http://www.pik-potsdam.de/~slange/counting_extremes_si.pdf page X-35]
+The exposure to river floods for both, land area and population, largely depends flood protection measures. The projections assume a flood protection level capable of withstanding the largest discharges that occur within 100 years in preindustrial conditions. However, assuming this globally is rather optimistic. 
+
++++ cat-river-flood impact
+
+When looking at the FLOPROS (Scussolini, 2016) database, one can see by far the {largest parts of the world do not reach such protection levels}(Only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level.).  [there is a FLOPROS map, see http://www.pik-potsdam.de/~slange/counting_extremes_si.pdf page X-35]
 
 +++ cat-tropical-cyclone-title
 
@@ -214,15 +225,19 @@ Area exposed to 1-minute sustained {hurricane-force winds}(at least 64\,kt, abou
 
 Total population of exposed land area.
 
-+++ cat-tropical-cyclone 1
++++ cat-tropical-cyclone median
 
 Some of the regions most exposed to tropical cyclones are densely populated. At higher warming levels, the share of the global exposed population is considerably increased. 
 
 Exposure projections for tropical cyclones are rather conservative, as we only consider the hurricane-force winds but neither storm surges nor heavy precipitation, both typically co-occuring phenomena in a tropical cyclone.
 
-+++ cat-tropical-cyclone 2
++++ cat-tropical-cyclone climate
 
-In contrast to the earlier examples, projections for tropical cyclones are driven by a single impact model. However, for every climate model and warming level 100 runs of possible tropical cyclones were executed. Unsuprisingly, these runs project similar outcomes. Therefore, we can attribute most of the model spread to the climate models.
+In contrast to the earlier examples, projections for tropical cyclones are driven by a single impact model. However, for every climate model and warming level 100 runs of possible tropical cyclones were executed. 
+
++++ cat-tropical-cyclone impact
+
+Unsuprisingly, these runs project similar outcomes. Therefore, we can attribute most of the model spread to the climate models.
 
 +++ conclusion
 

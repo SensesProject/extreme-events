@@ -36,8 +36,8 @@ export default {
     }
   },
   mounted () {
+    // Tooltips
     this.tips = tippy('.md-tooltip', {
-      // trigger: 'click',
       inlinePositioning: true,
       offset: [0, 5],
       maxWidth: 300,
@@ -46,6 +46,7 @@ export default {
     })
   },
   beforeDestroy () {
+    // Tooltips
     this.tips.destroy()
   }
 }
@@ -89,9 +90,44 @@ export default {
     background: linear-gradient(to top, transparent 0.0em, getColor(neon, 100) 0.0em, getColor(neon, 100) 0.33em, transparent 0.33em);
     transition: background $transition, color $transition;
 
-    &:hover {
-      background: linear-gradient(to top, transparent 0.0em, getColor(neon, 50) 0.0em, getColor(neon, 50) 0.33em, transparent 0.33em);
+    @include tint(color, 40);
+
+    &.blue {
+      background: linear-gradient(to top, transparent 0.0em, getColor(blue, 100) 0.0em, getColor(blue, 100) 0.33em, transparent 0.33em);
     }
+    &.yellow {
+      background: linear-gradient(to top, transparent 0.0em, getColor(yellow, 100) 0.0em, getColor(yellow, 100) 0.33em, transparent 0.33em);
+    }
+    &.orange {
+      background: linear-gradient(to top, transparent 0.0em, getColor(orange, 100) 0.0em, getColor(orange, 100) 0.33em, transparent 0.33em);
+    }
+    &.red {
+      background: linear-gradient(to top, transparent 0.0em, getColor(red, 100) 0.0em, getColor(red, 100) 0.33em, transparent 0.33em);
+    }
+    &.purple {
+      background: linear-gradient(to top, transparent 0.0em, getColor(purple, 100) 0.0em, getColor(purple, 100) 0.33em, transparent 0.33em);
+    }
+
+    &:hover {
+      background: linear-gradient(to top, transparent 0.0em, getColor(neon, 60) 0.0em, getColor(neon, 60) 0.33em, transparent 0.33em);
+
+      &.blue {
+        background: linear-gradient(to top, transparent 0.0em, getColor(blue, 60) 0.0em, getColor(blue, 60) 0.33em, transparent 0.33em);
+      }
+      &.yellow {
+        background: linear-gradient(to top, transparent 0.0em, getColor(yellow, 60) 0.0em, getColor(yellow, 60) 0.33em, transparent 0.33em);
+      }
+      &.orange {
+        background: linear-gradient(to top, transparent 0.0em, getColor(orange, 60) 0.0em, getColor(orange, 60) 0.33em, transparent 0.33em);
+      }
+      &.red {
+        background: linear-gradient(to top, transparent 0.0em, getColor(red, 60) 0.0em, getColor(red, 60) 0.33em, transparent 0.33em);
+      }
+      &.purple {
+        background: linear-gradient(to top, transparent 0.0em, getColor(purple, 60) 0.0em, getColor(purple, 60) 0.33em, transparent 0.33em);
+      }
+    }
+
     // border-radius: $border-radius;
     // padding: 0 $spacing / 16;
   }
@@ -131,7 +167,7 @@ export default {
   background-color: getColor(neon, 40);
   color: $color-white;
   font-size: 0.8em;
-  border-radius: $spacing / 4;
+  border-radius: $border-radius;
   text-align: center;
   padding: $spacing / 4;
   .tippy-arrow {

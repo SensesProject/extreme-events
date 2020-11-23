@@ -28,9 +28,6 @@
           <IntersectionObserver :step="1.4" :class="{active: step === 1.4}">
             <div v-html="getText('cat-heatwave')[4]"/>
           </IntersectionObserver>
-          <IntersectionObserver :step="1.5" :class="{active: step === 1.5}">
-            <div v-html="getText('cat-heatwave')[5]"/>
-          </IntersectionObserver>
           <template v-for="({cat, i}) in indicators.filter((cat,i) => i > 0).map((cat,i) => ({cat, i: i + 2}))">
             <IntersectionObserver :key="`${i}-0`" :step="i" :class="{active: step === i}">
               <div v-html="getText(`cat-${cat}-title`)[0]"/>

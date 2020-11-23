@@ -10,17 +10,15 @@
       </g>
       <g class="chart" :transform="`translate(0 ${dims.titleHeight})`">
         <g class="axis" :transform="`translate(${dims.chartWidth / 2} 0)`">
-          <transition-group name="fade" tag="g">
-            <g v-for="(tick, i) in yTicks" :key="i"
-              class="tick" :transform="`translate(0 ${tick.y})`">
-              <template v-if="i === 0">
-                <line :x1="-dims.chartWidth / 2" :x2="-dims.axisWidth / 2"/>
-                <line :x1="dims.chartWidth / 2" :x2="dims.axisWidth / 2"/>
-              </template>
-              <line :x1="-dims.axisInnerWidth / 2" :x2="dims.axisInnerWidth / 2"/>
-              <text :y="dims.textAnchorBottom">{{tick.value}}%</text>
-            </g>
-          </transition-group>
+          <g v-for="(tick, i) in yTicks" :key="i"
+            class="tick" :transform="`translate(0 ${tick.y})`">
+            <template v-if="i === 0">
+              <line :x1="-dims.chartWidth / 2" :x2="-dims.axisWidth / 2"/>
+              <line :x1="dims.chartWidth / 2" :x2="dims.axisWidth / 2"/>
+            </template>
+            <line :x1="-dims.axisInnerWidth / 2" :x2="dims.axisInnerWidth / 2"/>
+            <text :y="dims.textAnchorBottom">{{tick.value}}%</text>
+          </g>
         </g>
         <g class="subject" v-for="(subject, i) in subjects" :key="i">
           <g class="gradients" v-bind="filters.gradient">

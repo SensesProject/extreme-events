@@ -21,8 +21,6 @@ yarn-error.log*
 *.sw?
 
 # Preprocessing
-preprocessing/credentials.json
-preprocessing/data/ISIpedia
-preprocessing/data/cube-old
 preprocessing/data/global_exposure
-preprocessing/data/extreme-events
+preprocessing/data/world.json
+preprocessing/data/temp

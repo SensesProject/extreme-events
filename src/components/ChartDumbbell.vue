@@ -127,9 +127,7 @@
 </template>
 
 <script>
-// import raw from '@/assets/data/countries.json'
 import ChartAnnotation from './ChartAnnotation.vue'
-// import VueInterpolate from './Interpolate'
 import { scaleLinear } from 'd3-scale'
 import { format as d3Format } from 'd3-format'
 import resize from 'vue-resize-directive'
@@ -139,7 +137,6 @@ export default {
     resize
   },
   components: {
-    // VueInterpolate,
     ChartAnnotation
   },
   props: {

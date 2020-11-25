@@ -4,7 +4,7 @@
 
 <script>
 import ChartDumbbell from '@/components/ChartDumbbell.vue'
-import raw from '@/assets/data/detail.json'
+import raw from '@/assets/data/world.json'
 export default {
   name: 'vis-categories',
   components: { ChartDumbbell },

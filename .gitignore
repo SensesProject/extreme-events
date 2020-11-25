@@ -21,6 +21,5 @@ yarn-error.log*
 *.sw?
 
 # Preprocessing
-preprocessing/data/global_exposure
 preprocessing/data/world.json
 preprocessing/data/temp

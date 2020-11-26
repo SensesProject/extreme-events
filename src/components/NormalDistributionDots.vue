@@ -8,6 +8,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   name: 'normal-dist',
   props: {
@@ -56,6 +57,7 @@ export default {
       const dots = []
       for (let x = -half; x <= half; x += 12) {
         const max = findY(this.$refs.path, x)
+        // const max = -100
         let classname = x < -stage1 ? 'blue' : x > stage1 ? 'orange' : 'default'
         classname = x < -stage2 ? 'neon' : x > stage2 ? 'red' : classname
         for (let y = -3.5; y >= -height; y -= 12) {
@@ -76,12 +78,14 @@ export default {
 
       // Walk along the path using binary search
       // to locate the point with the supplied x value
+      let iterations = 0
       while (target >= start && target <= pathLength) {
+        iterations ++
         var pos = path.getPointAtLength(target)
 
         // use a threshold instead of strict equality
         // to handle javascript floating point precision
-        if (Math.abs(pos.x - x) < 4) {
+        if (Math.abs(pos.x - x) < 4 || iterations > 15) {
           return pos.y
         } else if (pos.x > x) {
           end = target

@@ -516,23 +516,23 @@ export default {
         fill: $color-deep-gray;
         text-anchor: middle;
       }
-      .tick {
-        transition: opacity $transition $transition, transform $transition;
-        &.fade-leave-active {
-          transition: opacity $transition, transform $transition;
-        }
-        &.fade-enter, &.fade-leave-to {
-          opacity: 0;
-        }
-        &.hide {
-          opacity: 0;
-        }
-      }
+      // .tick {
+      //   transition: opacity $transition $transition, transform $transition;
+      //   &.fade-leave-active {
+      //     transition: opacity $transition, transform $transition;
+      //   }
+      //   &.fade-enter, &.fade-leave-to {
+      //     opacity: 0;
+      //   }
+      //   &.hide {
+      //     opacity: 0;
+      //   }
+      // }
     }
     .subject {
-      rect, line, g {
-        transition: opacity $transition, display $transition, stroke-width $transition;
-      }
+      // rect, line, g {
+      //   transition: opacity $transition, display $transition, stroke-width $transition;
+      // }
       .level {
         text {
           @include tint(fill);

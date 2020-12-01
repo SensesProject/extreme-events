@@ -102,7 +102,10 @@ export default {
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
       width: 100%;
-      max-width: 640px;
+      max-width: 600px;
+      * {
+        hyphens: none;
+      }
     }
     // }
   }

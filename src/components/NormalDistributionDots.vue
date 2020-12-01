@@ -2,7 +2,7 @@
   <g>
     <path v-bind="props" ref="path" class="normal-dist" :d="path" :transform="`translate(0 ${y})`"/>
     <g class="dots" v-if="showDots">
-      <circle v-for="(d) in dots" :key="`d-${d.x}-${d.y}`" :class="[d.class]" r="3.5" :cx="d.x" :cy="d.y" :opacity="d.opacity"/>
+      <circle v-for="(d) in dots" :key="`d-${d.x}-${d.y}`" :class="[d.class]" r="2.5" :cx="d.x" :cy="d.y" :opacity="d.opacity"/>
     </g>
   </g>
 </template>
@@ -60,7 +60,7 @@ export default {
         // const max = -100
         let classname = x < -stage1 ? 'blue' : x > stage1 ? 'orange' : 'default'
         classname = x < -stage2 ? 'neon' : x > stage2 ? 'red' : classname
-        for (let y = -3.5; y >= -height; y -= 12) {
+        for (let y = -2.5; y >= -height; y -= 12) {
           dots.push({ x, y, opacity: y >= max ? 1 : 0, class: classname })
         }
       }
@@ -114,11 +114,13 @@ export default {
   // opacity: 0.2;
 
   .dots {
-    mix-blend-mode: multiply;
+    // mix-blend-mode: multiply;
 
     circle {
-      fill: getColor(gray, 80);
-      @include tint(fill, 50);
+      stroke: getColor(gray, 80);
+      fill: none;
+      stroke-width: 1;
+      @include tint(stroke, 50);
       // &.blue, &.orange {
       //   @include tint(fill, 60);
       // }

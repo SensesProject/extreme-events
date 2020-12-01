@@ -2,7 +2,7 @@
   <div class="vis-dist" v-resize:debounce.initial="onResize">
     <svg :width="width" :height="height">
 
-      <g class="axis" :transform="`translate(${width / 2} ${innerHeight})`">
+      <g class="axis" :transform="`translate(${width / 2} ${innerHeight + 20})`">
         <!-- <g class="dots">
           <circle v-for="(d, i) in dots" :key="`d-${i}`" r="2" :cx="d.x" :cy="d.y"/>
         </g> -->
@@ -13,12 +13,12 @@
           <NormalDistributionDots class="dot-wrapper" v-bind="attrs.props" :max="width" :class="{start: step <= 1}" :stage1="step > 0 ? width * 0.4 / 2 : width" :stage2="step > 0 ? width * 0.6 / 2 : width"/>
         </VueInterpolate>
       </g>
-      <g class="labels" :transform="`translate(${width / 2} 0)`">
-        <VueInterpolate tag="g" :attrs="{ opacity: {value: step === 3 || step === 4 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
+      <g class="labels" :transform="`translate(${width / 2} 24)`">
+        <VueInterpolate tag="g" :attrs="{ opacity: {value: step >= 2 ? 1 : 0, duration: 400}}" v-slot="{ attrs }">
           <text :opacity="attrs.opacity" :y="innerHeight / 2 + 8" :x="-width * 0.085">→</text>
         </VueInterpolate>
         <VueInterpolate tag="g" :attrs="{
-          opacity: {value: step === 4 ? 1 : 0, duration: 400},
+          opacity: {value: step >= 3 ? 1 : 0, duration: 400},
           x: {value: width * 0.1, duration: 400}
         }" v-slot="{ attrs }">
           <text :opacity="attrs.opacity" :y="innerHeight * 0.1 + 8" :x="attrs.x">↓</text>
@@ -39,8 +39,8 @@
         <text>distribution of daily average temperatures</text>
         <text class="label" y="20">more frequent</text>
         <text class="label" y="20" x="-14">↑</text>
-        <text class="label" :y="innerHeight - 16">less frequent</text>
-        <text class="label" :y="innerHeight - 16" x="-14">↓</text>
+        <text class="label" :y="innerHeight + 4">less frequent</text>
+        <text class="label" :y="innerHeight + 4" x="-14">↓</text>
         <!-- <text :x="0">frequency</text>
         <text :x="innerHeight / 2">hotter →</text> -->
       </g>
@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     innerHeight () {
-      return this.height - 24
+      return this.height - 44
     },
     // dots () {
     //   const { width, height } = this
@@ -144,8 +144,8 @@ export default {
 
           // fill: url(#dist);
           fill: none;
-          stroke: $color-deep-gray;
-          stroke-width: 2;
+          stroke: $color-light-gray;
+          stroke-width: 1;
           stroke-dasharray: 6 6;
         }
       }
@@ -153,7 +153,7 @@ export default {
         .normal-dist {
           fill: none;
           stroke: $color-deep-gray;
-          stroke-width: 2;
+          stroke-width: 1;
           // stroke-dasharray: 4 4;
 
           // fill: url(#dist);

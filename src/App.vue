@@ -151,7 +151,7 @@ export default {
     .glyph {
       color: $color-neon;
       display: inline-block;
-      transform: scale(1.6);
+      transform: scale(2);
     }
   }
 

@@ -114,7 +114,6 @@ export default {
         color: $color-neon;
         transform: scale(2);
         display: inline-block;
-        margin-left: $spacing / 4;
       }
 
       .intersection-observer {

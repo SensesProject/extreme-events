@@ -115,11 +115,11 @@ Rural population (Klein Goldewijk et al., 2017) of exposed land area.
 
 +++ cat-drought median
 
-In the case of droughts, the share of exposed population is much lower than the of exposed land. This is partly due to some of the affected areas being sparsely populated, but also to our definition, which only considers rural population as potentially exposed.
+In the case of droughts, the share of the exposed population is much lower than the of exposed land. This is partly due to some of the affected areas being sparsely populated, but also to our definition, which only considers the rural population as potentially exposed.
 
 +++ cat-drought impact
 
-While the exposure to heatwaves is directly derived from climate models, other events require further processing by impact models. In the case of droughts this is done by eight hydrological models.
+While the exposure to heatwaves is directly derived from climate models, other events require further processing by impact models. In the case of droughts, this is done by eight hydrological models.
 
 The large spread across these impact models shows the uncertainty in drought projections, now caused by both the @!V1(climate) and the @!V2(impact) models. Still, @!S0I1C1,3(only one impact model) does not project increased exposure for all climate models.
 
@@ -143,11 +143,11 @@ In contrast to the events discussed so far, crop failure is spatially confined b
 
 +++ cat-crop-failure impact
 
-For exposed land area all climate and impact model combinations return quite consistent results at @!L0(low temperature levels). They are less so for exposed population suggesting uncertainty in where these events will occure. 
+For exposed land area all climate and impact model combinations return quite consistent results at @!L0(low-temperature levels). They are less so for exposed population suggesting uncertainty in where these events will occur. 
 
-At higher temperatures the models show a less uniform picture overall. But there is an alarming jump in exposure from @!L3(+2\,°C) to @!L4(+3\,°C).
+At higher temperatures, the models show a less uniform picture overall. But there is an alarming jump in exposure from @!L3(+2\,°C) to @!L4(+3\,°C).
 
-Apart from the uncertainties in the modelling chain, there are other effects that contribute to uncertainties in crop modelling: So far we do not completely undestand the effects of CO₂ fertilization and shifting population patterns will also change where and how we use land for crops.
+Apart from the uncertainties in the modelling chain, there are other effects that contribute to uncertainties in crop modelling: So far we do not completely understand the effects of CO₂ fertilization and shifting population patterns will also change where and how we use the land for crops.
 
 +++ cat-wildfire-title
 
@@ -187,13 +187,13 @@ The total population of exposed land area.
 
 +++ cat-river-flood median
 
-The exposure to river floods for both, land area and population, largely depends on flood protection measures. The projections assume a flood protection level capable of withstanding the largest discharges that occur within 100 years in preindustrial conditions. However, to assume this globally is {quite optimistic}[According to the the FLOPROS (Scussolini, 2016) database only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level].
+The exposure to river floods for both, land area and population, largely depends on flood protection measures. The projections assume a flood protection level capable of withstanding the largest discharges that occur within 100 years in preindustrial conditions. However, to assume this globally is {quite optimistic}[According to the FLOPROS (Scussolini, 2016) database only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level].
 
 +++ cat-river-flood climate
 
-River flood projections across @!V2(impact models) are rather consistent and most of the uncertainty – distinctively apparent at @!V1L3(+2\,°C) – results from @!V1(climate models) which have some diffuclties to reliably reproduce extreme precipitation events.
+River flood projections across @!V2(impact models) are rather consistent and most of the uncertainty – distinctively apparent at @!V1L3(+2\,°C) – results from @!V1(climate models) which have some difficulties to reliably reproduce extreme precipitation events.
 
-In terms of exposed population the results from @!V2(impact models) are less concise. @!S1I0C0(Some) @!S1I3C0(of) @!S1I5C0(which) project suprisingly high exposure under @!V2L0(preindustrial) conditions indicating spatial uncertainty of where those flood events occur precisely.
+In terms of the exposed population, the results from @!V2(impact models) are less concise. @!S1I0C0(Some) @!S1I3C0(of) @!S1I5C0(which) project surprisingly high exposure under @!V2L0(preindustrial) conditions indicating spatial uncertainty of where those flood events occur precisely.
 
 +++ cat-tropical-cyclone-title
 

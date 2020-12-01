@@ -102,7 +102,7 @@
       <span>
         <span v-for="(d, i) in allLevels" :key="i"
           class="highlight"
-          :class="[colors[d], { hide: warmingLevels.indexOf(d) === -1}]"
+          :class="[colors[d], { hide: warmingLevels.indexOf(d) === -1, active: getOption('levels').indexOf(i) !== -1}]"
           @mouseover="setOption('levels', [i])"
           @mouseleave="setOption('levels', null)">
           +{{ d }}°C
@@ -568,9 +568,13 @@ export default {
         opacity: 0.3;
         pointer-events: none;
       }
+      &.active:hover {
+        @include tint(background, 80)
+      }
       + span {
         margin: 0 0 0 $spacing / 8;
       }
+
     }
     .button {
       align-self: flex-end;

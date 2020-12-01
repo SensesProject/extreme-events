@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SensesMenu message="Work in Progress"/>
+    <SensesMenu id="extreme-events"/>
     <article>
       <Maps/>
       <Distribution/>

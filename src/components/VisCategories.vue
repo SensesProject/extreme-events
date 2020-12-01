@@ -99,10 +99,6 @@ export default {
           domain = [0, 15]
           switch ((step * 10 % 10) / 10) {
             case 0.1: {
-              view = 'climate'
-              break
-            }
-            case 0.2: {
               view = 'impact'
               break
             }
@@ -112,10 +108,6 @@ export default {
           domain = [0, 4]
           switch ((step * 10 % 10) / 10) {
             case 0.1: {
-              view = 'climate'
-              break
-            }
-            case 0.2: {
               view = 'impact'
               break
             }
@@ -125,10 +117,6 @@ export default {
           domain = [0, 8]
           switch ((step * 10 % 10) / 10) {
             case 0.1: {
-              view = 'climate'
-              break
-            }
-            case 0.2: {
               view = 'impact'
               break
             }
@@ -138,10 +126,6 @@ export default {
           domain = [0, 1]
           switch ((step * 10 % 10) / 10) {
             case 0.1: {
-              view = 'climate'
-              break
-            }
-            case 0.2: {
               view = 'impact'
               break
             }
@@ -151,10 +135,6 @@ export default {
           domain = [0, 3]
           switch ((step * 10 % 10) / 10) {
             case 0.1: {
-              view = 'climate'
-              break
-            }
-            case 0.2: {
               view = 'impact'
               break
             }
@@ -256,6 +236,10 @@ export default {
         this.$refs.chart.setOption('subject', subject)
         if (impact) this.$refs.chart.setOption('view', 'impact', true)
         else if (climate) this.$refs.chart.setOption('view', 'climate', true)
+        const view = this.parseTrigger(trigger, 'V')
+        if (view) {
+          this.$refs.chart.setOption('view', ['median', 'climate', 'impact'][view[0]], true)
+        }
       })
       el.addEventListener('mouseleave', () => {
         this.$refs.chart.setOption('levels', null)

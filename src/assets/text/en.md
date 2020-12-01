@@ -2,11 +2,11 @@
 
 # Extreme Events
 
-With an increase in global mean temperatures, extreme events like droughts, floods, and heatwaves become more frequent and severe.
+With an increase in global mean temperatures, extreme events like droughts, floods, and heatwaves could become more frequent and severe.
 
 +++ intro 1
 
-At +2\,°C global warming, @yellow(heatwaves) affect substantial portions of the world's land surface.
+At +2\,°C global warming, @yellow(heatwaves) are projected to affect substantial portions of the world's land surface.
 
 +++ intro 2
 
@@ -14,7 +14,7 @@ Coastal regions – some of them densely populated – are increasingly exposed 
 
 +++ intro 3
 
-And agriculture will suffer more and more from @orange(crop failure).
+And agriculture might increasingly suffer from @orange(crop failure).
 
 +++ intro-module
 
@@ -26,29 +26,29 @@ We explore six types of extreme events, namely glyph(heatwave) heatwaves, glyph(
 
 ## Defining Extreme Events
 
-Climate impacts are the the of climate change on {nature}(e.g. the bleaching of coral riffs due to the acidification of oceans) and {society}(e.g. decreased work productivity due to excessive heat). New meteorological extremes cause increasingly drastic climate impacts. When they surpass a certain threshold we call them extreme events.
+Climate impacts are the the of climate change on {nature}(e.g. the bleaching of coral reefs) and {society}(e.g. decreased work productivity due to excessive heat). New meteorological extremes cause increasingly drastic climate impacts. When they surpass a certain threshold we call them extreme events.
 
 +++ dist 1.1
 
-Temperature is a major driver for many extreme events. In this figure, each dot represents a day which we placed horizontally based on their temperature, starting with cold days on the left.
+Temperature is a major driver for many extreme events. Let's consider all days in a year. In this figure, each dot represents a day which we placed horizontally based on their temperature, starting with cold days on the left.
 
 +++ dist 1.3
-This results in a normal distribution with most days having fairly average temperatures. Extreme events, here, particularly @blue(cold) or @orange(hot) days lie in the tails of the distribution. They are quite rare.
+This results in a normal distribution with most days having fairly @gray(average temperatures). Extreme events, here particularly @blue(cold) or @orange(hot) days lie in the tails of the distribution. They are quite rare.
 
 +++ dist 2
 
-Under climate change, the mean temperature rises and shifts the distribution to higher temperatures. Hot days that have been rare in the past occur now @orange(more frequently) and reach @red(higher temperatures).
+Under climate change, the mean temperature rises and the distribution is shifted to higher temperatures. Hot days that have been rare in the past occur now @orange(more frequently) and even @red(higher temperatures) are reached.
 
 +++ dist 3
 
-Additionally, the variance increases: Average temperatures become less frequent and the distribution spreads out.
+Additionally, the variance increases: Formerly average temperatures become less frequent and the distribution spreads out.
 Hot temperatures become even more @orange(frequent) and @red(extreme). Cold days still occur but become @blue(rarer).
 
 +++ cat-intro
 
-Other drivers for extreme events are among others precipitation and humidity. Not all of them follow a normal distribution but they also tend to become extreme. 
+Other drivers for extreme events considered here are for instance precipitation and humidity. Not all of them follow a normal distribution but they experience changes to their distribution under climate change and can reach new extremes. 
 
-The thresholds of what constitutes extreme events are mostly defined in terms of the preindustrial climate. This allows us to examine extreme events at todays and future global warming levels.
+In this analysis, the thresholds of what constitutes an extreme event are mostly defined with respect to the preindustrial climate. This allows us to examine changes in extreme events that already occured until today, as well as a glimpse at future global warming levels.
 
 
 
@@ -60,7 +60,7 @@ The thresholds of what constitutes extreme events are mostly defined in terms of
 We discuss two aspects of extreme events: The share of {global land area}(Global land surface with the exception of Greenland and Antarctica) as well as the share of the {global population}(Based on total population and population distribution from 
 2005 to isolate the pure climate change effect) exposed to them every year. 
 
-The analysis is based on impact projections that originate from the [ISIMIP project](https://www.isimip.org), a collection of impact model simulations driven by the same input data to enable cross-model and cross-sector comparison. 
+The analysis is based on impact projections that originate from the [ISIMIP project](https://www.isimip.org), a collection of impact model simulations driven by the same input data to enable cross-model and cross-sector comparisons. 
 
 +++ cat-heatwave-title
 
@@ -70,7 +70,7 @@ The analysis is based on impact projections that originate from the [ISIMIP proj
 
 ### Land area
 
-Area where both, a relative indicator based on temperature (Russo et al., 2015, 2017) and an absolute indicator based on temperature and relative humidity (Masterton & Richardson, 1979) exceed their respective threshold value for at least three days in a year.
+Area where both, a relative indicator based on temperature (Russo et al., 2015, 2017) and an absolute indicator, called Humidex, based on temperature and relative humidity (Masterton & Richardson, 1979) exceed their respective threshold value for at least three days in a year.
 
 ### Population
 
@@ -86,7 +86,7 @@ At @!L1(+1\,°C), which roughly translates to @yellow(today's climate), there is
 
 +++ cat-heatwave 2°C
 
-We define heatwave in terms of human physiology. The chosen threshold, a {Humidex}(A measure of how the human body reacts to atmospheric conditions) of 45, is considered dangerous as heatstrokes can occur.
+One of the thresholds in our heatwave definition is in terms of human physiology ({Humidex}(A measure of how the human body reacts to atmospheric conditions)). While a humidex of 40 to 45 is already associated with great discomfort and exertion should be avoided, we chose a Humidex above 45, which is considered dangerous and where heatstrokes are quite possible.
  
 At @!L3(+2\,°C) close to @red(1 billion people) are exposed to them every year. Limiting global warming to @!L2(+1.5\,°C), will help us to keep those numbers considerably lower.
 
@@ -98,7 +98,7 @@ The trend remains clear, but uncertainties increase with @!L3(higher temperature
 
 +++ cat-heatwave spread 3
 
-At @!L4(+3\,°C) we only have data for @!C1,2(two climate models). But they paint a dire picture, with about a quarter of the worlds population exposed to heatwaves.
+At @!L4(+3\,°C) we only have data for @!C1,2(two climate models). This is because only 2 climate models ran until the year 2300, thus reaching @!L4(+3\,°C), while the others only ran until 2100. But they paint a dire picture, with about a quarter of the worlds population exposed to dangerous heatwaves.
 
 We will not explain all extreme events in that much detail, but rather focus on their most relevant aspects. You can always use the key to explore the temperature levels in more detail and switch between median and model view.
 
@@ -118,15 +118,15 @@ Rural population (Klein Goldewijk et al., 2017) of exposed land area.
 
 +++ cat-drought median
 
-In the case of droughts, the output of the {four climate models}(depicted as columns) is then processed by {eight hydrological models}(depicted as dots; their median as lines). The large spread across these impact models shows the uncertainty in drought projections, now caused by both the climate and the impact models. Still, all impact models @!S0I1C1,3(but one) project an increasing exposure for all climate models.
+In the case of droughts, the output of the {four climate models}(depicted as columns) is processed by {eight hydrological models}(depicted as dots; their median as lines). The large spread across these impact models shows the uncertainty in drought projections, now caused by both the climate and the impact models. Still, all impact models @!S0I1C1,3(but one) project an increasing exposure for all climate models.
 
 +++ cat-drought climate
 
-In terms of median results, we see a twofold increase in exposed land from @!L0(preindustrial levels) to @!L3(+2\,°C), but only a moderate increase in exposed population.
+In terms of median results, we see a twofold increase in exposed land from @!L0(preindustrial levels) to @!L3(+2\,°C), but only a moderate increase in exposed population. A warming up to @!L3(+3\,°C) degrees, however, is projected to substantially increase both the area and the population exposed to drougths.
 
 +++ cat-drought impact
 
-Both, heatwaves and droughts, count as extensive events, meaning the potentially exposed land area is not confined by {non-climate related factors}(e.g., land use or topography). Therefore, the share of exposed land area is also the highest for those two events.
+Of the extreme events discussed here, heatwaves and droughts, are projected to affect the largest areas.
 
 +++ cat-crop-failure-title
 
@@ -144,7 +144,7 @@ Population employed in agricualture in exposed land area.
 
 +++ cat-crop-failure median
 
-In contrast, crop failure is confined to crop land. While there is no substential change in exposure at @!L1(+1\,°C), the incresase in exposed land becomes apparent at @!L2(+1.5\,°C) and for exposed population there's a substential increase at @!L3(+2\,°C)
+In contrast to heatwaves and droughts, crop failure is confined to crop land. While there is no substantial change in exposure at @!L1(+1\,°C), the incresase in exposed land becomes apparent at @!L2(+1.5\,°C) and for exposed population there's a substantial increase at @!L3(+2\,°C)
 
 +++ cat-crop-failure climate
 
@@ -152,9 +152,11 @@ In @!L0(preindustrial) climate exposure is generally low and all climate and imp
 
 +++ cat-crop-failure impact
 
-At @!L3(+2\,°C) the models show a less uniform picture. Most notably, the climate model {GFDL-ESM2M}(First column from the left.) projects significantly higher exposure for land and population.
+At @!L3(+2\,°C) the models show a less uniform picture. Most notably, the climate model {GFDL-ESM2M}(First column from the left.) projects significantly higher exposure for land and population. Similarly to the previous case of droughts, the exposed land area and population increases tremendously with a warming from @!L3(+2\,°C) to @!L3(+3\,°C). 
 
 Apart from the uncertainties in the modeling chain, there is another effect that contributes to uncertainties in crop modelling: So far we don’t know exactly to what magnitude the CO₂ fertilization amounts, and furthermore some leeway exists in associating a CO₂ concentration to a particular global warming level.
+
+Besides the yield calculations from the crop models, the projection of the future crop land areas are another source of uncertainty. These are derived from assumptions about future population numbers, market prices, technologies and so on, which are difficult to anticipate.
 
 
 +++ cat-wildfire-title
@@ -173,7 +175,7 @@ Total population of burned land area.
 
 +++ cat-wildfire median
 
-For wildfire, discrepancies across climate models are almost neglectable. However @!S0I3,4C0(two of the impact models) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details).
+For wildfire, discrepancies across climate models are almost neglectable. However @!S0I3,4C0(two of the impact models) produce vastly different results. This is due to {diverging approaches to vegetation modelling}(See [TODO reference to paper supplement, page X-7] for details). These two also have a much larger sensitivity to the warming level than the other three, which project almost the same exposure regardless of the warming level.
 
 +++ cat-wildfire climate
 
@@ -193,7 +195,7 @@ For wildfire, discrepancies across climate models are almost neglectable. Howeve
 
 ### Land area
 
-Flooding is assumed to occur wherever daily {discharge}(water that flows in a river) exceeds the preindustrial 100-year return level.
+Flooding is assumed to occur wherever the daily {discharge}(water that flows in a river) exceeds the preindustrial 100-year return level. The 100-year return level is the largest discharge that typically occurs within 100 years.
 
 ### Population
 
@@ -201,7 +203,7 @@ Total population of exposed land area.
 
 +++ cat-river-flood median
 
-River flood projections across impact models are rather concistent with most of the uncertainty resulting from climate models which are known to show poor performance when it comes to reproducing extreme precipitation events.
+River flood projections across impact models are rather consistent with most of the uncertainty resulting from climate models which are known to be challenged when it comes to reproducing extreme precipitation events.
 
 +++ cat-river-flood climate
 
@@ -233,7 +235,8 @@ Exposure projections for tropical cyclones are rather conservative, as we only c
 
 +++ cat-tropical-cyclone climate
 
-In contrast to the earlier examples, projections for tropical cyclones are driven by a single impact model. However, for every climate model and warming level 100 runs of possible tropical cyclones were executed. 
+In contrast to the earlier examples, projections for tropical cyclones are driven by a 
+single impact model. However, for every climate model and warming level 100 runs of possible tropical cyclones were executed. 
 
 +++ cat-tropical-cyclone impact
 
@@ -252,11 +255,12 @@ Uncertainties originate from various stages in the modelling chain, but also fro
 - limitations of extreme event definitions
 - {adaptation efforts}(e.g. the flood protection level)
 - omitted effects of socio-economic development (e.g. changing population numbers and patterns)
+- negligence of tipping points
 
 Still, the overall picture remains clear and allows for definite statements:
 
-- climate change already led to increased exposure to extreme events
+- climate change already led to increased exposure to extreme events, as can be seen from the [TODO +1\,°C] results
 - further climate change will excacerbate that
-- the difference between a @orange(+1.5\,°C) and a @red(+2\,°C) world can be severe
+- the difference between a @orange(+1.5\,°C) and a @red(+2\,°C) world can be severe, as vividly exemplified by the heatwave results 
 
 Visit [SENSES Earth](/earth) to explore spatial variance and [ISIpedia](https://demo.isipedia.org/topics/extreme-events/) for country-level perspective on extreme events. Read [Lange et al.]([tbd]) on which this module is based or learn about impact modelling with the [example of modelling river floods](/river-floods).

@@ -270,6 +270,4 @@ export default {
 
 <style scoped lang="scss">
 @import "library/src/style/global.scss";
-.vis-categories {
-}
 </style>

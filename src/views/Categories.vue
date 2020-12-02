@@ -94,15 +94,6 @@ export default {
     margin-top: $spacing;
   }
 
-  .cat-intro::v-deep {
-    // .glyph {
-    //   color: $color-neon;
-    //   display: inline-block;
-    //   // padding-right§: $spacing / 12;
-    //   transform: scale(1.6);
-    // }
-  }
-
   .layout-scrollytelling {
     ::v-deep {
       .text {

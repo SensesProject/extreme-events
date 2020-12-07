@@ -23,7 +23,9 @@
         <g class="subject" v-for="(subject, i) in subjects" :key="i">
           <g class="gradients" v-bind="filters.gradient">
             <g class="level" v-for="(level, i) in subject.levels" :key="i" :transform="level.transform">
-              <rect v-if="level.gradient" :height="level.gradient.height" :width="dims.subjectWidth"
+              <rect v-if="level.gradient" :height="level.gradient.height"
+                :width="(i === 4 && getOption('view') !== 'median') ? dims.subjectWidth / 2 : dims.subjectWidth"
+                :x="(i === 4 && getOption('view') !== 'median') ? dims.climateWidth : 0"
                 :fill="level.gradient.fill"/>
             </g>
           </g>

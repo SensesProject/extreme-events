@@ -6,15 +6,15 @@ With an increase in global mean temperatures, extreme events like droughts, floo
 
 +++ intro 1
 
-At +2\,°C global warming, @yellow(heatwaves) will affect substantial portions of the global land surface.
+At +2\,°C global warming, @yellow(heatwaves) can affect substantial portions of the global land surface.
 
 +++ intro 2
 
-Coastal regions – some of them densely populated – are increasingly exposed to @neon(tropical cyclones).
+Coastal regions – some of them densely populated – are projected to be increasingly exposed to @neon(tropical cyclones).
 
 +++ intro 3
 
-And agriculture increasingly suffers from @orange(crop failure).
+And agriculture is projected to increasingly suffer from @orange(crop failure).
 
 +++ intro-module
 
@@ -57,7 +57,7 @@ In this analysis, we define the thresholds of what constitutes an extreme event 
 We discuss two aspects of extreme events: The share of {global land area}(Global land surface except for Greenland and Antarctica) as well as the share of the {global population}(Based on total population and population distribution from 
 2005 to isolate the pure climate change effect) exposed to them every year. 
 
-The analysis bases on impact projections that originate from the [ISIMIP project](https://www.isimip.org). A collection of impact model simulations driven by the same input data to enable cross-model and cross-sector comparisons. 
+The analysis bases on impact projections that originate from the [ISIMIP project](https://www.isimip.org). A collection of impact model simulations driven by harmonized input data to enable cross-model and cross-sector comparisons. 
 
 +++ cat-heatwave-title
 
@@ -75,7 +75,7 @@ The total population of the exposed land area.
 
 +++ cat-heatwave 0°C
 
-At a @blue(preindustrial) warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. These areas have an above-average population density resulting in a slightly higher share when it comes to the exposed population.
+At a @blue(preindustrial) warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. The share of the exposed population is even higher because often the exposed areas have an above-average population density.
 
 +++ cat-heatwave 1°C
 
@@ -83,7 +83,7 @@ At @!L1(+1\,°C), which roughly translates to @yellow(today's climate), there is
 
 +++ cat-heatwave 2°C
 
-One of the criteria for our heatwave definition is the {Humidex}(A measure of how the human body reacts to atmospheric conditions). While a Humidex of 40 to 45 is already associated with great discomfort and exertion should be avoided, we chose a Humidex above 45, which is considered dangerous as heatstrokes are quite possible.
+One of the criteria for our heatwave definition is the {Humidex}(A measure of how the human body reacts to atmospheric conditions). While a Humidex of 40 to 45 is already associated with great discomfort and exertion should be avoided, we chose a Humidex above 45, which is considered dangerous since heatstrokes are quite possible.
 
 At @!L3(+2\,°C) close to @red(1 billion people) are exposed to such conditions every year. Limiting global warming to @!L2(+1.5\,°C), will help us to keep those numbers considerably lower.
  
@@ -95,7 +95,7 @@ Uncertainties increase with @!L3(higher temperatures), but the trend remains cle
 
 +++ cat-heatwave spread 3
 
-At @!L4(+3\,°C) we only have data for @!C1,2(two climate models). But they paint a dire picture, with about @purple(a quarter of the global population exposed) to dangerous heatwaves.
+Due to the focus of this study, we only have @!C1,2(two climate models) at @!L4(+3\,°C). But they paint a dire picture, with about @purple(a quarter of the global population exposed) to dangerous heatwaves.
 
 We will not explain all extreme events in that much detail, but rather focus on their most relevant aspects. You can always use the key below the chart to explore the temperature levels and switch between median and model view.
 
@@ -147,7 +147,7 @@ For exposed land area all climate and impact model combinations return quite con
 
 At higher temperatures, the models show a less uniform picture overall. But there is an alarming jump in exposure from @!L3(+2\,°C) to @!L4(+3\,°C).
 
-Apart from the uncertainties in the modelling chain, there are other effects that contribute to uncertainties in crop modelling: So far we do not completely understand the effects of CO₂ fertilization and shifting population patterns will also change where and how we use the land for crops.
+Apart from the uncertainties in the modelling chain, other effects contribute to uncertainties in crop modelling: So far we do not completely understand the effects of CO₂ fertilization and shifting population patterns will also change where and how we use the land for crops.
 
 +++ cat-wildfire-title
 
@@ -211,7 +211,7 @@ The total population of exposed land area.
 
 +++ cat-tropical-cyclone median
 
-Some of the regions most exposed to tropical cyclones are densely populated. At higher warming levels, the share of the global exposed population considerably increases. 
+Some of the regions most exposehttps://www.manufactum.com/suche/?q=weihnachtend to tropical cyclones are densely populated. At higher warming levels, the share of the global exposed population considerably increases. 
 
 Exposure projections for tropical cyclones are rather conservative, as we only consider the hurricane-force winds but neither storm surges nor heavy precipitation, both typically co-occurring phenomena in a tropical cyclone.
 
@@ -232,7 +232,7 @@ Uncertainties originate from various stages in the modelling chain, but also fro
 - limitations of extreme event definitions
 - adaptation efforts (e.g. the flood protection level)
 - omitted effects of socio-economic development (e.g. changing population numbers and patterns)
-- negligence of tipping points
+- negligence of tipping points (not discussed here)
 
 Still, the overall picture remains clear and allows for definite statements:
 

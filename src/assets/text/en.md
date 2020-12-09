@@ -20,7 +20,7 @@ And agriculture is projected to increasingly suffer from @orange(crop failure).
 
 In this module, we take a global perspective and focus less on spatial distributions but the general relationship between rising temperatures and the exposure of land and population to extreme events. 
 
-We explore six types of extreme events: glyph(heatwave) heatwaves, glyph(drought) droughts, glyph(crop-failure) crop failure, glyph(wildfire) wildfires, glyph(river-flood) river floods, and glyph(tropical-cyclone) tropical cyclones. Furthermore, we discuss the uncertainty in these extreme event projections.
+We explore six types of extreme events: glyph(heatwave) heatwaves, glyph(drought) droughts, glyph(crop-failure) crop failure, glyph(wildfire) wildfires, glyph(river-flood) river floods, and glyph(tropical-cyclone) tropical cyclones. Furthermore, we discuss uncertainties in these extreme event projections.
 
 +++ dist-intro
 
@@ -33,7 +33,7 @@ Climate impacts are the effects of climate change on {nature}(e.g. the bleaching
 Temperature is a major driver for many extreme events. Let us consider all days in a year. In this figure, each dot represents a day which we placed horizontally based on their temperature, starting with cold days on the left.
 
 +++ dist 1.3
-It results in a normal distribution with most days having fairly @gray(average temperatures). Extreme events, here particularly @blue(cold) or @orange(hot) days lie in the tails of the distribution. They are quite rare.
+This results in a normal distribution with most days having fairly @gray(average temperatures). Extreme events, here particularly @blue(cold) or @orange(hot) days lie in the tails of the distribution. They are quite rare.
 
 +++ dist 2
 
@@ -48,16 +48,16 @@ Hot temperatures become even more @orange(frequent) and @red(extreme). Cold days
 
 Not all drivers of extreme events (e.g. precipitation) follow a normal distribution, but their distributions are also subject to change under climate change and can reach new extremes. 
 
-In this analysis, we define the thresholds of what constitutes an extreme event relative to the preindustrial climate. It allows us to examine changes under temperatures, that already occur today, as well as a glimpse at future global warming levels.
+In this analysis, we define the thresholds of what constitutes an extreme event relative to the preindustrial climate. This allows us to examine changes under temperatures that already occur today, as well as a glimpse at future global warming levels.
 
 +++ cat-exposure 1
 
 ## Exposure to Extreme Events
 
 We discuss two aspects of extreme events: The share of {global land area}(Global land surface except for Greenland and Antarctica) as well as the share of the {global population}(Based on total population and population distribution from 
-2005 to isolate the pure climate change effect) exposed to them every year. 
+2005 regardless of the warming level to isolate the pure climate change effect) exposed to them every year. 
 
-The analysis bases on impact projections that originate from the [ISIMIP project](https://www.isimip.org). A collection of impact model simulations driven by harmonized input data to enable cross-model and cross-sector comparisons. 
+The analysis bases on impact projections that originate from the [ISIMIP project](https://www.isimip.org), a collection of impact model simulations driven by harmonized input data to enable cross-model and cross-sector comparisons. 
 
 +++ cat-heatwave-title
 
@@ -75,7 +75,7 @@ The total population of the exposed land area.
 
 +++ cat-heatwave 0°C
 
-At a @blue(preindustrial) warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. The share of the exposed population is even higher because often the exposed areas have an above-average population density.
+At a @blue(preindustrial) warming level of @blue(+0\,°C), only a relatively small fraction of the global area is exposed to heatwaves. The share of the exposed population is higher because often the exposed areas have an above-average population density.
 
 +++ cat-heatwave 1°C
 
@@ -97,7 +97,7 @@ Uncertainties increase with @!L3(higher temperatures), but the trend remains cle
 
 Due to the focus of this study, we only have @!C1,2(two climate models) at @!L4(+3\,°C). But they paint a dire picture, with about @purple(a quarter of the global population exposed) to dangerous heatwaves.
 
-We will not explain all extreme events in that much detail, but rather focus on their most relevant aspects. You can always use the key below the chart to explore the temperature levels and switch between median and model view.
+We will not explain all extreme events in that much detail, but rather focus on their most relevant aspects. You can always use the key below the chart to explore the temperature levels and switch between the median and the model views.
 
 +++ cat-drought-title
 
@@ -143,7 +143,7 @@ In contrast to the events discussed so far, crop failure is spatially confined b
 
 +++ cat-crop-failure impact
 
-For exposed land area all climate and impact model combinations return quite consistent results at @!L0(low-temperature levels). They are less so for exposed population suggesting uncertainty in where these events will occur. 
+For the exposed land area all climate and impact model combinations return quite consistent results at @!L0(low-temperature levels). They are less so for exposed population suggesting uncertainty in where these events will occur. 
 
 At higher temperatures, the models show a less uniform picture overall. But there is an alarming jump in exposure from @!L3(+2\,°C) to @!L4(+3\,°C).
 
@@ -169,7 +169,7 @@ The increase in exposure to wildfires appears relatively low when looking at the
 
 +++ cat-wildfire impact
 
-However, due to diverging approaches to vegetation modelling, @!S0I3,4C0(two of the impact models) produce vastly different results, which also show in the increased sensitivity to the warming level.
+However, due to diverging approaches to vegetation modelling, @!S0I3,4C0(two of the impact models) produce vastly different results, which also show increased sensitivity to the warming level.
 
 +++ cat-river-flood-title
 
@@ -187,13 +187,13 @@ The total population of exposed land area.
 
 +++ cat-river-flood median
 
-The exposure to river floods for both, land area and population, largely depends on flood protection measures. The projections assume a flood protection level capable of withstanding the largest discharges that occur within 100 years in preindustrial conditions. However, to assume this globally is {quite optimistic}[According to the FLOPROS (Scussolini, 2016) database only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level].
+The exposure to river floods for both, land area and population, largely depends on flood protection measures. The projections assume a flood protection level capable of withstanding 100 year return period flood events under preindustrial conditions. However, to assume this globally is {quite optimistic}[According to the FLOPROS (Scussolini, 2016) database only Australia, Germany, India, Japan, the Netherlands, Poland, UK, USA, and a few other countries reach or exceed a 100-year flood protection level].
 
 +++ cat-river-flood climate
 
 River flood projections across @!V2(impact models) are rather consistent and most of the uncertainty – distinctively apparent at @!V1L3(+2\,°C) – results from @!V1(climate models) which have some difficulties to reliably reproduce extreme precipitation events.
 
-In terms of the exposed population, the results from @!V2(impact models) are less concise. @!S1I0C0(Some) @!S1I3C0(of) @!S1I5C0(which) project surprisingly high exposure under @!V2L0(preindustrial) conditions indicating spatial uncertainty of where those flood events occur precisely.
+In terms of the exposed population, the results from @!V2(impact models) are less consistent. @!S1I0C0(Some) @!S1I3C0(of) @!S1I5C0(which) project rather high exposures under @!V2L0(preindustrial) conditions indicating spatial uncertainty of where those flood events occur precisely.
 
 +++ cat-tropical-cyclone-title
 
@@ -211,7 +211,7 @@ The total population of exposed land area.
 
 +++ cat-tropical-cyclone median
 
-Some of the regions most exposehttps://www.manufactum.com/suche/?q=weihnachtend to tropical cyclones are densely populated. At higher warming levels, the share of the global exposed population considerably increases. 
+Some of the regions most exposed to tropical cyclones are densely populated. At higher warming levels, the share of the global exposed population considerably increases. 
 
 Exposure projections for tropical cyclones are rather conservative, as we only consider the hurricane-force winds but neither storm surges nor heavy precipitation, both typically co-occurring phenomena in a tropical cyclone.
 
@@ -232,7 +232,6 @@ Uncertainties originate from various stages in the modelling chain, but also fro
 - limitations of extreme event definitions
 - adaptation efforts (e.g. the flood protection level)
 - omitted effects of socio-economic development (e.g. changing population numbers and patterns)
-- negligence of tipping points (not discussed here)
 
 Still, the overall picture remains clear and allows for definite statements:
 

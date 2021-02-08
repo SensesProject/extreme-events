@@ -15,7 +15,7 @@
     "dompurify": "^2.0.15",
     "earth": "file:../earth",
     "library": "github:SensesProject/library",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "tippy.js": "^6.2.7",
     "vue": "^2.6.10",
     "vue-interpolate": "^0.1.2",
